@@ -55,7 +55,7 @@ namespace VisualCheckingGUI
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.ResourceDataGroup = new ComponentFactory.Krypton.Toolkit.KryptonGroupBox();
             this.label11 = new System.Windows.Forms.Label();
-            this.Tb_Tb_ReasonGNG = new ComponentFactory.Krypton.Toolkit.KryptonTextBox();
+            this.Tb_ReasonNG = new ComponentFactory.Krypton.Toolkit.KryptonTextBox();
             this.Cb_PassFail = new ComponentFactory.Krypton.Toolkit.KryptonComboBox();
             this.label9 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
@@ -68,6 +68,10 @@ namespace VisualCheckingGUI
             this.Tb_SerialNumber = new ComponentFactory.Krypton.Toolkit.KryptonTextBox();
             this.Tb_Operation = new ComponentFactory.Krypton.Toolkit.KryptonTextBox();
             this.Bt_FindContainer = new ComponentFactory.Krypton.Toolkit.KryptonButton();
+            this.label31 = new System.Windows.Forms.Label();
+            this.Dt_MoveOut = new ComponentFactory.Krypton.Toolkit.KryptonDateTimePicker();
+            this.label32 = new System.Windows.Forms.Label();
+            this.Dt_MoveIn = new ComponentFactory.Krypton.Toolkit.KryptonDateTimePicker();
             ((System.ComponentModel.ISupportInitialize)(this.Dg_Maintenance)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.ResourceSetupGrouping)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.ResourceSetupGrouping.Panel)).BeginInit();
@@ -129,11 +133,10 @@ namespace VisualCheckingGUI
             // Dg_Maintenance
             // 
             this.Dg_Maintenance.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.Dg_Maintenance.Location = new System.Drawing.Point(21, 397);
-            this.Dg_Maintenance.Margin = new System.Windows.Forms.Padding(4);
+            this.Dg_Maintenance.Location = new System.Drawing.Point(16, 323);
             this.Dg_Maintenance.Name = "Dg_Maintenance";
             this.Dg_Maintenance.RowHeadersWidth = 51;
-            this.Dg_Maintenance.Size = new System.Drawing.Size(1016, 250);
+            this.Dg_Maintenance.Size = new System.Drawing.Size(762, 203);
             this.Dg_Maintenance.StateCommon.Background.Color1 = System.Drawing.Color.White;
             this.Dg_Maintenance.StateCommon.Background.Color2 = System.Drawing.Color.White;
             this.Dg_Maintenance.StateCommon.Background.GraphicsHint = ComponentFactory.Krypton.Toolkit.PaletteGraphicsHint.AntiAlias;
@@ -169,8 +172,7 @@ namespace VisualCheckingGUI
             // 
             // ResourceSetupGrouping
             // 
-            this.ResourceSetupGrouping.Location = new System.Drawing.Point(21, 243);
-            this.ResourceSetupGrouping.Margin = new System.Windows.Forms.Padding(4);
+            this.ResourceSetupGrouping.Location = new System.Drawing.Point(16, 197);
             this.ResourceSetupGrouping.Name = "ResourceSetupGrouping";
             // 
             // ResourceSetupGrouping.Panel
@@ -182,7 +184,7 @@ namespace VisualCheckingGUI
             this.ResourceSetupGrouping.Panel.Controls.Add(this.Tb_SetupAvailability);
             this.ResourceSetupGrouping.Panel.Controls.Add(this.label15);
             this.ResourceSetupGrouping.Panel.Controls.Add(this.label14);
-            this.ResourceSetupGrouping.Size = new System.Drawing.Size(1016, 146);
+            this.ResourceSetupGrouping.Size = new System.Drawing.Size(762, 119);
             this.ResourceSetupGrouping.StateCommon.Back.Color1 = System.Drawing.Color.White;
             this.ResourceSetupGrouping.StateCommon.Back.Color2 = System.Drawing.Color.White;
             this.ResourceSetupGrouping.StateCommon.Back.GraphicsHint = ComponentFactory.Krypton.Toolkit.PaletteGraphicsHint.AntiAlias;
@@ -206,10 +208,9 @@ namespace VisualCheckingGUI
             // Cb_StatusCode
             // 
             this.Cb_StatusCode.DropDownWidth = 203;
-            this.Cb_StatusCode.Location = new System.Drawing.Point(8, 52);
-            this.Cb_StatusCode.Margin = new System.Windows.Forms.Padding(4);
+            this.Cb_StatusCode.Location = new System.Drawing.Point(6, 42);
             this.Cb_StatusCode.Name = "Cb_StatusCode";
-            this.Cb_StatusCode.Size = new System.Drawing.Size(225, 37);
+            this.Cb_StatusCode.Size = new System.Drawing.Size(169, 33);
             this.Cb_StatusCode.StateCommon.ComboBox.Border.Color1 = System.Drawing.Color.Black;
             this.Cb_StatusCode.StateCommon.ComboBox.Border.Color2 = System.Drawing.Color.Black;
             this.Cb_StatusCode.StateCommon.ComboBox.Border.DrawBorders = ((ComponentFactory.Krypton.Toolkit.PaletteDrawBorders)((((ComponentFactory.Krypton.Toolkit.PaletteDrawBorders.Top | ComponentFactory.Krypton.Toolkit.PaletteDrawBorders.Bottom) 
@@ -239,10 +240,9 @@ namespace VisualCheckingGUI
             // Cb_StatusReason
             // 
             this.Cb_StatusReason.DropDownWidth = 203;
-            this.Cb_StatusReason.Location = new System.Drawing.Point(241, 52);
-            this.Cb_StatusReason.Margin = new System.Windows.Forms.Padding(4);
+            this.Cb_StatusReason.Location = new System.Drawing.Point(181, 42);
             this.Cb_StatusReason.Name = "Cb_StatusReason";
-            this.Cb_StatusReason.Size = new System.Drawing.Size(287, 37);
+            this.Cb_StatusReason.Size = new System.Drawing.Size(215, 33);
             this.Cb_StatusReason.StateCommon.ComboBox.Border.Color1 = System.Drawing.Color.Black;
             this.Cb_StatusReason.StateCommon.ComboBox.Border.Color2 = System.Drawing.Color.Black;
             this.Cb_StatusReason.StateCommon.ComboBox.Border.DrawBorders = ((ComponentFactory.Krypton.Toolkit.PaletteDrawBorders)((((ComponentFactory.Krypton.Toolkit.PaletteDrawBorders.Top | ComponentFactory.Krypton.Toolkit.PaletteDrawBorders.Bottom) 
@@ -271,8 +271,7 @@ namespace VisualCheckingGUI
             // Bt_SetResourceStatus
             // 
             this.Bt_SetResourceStatus.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.Bt_SetResourceStatus.Location = new System.Drawing.Point(736, 49);
-            this.Bt_SetResourceStatus.Margin = new System.Windows.Forms.Padding(4);
+            this.Bt_SetResourceStatus.Location = new System.Drawing.Point(552, 40);
             this.Bt_SetResourceStatus.Name = "Bt_SetResourceStatus";
             this.Bt_SetResourceStatus.OverrideDefault.Back.Color1 = System.Drawing.Color.FromArgb(((int)(((byte)(227)))), ((int)(((byte)(121)))), ((int)(((byte)(45)))));
             this.Bt_SetResourceStatus.OverrideDefault.Back.Color2 = System.Drawing.Color.FromArgb(((int)(((byte)(145)))), ((int)(((byte)(64)))), ((int)(((byte)(4)))));
@@ -287,7 +286,7 @@ namespace VisualCheckingGUI
             this.Bt_SetResourceStatus.OverrideDefault.Border.Rounding = 20;
             this.Bt_SetResourceStatus.OverrideDefault.Border.Width = 1;
             this.Bt_SetResourceStatus.PaletteMode = ComponentFactory.Krypton.Toolkit.PaletteMode.ProfessionalSystem;
-            this.Bt_SetResourceStatus.Size = new System.Drawing.Size(240, 43);
+            this.Bt_SetResourceStatus.Size = new System.Drawing.Size(180, 35);
             this.Bt_SetResourceStatus.StateCommon.Back.Color1 = System.Drawing.Color.FromArgb(((int)(((byte)(227)))), ((int)(((byte)(121)))), ((int)(((byte)(45)))));
             this.Bt_SetResourceStatus.StateCommon.Back.Color2 = System.Drawing.Color.FromArgb(((int)(((byte)(145)))), ((int)(((byte)(64)))), ((int)(((byte)(4)))));
             this.Bt_SetResourceStatus.StateCommon.Back.ColorAngle = 45F;
@@ -335,20 +334,18 @@ namespace VisualCheckingGUI
             this.label16.AutoSize = true;
             this.label16.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label16.ForeColor = System.Drawing.Color.Gray;
-            this.label16.Location = new System.Drawing.Point(532, 21);
-            this.label16.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label16.Location = new System.Drawing.Point(399, 17);
             this.label16.Name = "label16";
-            this.label16.Size = new System.Drawing.Size(98, 20);
+            this.label16.Size = new System.Drawing.Size(79, 16);
             this.label16.TabIndex = 34;
             this.label16.Text = "Availability :";
             // 
             // Tb_SetupAvailability
             // 
             this.Tb_SetupAvailability.Enabled = false;
-            this.Tb_SetupAvailability.Location = new System.Drawing.Point(536, 49);
-            this.Tb_SetupAvailability.Margin = new System.Windows.Forms.Padding(4);
+            this.Tb_SetupAvailability.Location = new System.Drawing.Point(402, 40);
             this.Tb_SetupAvailability.Name = "Tb_SetupAvailability";
-            this.Tb_SetupAvailability.Size = new System.Drawing.Size(192, 39);
+            this.Tb_SetupAvailability.Size = new System.Drawing.Size(144, 35);
             this.Tb_SetupAvailability.StateCommon.Back.Color1 = System.Drawing.Color.White;
             this.Tb_SetupAvailability.StateCommon.Border.Color1 = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
             this.Tb_SetupAvailability.StateCommon.Border.Color2 = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
@@ -366,10 +363,9 @@ namespace VisualCheckingGUI
             this.label15.AutoSize = true;
             this.label15.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label15.ForeColor = System.Drawing.Color.Gray;
-            this.label15.Location = new System.Drawing.Point(237, 21);
-            this.label15.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label15.Location = new System.Drawing.Point(178, 17);
             this.label15.Name = "label15";
-            this.label15.Size = new System.Drawing.Size(196, 20);
+            this.label15.Size = new System.Drawing.Size(158, 16);
             this.label15.TabIndex = 36;
             this.label15.Text = "Resource Status Reason";
             // 
@@ -378,17 +374,15 @@ namespace VisualCheckingGUI
             this.label14.AutoSize = true;
             this.label14.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label14.ForeColor = System.Drawing.Color.Gray;
-            this.label14.Location = new System.Drawing.Point(4, 21);
-            this.label14.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label14.Location = new System.Drawing.Point(3, 17);
             this.label14.Name = "label14";
-            this.label14.Size = new System.Drawing.Size(178, 20);
+            this.label14.Size = new System.Drawing.Size(143, 16);
             this.label14.TabIndex = 34;
             this.label14.Text = "Resource Status Code";
             // 
             // ResourceGrouping
             // 
-            this.ResourceGrouping.Location = new System.Drawing.Point(21, 82);
-            this.ResourceGrouping.Margin = new System.Windows.Forms.Padding(4);
+            this.ResourceGrouping.Location = new System.Drawing.Point(16, 67);
             this.ResourceGrouping.Name = "ResourceGrouping";
             // 
             // ResourceGrouping.Panel
@@ -402,7 +396,7 @@ namespace VisualCheckingGUI
             this.ResourceGrouping.Panel.Controls.Add(this.label12);
             this.ResourceGrouping.Panel.Controls.Add(this.label1);
             this.ResourceGrouping.Panel.Controls.Add(this.label5);
-            this.ResourceGrouping.Size = new System.Drawing.Size(1016, 143);
+            this.ResourceGrouping.Size = new System.Drawing.Size(762, 116);
             this.ResourceGrouping.StateCommon.Back.Color1 = System.Drawing.Color.White;
             this.ResourceGrouping.StateCommon.Back.Color2 = System.Drawing.Color.White;
             this.ResourceGrouping.StateCommon.Back.GraphicsHint = ComponentFactory.Krypton.Toolkit.PaletteGraphicsHint.AntiAlias;
@@ -425,20 +419,18 @@ namespace VisualCheckingGUI
             // 
             // Pb_IndicatorPicture
             // 
-            this.Pb_IndicatorPicture.Location = new System.Drawing.Point(940, 50);
-            this.Pb_IndicatorPicture.Margin = new System.Windows.Forms.Padding(4);
+            this.Pb_IndicatorPicture.Location = new System.Drawing.Point(705, 41);
             this.Pb_IndicatorPicture.Name = "Pb_IndicatorPicture";
-            this.Pb_IndicatorPicture.Size = new System.Drawing.Size(37, 32);
+            this.Pb_IndicatorPicture.Size = new System.Drawing.Size(28, 26);
             this.Pb_IndicatorPicture.TabIndex = 33;
             this.Pb_IndicatorPicture.TabStop = false;
             // 
             // Tb_Availability
             // 
             this.Tb_Availability.Enabled = false;
-            this.Tb_Availability.Location = new System.Drawing.Point(737, 48);
-            this.Tb_Availability.Margin = new System.Windows.Forms.Padding(4);
+            this.Tb_Availability.Location = new System.Drawing.Point(553, 39);
             this.Tb_Availability.Name = "Tb_Availability";
-            this.Tb_Availability.Size = new System.Drawing.Size(176, 39);
+            this.Tb_Availability.Size = new System.Drawing.Size(132, 35);
             this.Tb_Availability.StateCommon.Back.Color1 = System.Drawing.Color.White;
             this.Tb_Availability.StateCommon.Border.Color1 = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
             this.Tb_Availability.StateCommon.Border.Color2 = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
@@ -454,10 +446,9 @@ namespace VisualCheckingGUI
             // Tb_TimeAtStatus
             // 
             this.Tb_TimeAtStatus.Enabled = false;
-            this.Tb_TimeAtStatus.Location = new System.Drawing.Point(549, 48);
-            this.Tb_TimeAtStatus.Margin = new System.Windows.Forms.Padding(4);
+            this.Tb_TimeAtStatus.Location = new System.Drawing.Point(412, 39);
             this.Tb_TimeAtStatus.Name = "Tb_TimeAtStatus";
-            this.Tb_TimeAtStatus.Size = new System.Drawing.Size(180, 39);
+            this.Tb_TimeAtStatus.Size = new System.Drawing.Size(135, 35);
             this.Tb_TimeAtStatus.StateCommon.Back.Color1 = System.Drawing.Color.White;
             this.Tb_TimeAtStatus.StateCommon.Border.Color1 = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
             this.Tb_TimeAtStatus.StateCommon.Border.Color2 = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
@@ -473,10 +464,9 @@ namespace VisualCheckingGUI
             // Tb_StatusCode
             // 
             this.Tb_StatusCode.Enabled = false;
-            this.Tb_StatusCode.Location = new System.Drawing.Point(27, 48);
-            this.Tb_StatusCode.Margin = new System.Windows.Forms.Padding(4);
+            this.Tb_StatusCode.Location = new System.Drawing.Point(20, 39);
             this.Tb_StatusCode.Name = "Tb_StatusCode";
-            this.Tb_StatusCode.Size = new System.Drawing.Size(248, 39);
+            this.Tb_StatusCode.Size = new System.Drawing.Size(186, 35);
             this.Tb_StatusCode.StateCommon.Back.Color1 = System.Drawing.Color.White;
             this.Tb_StatusCode.StateCommon.Border.Color1 = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
             this.Tb_StatusCode.StateCommon.Border.Color2 = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
@@ -492,10 +482,9 @@ namespace VisualCheckingGUI
             // Tb_StatusReason
             // 
             this.Tb_StatusReason.Enabled = false;
-            this.Tb_StatusReason.Location = new System.Drawing.Point(283, 48);
-            this.Tb_StatusReason.Margin = new System.Windows.Forms.Padding(4);
+            this.Tb_StatusReason.Location = new System.Drawing.Point(212, 39);
             this.Tb_StatusReason.Name = "Tb_StatusReason";
-            this.Tb_StatusReason.Size = new System.Drawing.Size(259, 39);
+            this.Tb_StatusReason.Size = new System.Drawing.Size(194, 35);
             this.Tb_StatusReason.StateCommon.Back.Color1 = System.Drawing.Color.White;
             this.Tb_StatusReason.StateCommon.Border.Color1 = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
             this.Tb_StatusReason.StateCommon.Border.Color2 = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
@@ -513,10 +502,9 @@ namespace VisualCheckingGUI
             this.label13.AutoSize = true;
             this.label13.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label13.ForeColor = System.Drawing.Color.Gray;
-            this.label13.Location = new System.Drawing.Point(545, 16);
-            this.label13.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label13.Location = new System.Drawing.Point(409, 13);
             this.label13.Name = "label13";
-            this.label13.Size = new System.Drawing.Size(128, 20);
+            this.label13.Size = new System.Drawing.Size(99, 16);
             this.label13.TabIndex = 29;
             this.label13.Text = "Time at Status :";
             // 
@@ -525,10 +513,9 @@ namespace VisualCheckingGUI
             this.label12.AutoSize = true;
             this.label12.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label12.ForeColor = System.Drawing.Color.Gray;
-            this.label12.Location = new System.Drawing.Point(733, 16);
-            this.label12.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label12.Location = new System.Drawing.Point(550, 13);
             this.label12.Name = "label12";
-            this.label12.Size = new System.Drawing.Size(98, 20);
+            this.label12.Size = new System.Drawing.Size(79, 16);
             this.label12.TabIndex = 28;
             this.label12.Text = "Availability :";
             // 
@@ -537,10 +524,9 @@ namespace VisualCheckingGUI
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label1.ForeColor = System.Drawing.Color.Gray;
-            this.label1.Location = new System.Drawing.Point(23, 16);
-            this.label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label1.Location = new System.Drawing.Point(17, 13);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(111, 20);
+            this.label1.Size = new System.Drawing.Size(87, 16);
             this.label1.TabIndex = 27;
             this.label1.Text = "Status Code :";
             // 
@@ -549,10 +535,9 @@ namespace VisualCheckingGUI
             this.label5.AutoSize = true;
             this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label5.ForeColor = System.Drawing.Color.Gray;
-            this.label5.Location = new System.Drawing.Point(279, 16);
-            this.label5.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label5.Location = new System.Drawing.Point(209, 13);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(129, 20);
+            this.label5.Size = new System.Drawing.Size(102, 16);
             this.label5.TabIndex = 26;
             this.label5.Text = "Status Reason :";
             // 
@@ -561,35 +546,36 @@ namespace VisualCheckingGUI
             this.MyTitle.AutoSize = true;
             this.MyTitle.Font = new System.Drawing.Font("Segoe UI Black", 14F, System.Drawing.FontStyle.Bold);
             this.MyTitle.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(46)))), ((int)(((byte)(68)))), ((int)(((byte)(101)))));
-            this.MyTitle.Location = new System.Drawing.Point(28, 18);
-            this.MyTitle.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.MyTitle.Location = new System.Drawing.Point(21, 15);
             this.MyTitle.Name = "MyTitle";
-            this.MyTitle.Size = new System.Drawing.Size(199, 32);
+            this.MyTitle.Size = new System.Drawing.Size(159, 25);
             this.MyTitle.TabIndex = 62;
             this.MyTitle.Text = "Visual Checking";
             // 
             // pictureBox1
             // 
             this.pictureBox1.Image = global::VisualCheckingGUI.Properties.Resources.WIK_logo;
-            this.pictureBox1.Location = new System.Drawing.Point(904, 22);
-            this.pictureBox1.Margin = new System.Windows.Forms.Padding(4);
+            this.pictureBox1.Location = new System.Drawing.Point(678, 18);
             this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(133, 52);
+            this.pictureBox1.Size = new System.Drawing.Size(100, 42);
             this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.pictureBox1.TabIndex = 66;
             this.pictureBox1.TabStop = false;
             // 
             // ResourceDataGroup
             // 
-            this.ResourceDataGroup.Location = new System.Drawing.Point(21, 672);
-            this.ResourceDataGroup.Margin = new System.Windows.Forms.Padding(4);
+            this.ResourceDataGroup.Location = new System.Drawing.Point(16, 546);
             this.ResourceDataGroup.Name = "ResourceDataGroup";
             // 
             // ResourceDataGroup.Panel
             // 
+            this.ResourceDataGroup.Panel.Controls.Add(this.label31);
             this.ResourceDataGroup.Panel.Controls.Add(this.label11);
-            this.ResourceDataGroup.Panel.Controls.Add(this.Tb_Tb_ReasonGNG);
+            this.ResourceDataGroup.Panel.Controls.Add(this.Dt_MoveOut);
+            this.ResourceDataGroup.Panel.Controls.Add(this.Tb_ReasonNG);
+            this.ResourceDataGroup.Panel.Controls.Add(this.label32);
             this.ResourceDataGroup.Panel.Controls.Add(this.Cb_PassFail);
+            this.ResourceDataGroup.Panel.Controls.Add(this.Dt_MoveIn);
             this.ResourceDataGroup.Panel.Controls.Add(this.label9);
             this.ResourceDataGroup.Panel.Controls.Add(this.label2);
             this.ResourceDataGroup.Panel.Controls.Add(this.label30);
@@ -601,7 +587,7 @@ namespace VisualCheckingGUI
             this.ResourceDataGroup.Panel.Controls.Add(this.Tb_SerialNumber);
             this.ResourceDataGroup.Panel.Controls.Add(this.Tb_Operation);
             this.ResourceDataGroup.Panel.Controls.Add(this.Bt_FindContainer);
-            this.ResourceDataGroup.Size = new System.Drawing.Size(1016, 206);
+            this.ResourceDataGroup.Size = new System.Drawing.Size(762, 249);
             this.ResourceDataGroup.StateCommon.Back.Color1 = System.Drawing.Color.White;
             this.ResourceDataGroup.StateCommon.Back.Color2 = System.Drawing.Color.White;
             this.ResourceDataGroup.StateCommon.Back.GraphicsHint = ComponentFactory.Krypton.Toolkit.PaletteGraphicsHint.AntiAlias;
@@ -627,41 +613,38 @@ namespace VisualCheckingGUI
             this.label11.AutoSize = true;
             this.label11.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label11.ForeColor = System.Drawing.Color.Gray;
-            this.label11.Location = new System.Drawing.Point(11, 95);
-            this.label11.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label11.Location = new System.Drawing.Point(8, 77);
             this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(124, 20);
+            this.label11.Size = new System.Drawing.Size(85, 16);
             this.label11.TabIndex = 86;
-            this.label11.Text = "Reason G/NG :";
+            this.label11.Text = "Reason NG :";
             // 
-            // Tb_Tb_ReasonGNG
+            // Tb_ReasonNG
             // 
-            this.Tb_Tb_ReasonGNG.Location = new System.Drawing.Point(15, 119);
-            this.Tb_Tb_ReasonGNG.Margin = new System.Windows.Forms.Padding(4);
-            this.Tb_Tb_ReasonGNG.Name = "Tb_Tb_ReasonGNG";
-            this.Tb_Tb_ReasonGNG.Size = new System.Drawing.Size(219, 39);
-            this.Tb_Tb_ReasonGNG.StateCommon.Back.Color1 = System.Drawing.Color.White;
-            this.Tb_Tb_ReasonGNG.StateCommon.Border.Color1 = System.Drawing.Color.Black;
-            this.Tb_Tb_ReasonGNG.StateCommon.Border.Color2 = System.Drawing.Color.Black;
-            this.Tb_Tb_ReasonGNG.StateCommon.Border.DrawBorders = ((ComponentFactory.Krypton.Toolkit.PaletteDrawBorders)((((ComponentFactory.Krypton.Toolkit.PaletteDrawBorders.Top | ComponentFactory.Krypton.Toolkit.PaletteDrawBorders.Bottom) 
+            this.Tb_ReasonNG.Location = new System.Drawing.Point(11, 97);
+            this.Tb_ReasonNG.Name = "Tb_ReasonNG";
+            this.Tb_ReasonNG.Size = new System.Drawing.Size(164, 35);
+            this.Tb_ReasonNG.StateCommon.Back.Color1 = System.Drawing.Color.White;
+            this.Tb_ReasonNG.StateCommon.Border.Color1 = System.Drawing.Color.Black;
+            this.Tb_ReasonNG.StateCommon.Border.Color2 = System.Drawing.Color.Black;
+            this.Tb_ReasonNG.StateCommon.Border.DrawBorders = ((ComponentFactory.Krypton.Toolkit.PaletteDrawBorders)((((ComponentFactory.Krypton.Toolkit.PaletteDrawBorders.Top | ComponentFactory.Krypton.Toolkit.PaletteDrawBorders.Bottom) 
             | ComponentFactory.Krypton.Toolkit.PaletteDrawBorders.Left) 
             | ComponentFactory.Krypton.Toolkit.PaletteDrawBorders.Right)));
-            this.Tb_Tb_ReasonGNG.StateCommon.Border.GraphicsHint = ComponentFactory.Krypton.Toolkit.PaletteGraphicsHint.AntiAlias;
-            this.Tb_Tb_ReasonGNG.StateCommon.Border.Rounding = 20;
-            this.Tb_Tb_ReasonGNG.StateCommon.Border.Width = 1;
-            this.Tb_Tb_ReasonGNG.StateCommon.Content.Color1 = System.Drawing.Color.Gray;
-            this.Tb_Tb_ReasonGNG.TabIndex = 87;
+            this.Tb_ReasonNG.StateCommon.Border.GraphicsHint = ComponentFactory.Krypton.Toolkit.PaletteGraphicsHint.AntiAlias;
+            this.Tb_ReasonNG.StateCommon.Border.Rounding = 20;
+            this.Tb_ReasonNG.StateCommon.Border.Width = 1;
+            this.Tb_ReasonNG.StateCommon.Content.Color1 = System.Drawing.Color.Gray;
+            this.Tb_ReasonNG.TabIndex = 87;
             // 
             // Cb_PassFail
             // 
             this.Cb_PassFail.DropDownWidth = 203;
             this.Cb_PassFail.Items.AddRange(new object[] {
-            "Pass",
-            "Fail"});
-            this.Cb_PassFail.Location = new System.Drawing.Point(257, 123);
-            this.Cb_PassFail.Margin = new System.Windows.Forms.Padding(4);
+            "True",
+            "False"});
+            this.Cb_PassFail.Location = new System.Drawing.Point(193, 100);
             this.Cb_PassFail.Name = "Cb_PassFail";
-            this.Cb_PassFail.Size = new System.Drawing.Size(248, 37);
+            this.Cb_PassFail.Size = new System.Drawing.Size(186, 33);
             this.Cb_PassFail.StateCommon.ComboBox.Border.Color1 = System.Drawing.Color.Black;
             this.Cb_PassFail.StateCommon.ComboBox.Border.Color2 = System.Drawing.Color.Black;
             this.Cb_PassFail.StateCommon.ComboBox.Border.DrawBorders = ((ComponentFactory.Krypton.Toolkit.PaletteDrawBorders)((((ComponentFactory.Krypton.Toolkit.PaletteDrawBorders.Top | ComponentFactory.Krypton.Toolkit.PaletteDrawBorders.Bottom) 
@@ -691,22 +674,20 @@ namespace VisualCheckingGUI
             this.label9.AutoSize = true;
             this.label9.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F);
             this.label9.ForeColor = System.Drawing.Color.Gray;
-            this.label9.Location = new System.Drawing.Point(253, 97);
-            this.label9.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label9.Location = new System.Drawing.Point(190, 79);
             this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(65, 17);
+            this.label9.Size = new System.Drawing.Size(50, 13);
             this.label9.TabIndex = 84;
-            this.label9.Text = "Pass/Fail";
+            this.label9.Text = "RESULT";
             // 
             // label2
             // 
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label2.ForeColor = System.Drawing.Color.Gray;
-            this.label2.Location = new System.Drawing.Point(533, 94);
-            this.label2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label2.Location = new System.Drawing.Point(400, 76);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(147, 20);
+            this.label2.Size = new System.Drawing.Size(115, 16);
             this.label2.TabIndex = 81;
             this.label2.Text = "Production Order :";
             // 
@@ -715,20 +696,18 @@ namespace VisualCheckingGUI
             this.label30.AutoSize = true;
             this.label30.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label30.ForeColor = System.Drawing.Color.Gray;
-            this.label30.Location = new System.Drawing.Point(533, 22);
-            this.label30.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label30.Location = new System.Drawing.Point(400, 18);
             this.label30.Name = "label30";
-            this.label30.Size = new System.Drawing.Size(156, 20);
+            this.label30.Size = new System.Drawing.Size(122, 16);
             this.label30.TabIndex = 83;
             this.label30.Text = "Container Position :";
             // 
             // Tb_PO
             // 
             this.Tb_PO.Enabled = false;
-            this.Tb_PO.Location = new System.Drawing.Point(528, 119);
-            this.Tb_PO.Margin = new System.Windows.Forms.Padding(4);
+            this.Tb_PO.Location = new System.Drawing.Point(396, 97);
             this.Tb_PO.Name = "Tb_PO";
-            this.Tb_PO.Size = new System.Drawing.Size(245, 39);
+            this.Tb_PO.Size = new System.Drawing.Size(184, 35);
             this.Tb_PO.StateCommon.Back.Color1 = System.Drawing.Color.White;
             this.Tb_PO.StateCommon.Border.Color1 = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
             this.Tb_PO.StateCommon.Border.Color2 = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
@@ -744,8 +723,8 @@ namespace VisualCheckingGUI
             // Bt_Move
             // 
             this.Bt_Move.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.Bt_Move.Location = new System.Drawing.Point(807, 119);
-            this.Bt_Move.Margin = new System.Windows.Forms.Padding(5);
+            this.Bt_Move.Location = new System.Drawing.Point(605, 97);
+            this.Bt_Move.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.Bt_Move.Name = "Bt_Move";
             this.Bt_Move.OverrideDefault.Back.Color1 = System.Drawing.Color.FromArgb(((int)(((byte)(92)))), ((int)(((byte)(184)))), ((int)(((byte)(116)))));
             this.Bt_Move.OverrideDefault.Back.Color2 = System.Drawing.Color.FromArgb(((int)(((byte)(59)))), ((int)(((byte)(143)))), ((int)(((byte)(81)))));
@@ -760,7 +739,7 @@ namespace VisualCheckingGUI
             this.Bt_Move.OverrideDefault.Border.Rounding = 20;
             this.Bt_Move.OverrideDefault.Border.Width = 1;
             this.Bt_Move.PaletteMode = ComponentFactory.Krypton.Toolkit.PaletteMode.ProfessionalSystem;
-            this.Bt_Move.Size = new System.Drawing.Size(192, 43);
+            this.Bt_Move.Size = new System.Drawing.Size(144, 35);
             this.Bt_Move.StateCommon.Back.Color1 = System.Drawing.Color.FromArgb(((int)(((byte)(92)))), ((int)(((byte)(184)))), ((int)(((byte)(116)))));
             this.Bt_Move.StateCommon.Back.Color2 = System.Drawing.Color.FromArgb(((int)(((byte)(59)))), ((int)(((byte)(143)))), ((int)(((byte)(81)))));
             this.Bt_Move.StateCommon.Back.ColorAngle = 45F;
@@ -801,14 +780,14 @@ namespace VisualCheckingGUI
             this.Bt_Move.StateTracking.Border.Width = 1;
             this.Bt_Move.TabIndex = 58;
             this.Bt_Move.Values.Text = "Move In and Move";
+            this.Bt_Move.Click += new System.EventHandler(this.Bt_StartMove_Click);
             // 
             // Tb_ContainerPosition
             // 
             this.Tb_ContainerPosition.Enabled = false;
-            this.Tb_ContainerPosition.Location = new System.Drawing.Point(528, 46);
-            this.Tb_ContainerPosition.Margin = new System.Windows.Forms.Padding(4);
+            this.Tb_ContainerPosition.Location = new System.Drawing.Point(396, 37);
             this.Tb_ContainerPosition.Name = "Tb_ContainerPosition";
-            this.Tb_ContainerPosition.Size = new System.Drawing.Size(245, 39);
+            this.Tb_ContainerPosition.Size = new System.Drawing.Size(184, 35);
             this.Tb_ContainerPosition.StateCommon.Back.Color1 = System.Drawing.Color.White;
             this.Tb_ContainerPosition.StateCommon.Border.Color1 = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
             this.Tb_ContainerPosition.StateCommon.Border.Color2 = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
@@ -826,10 +805,10 @@ namespace VisualCheckingGUI
             this.label7.AutoSize = true;
             this.label7.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label7.ForeColor = System.Drawing.Color.Gray;
-            this.label7.Location = new System.Drawing.Point(11, 25);
-            this.label7.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
+            this.label7.Location = new System.Drawing.Point(8, 20);
+            this.label7.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(161, 20);
+            this.label7.Size = new System.Drawing.Size(126, 16);
             this.label7.TabIndex = 59;
             this.label7.Text = "Serial Number Unit :";
             // 
@@ -838,19 +817,18 @@ namespace VisualCheckingGUI
             this.label4.AutoSize = true;
             this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label4.ForeColor = System.Drawing.Color.Gray;
-            this.label4.Location = new System.Drawing.Point(252, 22);
-            this.label4.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label4.Location = new System.Drawing.Point(189, 18);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(92, 20);
+            this.label4.Size = new System.Drawing.Size(73, 16);
             this.label4.TabIndex = 79;
             this.label4.Text = "Operation :";
             // 
             // Tb_SerialNumber
             // 
-            this.Tb_SerialNumber.Location = new System.Drawing.Point(15, 50);
-            this.Tb_SerialNumber.Margin = new System.Windows.Forms.Padding(5);
+            this.Tb_SerialNumber.Location = new System.Drawing.Point(11, 41);
+            this.Tb_SerialNumber.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.Tb_SerialNumber.Name = "Tb_SerialNumber";
-            this.Tb_SerialNumber.Size = new System.Drawing.Size(219, 39);
+            this.Tb_SerialNumber.Size = new System.Drawing.Size(164, 35);
             this.Tb_SerialNumber.StateCommon.Back.Color1 = System.Drawing.Color.White;
             this.Tb_SerialNumber.StateCommon.Border.Color1 = System.Drawing.Color.Black;
             this.Tb_SerialNumber.StateCommon.Border.Color2 = System.Drawing.Color.Black;
@@ -866,10 +844,9 @@ namespace VisualCheckingGUI
             // Tb_Operation
             // 
             this.Tb_Operation.Enabled = false;
-            this.Tb_Operation.Location = new System.Drawing.Point(256, 46);
-            this.Tb_Operation.Margin = new System.Windows.Forms.Padding(4);
+            this.Tb_Operation.Location = new System.Drawing.Point(192, 37);
             this.Tb_Operation.Name = "Tb_Operation";
-            this.Tb_Operation.Size = new System.Drawing.Size(249, 39);
+            this.Tb_Operation.Size = new System.Drawing.Size(187, 35);
             this.Tb_Operation.StateCommon.Back.Color1 = System.Drawing.Color.White;
             this.Tb_Operation.StateCommon.Border.Color1 = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
             this.Tb_Operation.StateCommon.Border.Color2 = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
@@ -885,8 +862,8 @@ namespace VisualCheckingGUI
             // Bt_FindContainer
             // 
             this.Bt_FindContainer.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.Bt_FindContainer.Location = new System.Drawing.Point(804, 46);
-            this.Bt_FindContainer.Margin = new System.Windows.Forms.Padding(5);
+            this.Bt_FindContainer.Location = new System.Drawing.Point(603, 37);
+            this.Bt_FindContainer.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.Bt_FindContainer.Name = "Bt_FindContainer";
             this.Bt_FindContainer.OverrideDefault.Back.Color1 = System.Drawing.Color.FromArgb(((int)(((byte)(6)))), ((int)(((byte)(174)))), ((int)(((byte)(244)))));
             this.Bt_FindContainer.OverrideDefault.Back.Color2 = System.Drawing.Color.FromArgb(((int)(((byte)(6)))), ((int)(((byte)(142)))), ((int)(((byte)(254)))));
@@ -901,7 +878,7 @@ namespace VisualCheckingGUI
             this.Bt_FindContainer.OverrideDefault.Border.Rounding = 20;
             this.Bt_FindContainer.OverrideDefault.Border.Width = 1;
             this.Bt_FindContainer.PaletteMode = ComponentFactory.Krypton.Toolkit.PaletteMode.ProfessionalSystem;
-            this.Bt_FindContainer.Size = new System.Drawing.Size(195, 43);
+            this.Bt_FindContainer.Size = new System.Drawing.Size(146, 35);
             this.Bt_FindContainer.StateCommon.Back.Color1 = System.Drawing.Color.FromArgb(((int)(((byte)(6)))), ((int)(((byte)(174)))), ((int)(((byte)(244)))));
             this.Bt_FindContainer.StateCommon.Back.Color2 = System.Drawing.Color.FromArgb(((int)(((byte)(8)))), ((int)(((byte)(142)))), ((int)(((byte)(254)))));
             this.Bt_FindContainer.StateCommon.Back.ColorAngle = 45F;
@@ -944,18 +921,83 @@ namespace VisualCheckingGUI
             this.Bt_FindContainer.Values.Text = "Find Container";
             this.Bt_FindContainer.Click += new System.EventHandler(this.Bt_FindContainer_Click);
             // 
+            // label31
+            // 
+            this.label31.AutoSize = true;
+            this.label31.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label31.ForeColor = System.Drawing.Color.Gray;
+            this.label31.Location = new System.Drawing.Point(190, 149);
+            this.label31.Name = "label31";
+            this.label31.Size = new System.Drawing.Size(149, 16);
+            this.label31.TabIndex = 106;
+            this.label31.Text = "Move Out: (TimeStamp)";
+            // 
+            // Dt_MoveOut
+            // 
+            this.Dt_MoveOut.CalendarTodayDate = new System.DateTime(2021, 12, 29, 0, 0, 0, 0);
+            this.Dt_MoveOut.CustomFormat = "yyyy-MM-dd hh:mm:ss tt";
+            this.Dt_MoveOut.Enabled = false;
+            this.Dt_MoveOut.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
+            this.Dt_MoveOut.Location = new System.Drawing.Point(193, 165);
+            this.Dt_MoveOut.Name = "Dt_MoveOut";
+            this.Dt_MoveOut.PaletteMode = ComponentFactory.Krypton.Toolkit.PaletteMode.ProfessionalSystem;
+            this.Dt_MoveOut.ShowUpDown = true;
+            this.Dt_MoveOut.Size = new System.Drawing.Size(186, 33);
+            this.Dt_MoveOut.StateCommon.Border.Color1 = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            this.Dt_MoveOut.StateCommon.Border.Color2 = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            this.Dt_MoveOut.StateCommon.Border.DrawBorders = ((ComponentFactory.Krypton.Toolkit.PaletteDrawBorders)((((ComponentFactory.Krypton.Toolkit.PaletteDrawBorders.Top | ComponentFactory.Krypton.Toolkit.PaletteDrawBorders.Bottom) 
+            | ComponentFactory.Krypton.Toolkit.PaletteDrawBorders.Left) 
+            | ComponentFactory.Krypton.Toolkit.PaletteDrawBorders.Right)));
+            this.Dt_MoveOut.StateCommon.Border.GraphicsHint = ComponentFactory.Krypton.Toolkit.PaletteGraphicsHint.AntiAlias;
+            this.Dt_MoveOut.StateCommon.Border.Rounding = 20;
+            this.Dt_MoveOut.StateCommon.Border.Width = 1;
+            this.Dt_MoveOut.TabIndex = 105;
+            // 
+            // label32
+            // 
+            this.label32.AutoSize = true;
+            this.label32.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label32.ForeColor = System.Drawing.Color.Gray;
+            this.label32.Location = new System.Drawing.Point(8, 149);
+            this.label32.Name = "label32";
+            this.label32.Size = new System.Drawing.Size(139, 16);
+            this.label32.TabIndex = 104;
+            this.label32.Text = "Move In: (TimeStamp)";
+            // 
+            // Dt_MoveIn
+            // 
+            this.Dt_MoveIn.CalendarTodayDate = new System.DateTime(2021, 12, 29, 0, 0, 0, 0);
+            this.Dt_MoveIn.CustomFormat = "yyyy-MM-dd hh:mm:ss tt";
+            this.Dt_MoveIn.Enabled = false;
+            this.Dt_MoveIn.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
+            this.Dt_MoveIn.Location = new System.Drawing.Point(11, 165);
+            this.Dt_MoveIn.Name = "Dt_MoveIn";
+            this.Dt_MoveIn.PaletteMode = ComponentFactory.Krypton.Toolkit.PaletteMode.ProfessionalSystem;
+            this.Dt_MoveIn.ShowUpDown = true;
+            this.Dt_MoveIn.Size = new System.Drawing.Size(173, 33);
+            this.Dt_MoveIn.StateCommon.Border.Color1 = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            this.Dt_MoveIn.StateCommon.Border.Color2 = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            this.Dt_MoveIn.StateCommon.Border.DrawBorders = ((ComponentFactory.Krypton.Toolkit.PaletteDrawBorders)((((ComponentFactory.Krypton.Toolkit.PaletteDrawBorders.Top | ComponentFactory.Krypton.Toolkit.PaletteDrawBorders.Bottom) 
+            | ComponentFactory.Krypton.Toolkit.PaletteDrawBorders.Left) 
+            | ComponentFactory.Krypton.Toolkit.PaletteDrawBorders.Right)));
+            this.Dt_MoveIn.StateCommon.Border.GraphicsHint = ComponentFactory.Krypton.Toolkit.PaletteGraphicsHint.AntiAlias;
+            this.Dt_MoveIn.StateCommon.Border.Rounding = 20;
+            this.Dt_MoveIn.StateCommon.Border.Width = 1;
+            this.Dt_MoveIn.TabIndex = 103;
+            // 
             // Main
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(250)))), ((int)(((byte)(252)))), ((int)(((byte)(252)))));
-            this.ClientSize = new System.Drawing.Size(1059, 934);
+            this.ClientSize = new System.Drawing.Size(794, 801);
             this.Controls.Add(this.ResourceDataGroup);
             this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.Dg_Maintenance);
             this.Controls.Add(this.ResourceSetupGrouping);
             this.Controls.Add(this.ResourceGrouping);
             this.Controls.Add(this.MyTitle);
+            this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.Name = "Main";
             this.Palette = this.VisualCheckingPalette;
             this.PaletteMode = ComponentFactory.Krypton.Toolkit.PaletteMode.Custom;
@@ -1015,7 +1057,7 @@ namespace VisualCheckingGUI
         private System.Windows.Forms.PictureBox pictureBox1;
         private ComponentFactory.Krypton.Toolkit.KryptonGroupBox ResourceDataGroup;
         private System.Windows.Forms.Label label11;
-        private ComponentFactory.Krypton.Toolkit.KryptonTextBox Tb_Tb_ReasonGNG;
+        private ComponentFactory.Krypton.Toolkit.KryptonTextBox Tb_ReasonNG;
         private ComponentFactory.Krypton.Toolkit.KryptonComboBox Cb_PassFail;
         private System.Windows.Forms.Label label9;
         private System.Windows.Forms.Label label2;
@@ -1028,6 +1070,10 @@ namespace VisualCheckingGUI
         private ComponentFactory.Krypton.Toolkit.KryptonTextBox Tb_SerialNumber;
         private ComponentFactory.Krypton.Toolkit.KryptonTextBox Tb_Operation;
         private ComponentFactory.Krypton.Toolkit.KryptonButton Bt_FindContainer;
+        private System.Windows.Forms.Label label31;
+        private ComponentFactory.Krypton.Toolkit.KryptonDateTimePicker Dt_MoveOut;
+        private System.Windows.Forms.Label label32;
+        private ComponentFactory.Krypton.Toolkit.KryptonDateTimePicker Dt_MoveIn;
     }
 }
 

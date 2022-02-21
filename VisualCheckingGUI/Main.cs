@@ -37,8 +37,8 @@ namespace VisualCheckingGUI
             Tb_SetupAvailability.Text = "";
 
             this.WindowState = FormWindowState.Normal;
-            this.Size = new Size(820, 800);
-            MyTitle.Text = $"HiPOT - {AppSettings.Resource}";
+            this.Size = new Size(820, 860);
+            MyTitle.Text = $"Visual Checking - {AppSettings.Resource}";
             ResourceGrouping.Values.Heading = $"Resource Status: {AppSettings.Resource}";
             ResourceSetupGrouping.Values.Heading = $"Resource Setup: {AppSettings.Resource}";
             ResourceDataGroup.Values.Heading = $"Resource Data Collection: {AppSettings.Resource}";
@@ -49,6 +49,7 @@ namespace VisualCheckingGUI
         #region INSTANCE VARIABLE
         private static GetMaintenanceStatusDetails[] oMaintenanceStatus = null;
         private static ServiceUtil oServiceUtil = new ServiceUtil();
+        private static DateTime dMoveIn;
         #endregion
 
         #region FUNCTION USEFULL
@@ -157,31 +158,41 @@ namespace VisualCheckingGUI
             Tb_Operation.Clear();
             Tb_PO.Clear();
             Tb_ContainerPosition.Clear();
-            CurrentContainerStatus oContainerStatus = oServiceUtil.GetContainerStatusDetails(Tb_SerialNumber.Text);
+            CurrentContainerStatus oContainerStatus = oServiceUtil.GetContainerStatusDetails(Tb_SerialNumber.Text, "Visual Checking Minime");
             Tb_ContainerPosition.Text = oServiceUtil.GetCurrentContainerStep(Tb_SerialNumber.Text);
             if (oContainerStatus != null)
             {
                 if (oContainerStatus.MfgOrderName != null) Tb_PO.Text = oContainerStatus.MfgOrderName.ToString();
                 if (oContainerStatus.Operation != null) Tb_Operation.Text = oContainerStatus.Operation.Name.ToString();
+                dMoveIn = DateTime.Now;
+                Dt_MoveIn.Value = dMoveIn;
             }
         }
-        /*private void Bt_StartMove_Click(object sender, EventArgs e)
+        private void Bt_StartMove_Click(object sender, EventArgs e)
         {
             try
             {
                 bool resultMoveIn = false;
                 bool resultMoveStd = false;
+                string sPassFail = Cb_PassFail.Text != "" ? Cb_PassFail.Text : ResultString.False;
                 Camstar.WCF.ObjectStack.DataPointDetails[] cDataPoint = new Camstar.WCF.ObjectStack.DataPointDetails[2];
-                cDataPoint[0] = new Camstar.WCF.ObjectStack.DataPointDetails() { DataName = "PCBA Serial Number", DataValue = Tb_PCBASerialNumber.Text != "" ? Tb_PCBASerialNumber.Text : "NA", DataType = DataTypeEnum.String };
-                cDataPoint[1] = new Camstar.WCF.ObjectStack.DataPointDetails() { DataName = "Pump Serial Number", DataValue = Tb_PumpSerialNumber.Text != "" ? Tb_PumpSerialNumber.Text : "NA", DataType = DataTypeEnum.String };
-                CurrentContainerStatus oContainerStatus = oServiceUtil.GetContainerStatusDetails(Tb_SerialNumber.Text);
+                cDataPoint[0] = new Camstar.WCF.ObjectStack.DataPointDetails() { DataName = "Reason NG (Not Good)", DataValue = Tb_ReasonNG.Text != "" ? Tb_ReasonNG.Text : "Empty", DataType = DataTypeEnum.String };
+                cDataPoint[1] = new Camstar.WCF.ObjectStack.DataPointDetails() { DataName = "RESULT", DataValue = sPassFail, DataType = DataTypeEnum.String };
+                CurrentContainerStatus oContainerStatus = oServiceUtil.GetContainerStatusDetails(Tb_SerialNumber.Text, "Visual Checking Minime");
                 if (oContainerStatus != null)
                 {
-                    resultMoveIn = oServiceUtil.ExecuteMoveIn(oContainerStatus.ContainerName.Value, AppSettings.Resource);
+                    resultMoveIn = oServiceUtil.ExecuteMoveIn(oContainerStatus.ContainerName.Value, AppSettings.Resource, "", "", null, "", false, false, "", "", Convert.ToString(dMoveIn));
                     if (resultMoveIn)
                     {
-                        resultMoveStd = oServiceUtil.ExecuteMoveStd(oContainerStatus.ContainerName.Value, "", AppSettings.Resource, "Group of Manual Assy Data", "", cDataPoint);
-                        if (resultMoveStd) MessageBox.Show("MoveIn and MoveStd success!");
+                        Dt_MoveOut.Value = DateTime.Now;
+                        resultMoveStd = oServiceUtil.ExecuteMoveStd(oContainerStatus.ContainerName.Value, "", AppSettings.Resource, "Visual Checking Minime", "", cDataPoint, "", false, "", "", Convert.ToString(DateTime.Now));
+                        if (resultMoveStd)
+                        {
+                            oContainerStatus = oServiceUtil.GetContainerStatusDetails(Tb_SerialNumber.Text, "Visual Checking Minime");
+                            Tb_ContainerPosition.Text = oServiceUtil.GetCurrentContainerStep(Tb_SerialNumber.Text);
+                            if (oContainerStatus.Operation != null) Tb_Operation.Text = oContainerStatus.Operation.Name.ToString();
+                            MessageBox.Show($"MoveIn and MoveStd success! Move to the Operation: {oContainerStatus.OperationName.Value}.");
+                        }
                         else MessageBox.Show("Move In success and but Move Std Fail!");
                     }
                     else MessageBox.Show("Move In and Move Std Fail!");
@@ -193,7 +204,7 @@ namespace VisualCheckingGUI
                 ex.Source = AppSettings.AssemblyName == ex.Source ? MethodBase.GetCurrentMethod().Name : MethodBase.GetCurrentMethod().Name + "." + ex.Source;
                 EventLogUtil.LogErrorEvent(ex.Source, ex);
             }
-        }*/
+        }
         private void Cb_StatusCode_SelectedIndexChanged(object sender, EventArgs e)
         {
             try
