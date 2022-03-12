@@ -1,24 +1,23 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Diagnostics;
 using System.Drawing;
-using System.Linq;
 using System.Reflection;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Camstar.WCF.ObjectStack;
 using ComponentFactory.Krypton.Toolkit;
+using MesData;
 using OpcenterWikLibrary;
+using VisualCheckingGUI.Enumeration;
+
 
 namespace VisualCheckingGUI
 {
     public partial class Main : KryptonForm
     {
         #region CONSTRUCTOR
-        public Main()
+
+        public  Main()
         {
             InitializeComponent();
             Rectangle r = new Rectangle(0, 0, Pb_IndicatorPicture.Width, Pb_IndicatorPicture.Height);
@@ -29,56 +28,172 @@ namespace VisualCheckingGUI
             gp.AddArc(r.X + r.Width - d, r.Y + r.Height - d, d, d, 0, 90);
             gp.AddArc(r.X, r.Y + r.Height - d, d, d, 90, 90);
             Pb_IndicatorPicture.Region = new Region(gp);
-            GetResourceStatusCodeList();
-            GetStatusOfResource();
-            GetStatusMaintenanceDetails();
-            Cb_StatusCode.SelectedItem = null;
-            Cb_StatusReason.SelectedItem = null;
-            Tb_SetupAvailability.Text = "";
 
-            this.WindowState = FormWindowState.Normal;
-            this.Size = new Size(820, 860);
+#if MiniMe
+            var  name = "Visual Checking Minime";
+            Text = Mes.AddVersionNumber(Text + " MiniMe");
+#elif Ariel
+            var  name = "Visual Checking Ariel";
+            Text = Mes.AddVersionNumber(Text + " Ariel");
+#endif
+            _mesData = new Mes(name);
+           
+
+
+            WindowState = FormWindowState.Normal;
+            Size = new Size(820, 860);
             MyTitle.Text = $"Visual Checking - {AppSettings.Resource}";
             ResourceGrouping.Values.Heading = $"Resource Status: {AppSettings.Resource}";
-            ResourceSetupGrouping.Values.Heading = $"Resource Setup: {AppSettings.Resource}";
             ResourceDataGroup.Values.Heading = $"Resource Data Collection: {AppSettings.Resource}";
-            AddVersionNumber();
+            
         }
+
         #endregion
 
         #region INSTANCE VARIABLE
-        private static GetMaintenanceStatusDetails[] oMaintenanceStatus = null;
-        private static ServiceUtil oServiceUtil = new ServiceUtil();
-        private static DateTime dMoveIn;
+
+        private static DateTime _dMoveIn;
+        private readonly Mes _mesData;
+        private VisualCheckingState _visualCheckingState;
+
         #endregion
 
         #region FUNCTION USEFULL
-        private void AddVersionNumber()
-        {
-            System.Reflection.Assembly assembly = System.Reflection.Assembly.GetExecutingAssembly();
-            FileVersionInfo versionInfo = FileVersionInfo.GetVersionInfo(assembly.Location);
 
-            this.Text += $" V.{versionInfo.FileVersion}";
-        }
         #endregion
 
         #region FUNCTION STATUS OF RESOURCE
-        private void GetResourceStatusCodeList()
+        private async Task SetVisualCheckingState(VisualCheckingState visualCheckingState)
         {
-            NamedObjectRef[] oStatusCodeList = oServiceUtil.GetListResourceStatusCode();
-            if (oStatusCodeList != null)
+            _visualCheckingState = visualCheckingState;
+            switch (_visualCheckingState)
             {
-                Cb_StatusCode.DataSource = oStatusCodeList;
+                case VisualCheckingState.PlaceUnit:
+                    Tb_Scanner.Enabled = false;
+                    lblCommand.ForeColor = Color.Red;
+                    lblCommand.Text = "Resource is not in \"Up\" condition!";
+                    break;
+                case VisualCheckingState.ScanUnitSerialNumber:
+                    btnFail.Visible = false;
+                    btnPass.Visible = false;
+
+                    Tb_Operation.Clear();
+                    Tb_PO.Clear();
+                    Tb_ContainerPosition.Clear();
+                    Tb_ReasonNG.Clear();
+                    Cb_PassFail.Text = "";
+                    Tb_SerialNumber.Clear();
+
+                    if (_mesData.ResourceStatusDetails == null || _mesData.ResourceStatusDetails?.Availability != "Up")
+                    {
+                        await SetVisualCheckingState(VisualCheckingState.PlaceUnit);
+                        break;
+                    }
+                    Tb_Scanner.Enabled = true;
+                    lblCommand.ForeColor = Color.LimeGreen;
+                    lblCommand.Text = "Scan Unit Serial Number!";
+                    ActiveControl = Tb_Scanner;
+                    break;
+                case VisualCheckingState.CheckUnitStatus:
+                    Tb_Scanner.Enabled = false;
+                    lblCommand.Text = "Checking Unit Status";
+
+                    var oContainerStatus = await Mes.GetContainerStatusDetails(_mesData, Tb_SerialNumber.Text, _mesData.DataCollectionName);
+                    Tb_ContainerPosition.Text = await Mes.GetCurrentContainerStep(_mesData, Tb_SerialNumber.Text);
+                    if (oContainerStatus != null)
+                    {
+                        if (oContainerStatus.MfgOrderName != null) Tb_PO.Text = oContainerStatus.MfgOrderName.ToString();
+                        if (oContainerStatus.Operation != null)
+                        {
+                            Tb_Operation.Text = oContainerStatus.Operation.Name;
+                            if (oContainerStatus.Operation.Name != _mesData.DataCollectionName)
+                            {
+                                await SetVisualCheckingState(VisualCheckingState.WrongPosition);
+                                break;
+                            }
+                        }
+                        _dMoveIn = DateTime.Now;
+                        await SetVisualCheckingState(VisualCheckingState.VisualCheckResult);
+                        break;
+                    }
+                    await SetVisualCheckingState(VisualCheckingState.UnitNotFound);
+                    break;
+                case VisualCheckingState.UnitNotFound:
+                    Tb_Scanner.Enabled = false;
+                    lblCommand.ForeColor = Color.Red;
+                    lblCommand.Text = "Unit Not Found";
+                    break;
+                case VisualCheckingState.VisualCheckResult:
+                    btnFail.Visible = true;
+                    btnPass.Visible = true;
+                    Tb_Scanner.Enabled = false;
+                    lblCommand.Text = "Visual Checking Result?";
+                    break;
+                case VisualCheckingState.UpdateMoveInMove:
+                    Tb_Scanner.Enabled = false;
+                    lblCommand.Text = "Container Move In";
+
+                    var sPassFail = Cb_PassFail.Text != "" ? Cb_PassFail.Text : ResultString.False;
+                    var cDataPoint = new DataPointDetails[2];
+                    cDataPoint[0] = new DataPointDetails()
+                    {
+                        DataName = "Reason NG (Not Good)",
+                        DataValue = Tb_ReasonNG.Text != "" ? Tb_ReasonNG.Text : "Empty",
+                        DataType = DataTypeEnum.String
+                    };
+                    cDataPoint[1] = new DataPointDetails()
+                    { DataName = "RESULT", DataValue = sPassFail, DataType = DataTypeEnum.String };
+                    oContainerStatus = await Mes.GetContainerStatusDetails(_mesData, Tb_SerialNumber.Text, _mesData.DataCollectionName);
+                    if (oContainerStatus != null)
+                    {
+                        var resultMoveIn = await Mes.ExecuteMoveIn(_mesData, oContainerStatus.ContainerName.Value,
+                            _dMoveIn);
+                        if (resultMoveIn)
+                        {
+                            lblCommand.Text = "Container Move Standard";
+                            var resultMoveStd = await Mes.ExecuteMoveStandard(_mesData, oContainerStatus.ContainerName.Value, DateTime.Now, cDataPoint);
+                            await SetVisualCheckingState(resultMoveStd
+                                ? VisualCheckingState.ScanUnitSerialNumber
+                                : VisualCheckingState.MoveInOkMoveFail);
+                            break;
+                        }
+                        await SetVisualCheckingState(VisualCheckingState.MoveInFail);
+                        break;
+                    }
+                    await SetVisualCheckingState(VisualCheckingState.UnitNotFound);
+                    break;
+                case VisualCheckingState.MoveSuccess:
+                    break;
+                case VisualCheckingState.MoveInOkMoveFail:
+                    lblCommand.ForeColor = Color.Red;
+                    Tb_Scanner.Enabled = false;
+                    lblCommand.Text = "Move Standard Fail";
+                    break;
+                case VisualCheckingState.MoveInFail:
+                    lblCommand.ForeColor = Color.Red;
+                    Tb_Scanner.Enabled = false;
+                    lblCommand.Text = "Move In Fail";
+                    break;
+                case VisualCheckingState.Done:
+                    break;
+                case VisualCheckingState.FailReason:
+                    Tb_Scanner.Enabled = true;
+                    lblCommand.Text = "Type in NG reason, then press Enter!";
+                    break;
+                case VisualCheckingState.WrongPosition:
+                    lblCommand.ForeColor = Color.Red;
+                    Tb_Scanner.Enabled = false;
+                    lblCommand.Text = "Incorrect Product Operation";
+                    break;
             }
         }
-        private void GetStatusMaintenanceDetails()
+        private async Task GetStatusMaintenanceDetails()
         {
-            try
+            var maintenanceStatusDetails = await Mes.GetMaintenanceStatusDetails(_mesData);
+            if (maintenanceStatusDetails != null)
             {
-                oMaintenanceStatus = oServiceUtil.GetGetMaintenanceStatus(AppSettings.Resource);
-                if (oMaintenanceStatus != null)
-                {
-                    Dg_Maintenance.DataSource = oMaintenanceStatus;
+                Dg_Maintenance.DataSource = maintenanceStatusDetails;
+                Dg_Maintenance.DataSource = _mesData.MaintenanceStatusDetails;
                     Dg_Maintenance.Columns["Due"].Visible = false;
                     Dg_Maintenance.Columns["Warning"].Visible = false;
                     Dg_Maintenance.Columns["PastDue"].Visible = false;
@@ -108,148 +223,59 @@ namespace VisualCheckingGUI
                     Dg_Maintenance.Columns["ListItemIndex"].Visible = false;
                     Dg_Maintenance.Columns["CDOTypeName"].Visible = false;
                     Dg_Maintenance.Columns["key"].Visible = false;
-                }
             }
-            catch (Exception ex)
-            {
-                ex.Source = AppSettings.AssemblyName == ex.Source ? MethodBase.GetCurrentMethod().Name : MethodBase.GetCurrentMethod().Name + "." + ex.Source;
-                EventLogUtil.LogErrorEvent(ex.Source, ex);
-            }
+           
         }
-        private void GetStatusOfResource()
+
+        private async Task GetStatusOfResource()
         {
-            try
-            {
-                ResourceStatusDetails oResourceStatusDetails = oServiceUtil.GetResourceStatusDetails(AppSettings.Resource);
-                if (oResourceStatusDetails != null)
-                {
-                    if (oResourceStatusDetails.Status != null) Tb_StatusCode.Text = oResourceStatusDetails.Status.Name;
-                    if (oResourceStatusDetails.Reason != null) Tb_StatusReason.Text = oResourceStatusDetails.Reason.Name;
-                    if (oResourceStatusDetails.Availability != null)
-                    {
-                        Tb_Availability.Text = oResourceStatusDetails.Availability.Value;
-                        if (oResourceStatusDetails.Availability.Value == "Up")
-                        {
-                            Pb_IndicatorPicture.BackColor = Color.Green;
-                        }
-                        else if (oResourceStatusDetails.Availability.Value == "Down")
-                        {
-                            Pb_IndicatorPicture.BackColor = Color.Red;
-                        }
-                    }
-                    else
-                    {
-                        Pb_IndicatorPicture.BackColor = Color.Orange;
-                    }
-                    if (oResourceStatusDetails.TimeAtStatus != null) Tb_TimeAtStatus.Text = Convert.ToString(oResourceStatusDetails.TimeAtStatus.Value);
-                }
-            }
-            catch (Exception ex)
-            {
-                ex.Source = AppSettings.AssemblyName == ex.Source ? MethodBase.GetCurrentMethod().Name : MethodBase.GetCurrentMethod().Name + "." + ex.Source;
-                EventLogUtil.LogErrorEvent(ex.Source, ex);
-            }
+           var resourceStatus = await Mes.GetResourceStatusDetails(_mesData); 
+           _mesData.SetResourceStatusDetails(resourceStatus);
+           if (resourceStatus != null)
+           {
+               if (resourceStatus.Status != null)
+                   Tb_StatusCode.Text = resourceStatus.Status.Name;
+               if (resourceStatus.Reason != null)
+                   Tb_StatusReason.Text = resourceStatus.Reason.Name;
+               if (resourceStatus.Availability != null)
+               {
+                   Tb_Availability.Text = resourceStatus.Availability.Value;
+                   if (resourceStatus.Availability.Value == "Up")
+                   {
+                       Pb_IndicatorPicture.BackColor = Color.Green;
+                   }
+                   else if (resourceStatus.Availability.Value == "Down")
+                   {
+                       Pb_IndicatorPicture.BackColor = Color.Red;
+                   }
+               }
+               else
+               {
+                   Pb_IndicatorPicture.BackColor = Color.Orange;
+               }
+
+               var zeroEpoch = new DateTime(1899, 12, 30);
+               if (resourceStatus.TimeAtStatus != null)
+                   Tb_TimeAtStatus.Text =
+                       $@"{(DateTime.FromOADate(resourceStatus.TimeAtStatus.Value) - zeroEpoch):G}";
+           }
+
         }
+
         #endregion
 
         #region COMPONENT EVENT
-        private void Bt_FindContainer_Click(object sender, EventArgs e)
+        private async void Main_Load(object sender, EventArgs e)
         {
-            Tb_Operation.Clear();
-            Tb_PO.Clear();
-            Tb_ContainerPosition.Clear();
-            CurrentContainerStatus oContainerStatus = oServiceUtil.GetContainerStatusDetails(Tb_SerialNumber.Text, "Visual Checking Minime");
-            Tb_ContainerPosition.Text = oServiceUtil.GetCurrentContainerStep(Tb_SerialNumber.Text);
-            if (oContainerStatus != null)
-            {
-                if (oContainerStatus.MfgOrderName != null) Tb_PO.Text = oContainerStatus.MfgOrderName.ToString();
-                if (oContainerStatus.Operation != null) Tb_Operation.Text = oContainerStatus.Operation.Name.ToString();
-                dMoveIn = DateTime.Now;
-                Dt_MoveIn.Value = dMoveIn;
-            }
+            await GetStatusOfResource();
+            await GetStatusMaintenanceDetails();
+            await SetVisualCheckingState(VisualCheckingState.ScanUnitSerialNumber);
         }
-        private void Bt_StartMove_Click(object sender, EventArgs e)
+
+        private async void btnResourceSetup_Click(object sender, EventArgs e)
         {
-            try
-            {
-                bool resultMoveIn = false;
-                bool resultMoveStd = false;
-                string sPassFail = Cb_PassFail.Text != "" ? Cb_PassFail.Text : ResultString.False;
-                Camstar.WCF.ObjectStack.DataPointDetails[] cDataPoint = new Camstar.WCF.ObjectStack.DataPointDetails[2];
-                cDataPoint[0] = new Camstar.WCF.ObjectStack.DataPointDetails() { DataName = "Reason NG (Not Good)", DataValue = Tb_ReasonNG.Text != "" ? Tb_ReasonNG.Text : "Empty", DataType = DataTypeEnum.String };
-                cDataPoint[1] = new Camstar.WCF.ObjectStack.DataPointDetails() { DataName = "RESULT", DataValue = sPassFail, DataType = DataTypeEnum.String };
-                CurrentContainerStatus oContainerStatus = oServiceUtil.GetContainerStatusDetails(Tb_SerialNumber.Text, "Visual Checking Minime");
-                if (oContainerStatus != null)
-                {
-                    resultMoveIn = oServiceUtil.ExecuteMoveIn(oContainerStatus.ContainerName.Value, AppSettings.Resource, "", "", null, "", false, false, "", "", Convert.ToString(dMoveIn));
-                    if (resultMoveIn)
-                    {
-                        Dt_MoveOut.Value = DateTime.Now;
-                        resultMoveStd = oServiceUtil.ExecuteMoveStd(oContainerStatus.ContainerName.Value, "", AppSettings.Resource, "Visual Checking Minime", "", cDataPoint, "", false, "", "", Convert.ToString(DateTime.Now));
-                        if (resultMoveStd)
-                        {
-                            oContainerStatus = oServiceUtil.GetContainerStatusDetails(Tb_SerialNumber.Text, "Visual Checking Minime");
-                            Tb_ContainerPosition.Text = oServiceUtil.GetCurrentContainerStep(Tb_SerialNumber.Text);
-                            if (oContainerStatus.Operation != null) Tb_Operation.Text = oContainerStatus.Operation.Name.ToString();
-                            MessageBox.Show($"MoveIn and MoveStd success! Move to the Operation: {oContainerStatus.OperationName.Value}.");
-                        }
-                        else MessageBox.Show("Move In success and but Move Std Fail!");
-                    }
-                    else MessageBox.Show("Move In and Move Std Fail!");
-                }
-                else MessageBox.Show($"Container {oContainerStatus.ContainerName.Value} not found!");
-            }
-            catch (Exception ex)
-            {
-                ex.Source = AppSettings.AssemblyName == ex.Source ? MethodBase.GetCurrentMethod().Name : MethodBase.GetCurrentMethod().Name + "." + ex.Source;
-                EventLogUtil.LogErrorEvent(ex.Source, ex);
-            }
-        }
-        private void Cb_StatusCode_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            try
-            {
-                ResourceStatusCodeChanges oStatusCode = oServiceUtil.GetResourceStatusCode(Cb_StatusCode.SelectedValue != null ? Cb_StatusCode.SelectedValue.ToString() : "");
-                if (oStatusCode != null)
-                {
-                    Tb_SetupAvailability.Text = oStatusCode.Availability.ToString();
-                    if (oStatusCode.ResourceStatusReasons != null)
-                    {
-                        ResStatusReasonGroupChanges oStatusReason = oServiceUtil.GetResourceStatusReasonGroup(oStatusCode.ResourceStatusReasons.Name);
-                        Cb_StatusReason.DataSource = oStatusReason.Entries;
-                    }
-                    else
-                    {
-                        Cb_StatusReason.Items.Clear();
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                ex.Source = AppSettings.AssemblyName == ex.Source ? MethodBase.GetCurrentMethod().Name : MethodBase.GetCurrentMethod().Name + "." + ex.Source;
-                EventLogUtil.LogErrorEvent(ex.Source, ex);
-            }
-        }
-        private void Bt_SetResourceStatus_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                if (Cb_StatusCode.Text != "" && Cb_StatusReason.Text != "")
-                {
-                    oServiceUtil.ExecuteResourceSetup(AppSettings.Resource, Cb_StatusCode.Text, Cb_StatusReason.Text);
-                }
-                else if (Cb_StatusCode.Text != "")
-                {
-                    oServiceUtil.ExecuteResourceSetup(AppSettings.Resource, Cb_StatusCode.Text, "");
-                }
-                GetStatusOfResource();
-                GetStatusMaintenanceDetails();
-            }
-            catch (Exception ex)
-            {
-                ex.Source = AppSettings.AssemblyName == ex.Source ? MethodBase.GetCurrentMethod().Name : MethodBase.GetCurrentMethod().Name + "." + ex.Source;
-                EventLogUtil.LogErrorEvent(ex.Source, ex);
-            }
+            Mes.ResourceSetupForm(this, _mesData, MyTitle.Text);
+            await GetStatusOfResource();
         }
         private void Dg_Maintenance_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
         {
@@ -274,23 +300,66 @@ namespace VisualCheckingGUI
             }
             catch (Exception ex)
             {
-                ex.Source = AppSettings.AssemblyName == ex.Source ? MethodBase.GetCurrentMethod().Name : MethodBase.GetCurrentMethod().Name + "." + ex.Source;
+                ex.Source = AppSettings.AssemblyName == ex.Source
+                    ? MethodBase.GetCurrentMethod()?.Name
+                    : MethodBase.GetCurrentMethod()?.Name + "." + ex.Source;
                 EventLogUtil.LogErrorEvent(ex.Source, ex);
             }
         }
-        private void TimerRealtime_Tick(object sender, EventArgs e)
+
+        private async void TimerRealtime_Tick(object sender, EventArgs e)
         {
-            GetStatusOfResource();
-            GetStatusMaintenanceDetails();
+            TimerRealtime.Stop();
+            await GetStatusOfResource();
+            await GetStatusMaintenanceDetails();
+            TimerRealtime.Start();
         }
-        private void Cb_StatusCode_KeyPress(object sender, KeyPressEventArgs e)
+
+        private async void btnResetState_Click(object sender, EventArgs e)
         {
-            e.Handled = true;
+            await SetVisualCheckingState(VisualCheckingState.ScanUnitSerialNumber);
         }
-        private void Cb_StatusReason_KeyPress(object sender, KeyPressEventArgs e)
+       
+        
+
+        private async void Tb_Scanner_KeyUp(object sender, KeyEventArgs e)
         {
-            e.Handled = true;
+            if (e.KeyCode == Keys.Enter)
+            {
+                if (string.IsNullOrEmpty(Tb_Scanner.Text)) return;
+                switch (_visualCheckingState)
+                {
+                    case VisualCheckingState.ScanUnitSerialNumber:
+                        Tb_SerialNumber.Text = Tb_Scanner.Text;
+                        Tb_Scanner.Clear();
+                        await SetVisualCheckingState(VisualCheckingState.CheckUnitStatus);
+                        break;
+                    case VisualCheckingState.FailReason:
+                        Tb_ReasonNG.Text = Tb_Scanner.Text;
+                        Tb_Scanner.Clear();
+                        await SetVisualCheckingState(VisualCheckingState.UpdateMoveInMove);
+                        break;
+                }
+            }
+        }
+
+        private async void btnPass_Click(object sender, EventArgs e)
+        {
+            btnFail.Visible = false;
+            btnPass.Visible = false;
+            Cb_PassFail.Text = "True";
+            await SetVisualCheckingState(VisualCheckingState.UpdateMoveInMove);
+        }
+
+        private async void btnFail_Click(object sender, EventArgs e)
+        {
+            btnFail.Visible = false;
+            btnPass.Visible = false;
+            Cb_PassFail.Text = "False";
+            await SetVisualCheckingState(VisualCheckingState.FailReason);
         }
         #endregion
+
+        
     }
 }

@@ -19,7 +19,7 @@
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DefineConstants>TRACE;DEBUG; MiniMe</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
@@ -90,6 +90,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Enumeration\VisualCheckingState.cs" />
     <Compile Include="Main.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -130,6 +131,12 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\WIK logo.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\MesData\MesData\MesData.csproj">
+      <Project>{47a21ecb-4762-4320-8946-4a7226c0085b}</Project>
+      <Name>MesData</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
