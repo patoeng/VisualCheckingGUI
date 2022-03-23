@@ -124,10 +124,10 @@ namespace VisualCheckingGUI
             // Dg_Maintenance
             // 
             this.Dg_Maintenance.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.Dg_Maintenance.Location = new System.Drawing.Point(16, 189);
+            this.Dg_Maintenance.Location = new System.Drawing.Point(16, 184);
             this.Dg_Maintenance.Name = "Dg_Maintenance";
             this.Dg_Maintenance.RowHeadersWidth = 51;
-            this.Dg_Maintenance.Size = new System.Drawing.Size(762, 161);
+            this.Dg_Maintenance.Size = new System.Drawing.Size(762, 110);
             this.Dg_Maintenance.StateCommon.Background.Color1 = System.Drawing.Color.White;
             this.Dg_Maintenance.StateCommon.Background.Color2 = System.Drawing.Color.White;
             this.Dg_Maintenance.StateCommon.Background.GraphicsHint = ComponentFactory.Krypton.Toolkit.PaletteGraphicsHint.AntiAlias;
@@ -164,7 +164,7 @@ namespace VisualCheckingGUI
             // 
             // ResourceGrouping
             // 
-            this.ResourceGrouping.Location = new System.Drawing.Point(16, 67);
+            this.ResourceGrouping.Location = new System.Drawing.Point(16, 62);
             this.ResourceGrouping.Name = "ResourceGrouping";
             // 
             // ResourceGrouping.Panel
@@ -346,7 +346,7 @@ namespace VisualCheckingGUI
             // 
             // ResourceDataGroup
             // 
-            this.ResourceDataGroup.Location = new System.Drawing.Point(16, 361);
+            this.ResourceDataGroup.Location = new System.Drawing.Point(16, 300);
             this.ResourceDataGroup.Name = "ResourceDataGroup";
             // 
             // ResourceDataGroup.Panel
@@ -418,7 +418,7 @@ namespace VisualCheckingGUI
             // 
             this.btnResetState.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnResetState.Location = new System.Drawing.Point(670, 114);
-            this.btnResetState.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btnResetState.Margin = new System.Windows.Forms.Padding(4);
             this.btnResetState.Name = "btnResetState";
             this.btnResetState.OverrideDefault.Back.Color1 = System.Drawing.Color.FromArgb(((int)(((byte)(92)))), ((int)(((byte)(184)))), ((int)(((byte)(116)))));
             this.btnResetState.OverrideDefault.Back.Color2 = System.Drawing.Color.FromArgb(((int)(((byte)(59)))), ((int)(((byte)(143)))), ((int)(((byte)(81)))));
@@ -607,7 +607,7 @@ namespace VisualCheckingGUI
             // 
             this.Tb_SerialNumber.Enabled = false;
             this.Tb_SerialNumber.Location = new System.Drawing.Point(11, 41);
-            this.Tb_SerialNumber.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.Tb_SerialNumber.Margin = new System.Windows.Forms.Padding(4);
             this.Tb_SerialNumber.Name = "Tb_SerialNumber";
             this.Tb_SerialNumber.Size = new System.Drawing.Size(164, 35);
             this.Tb_SerialNumber.StateCommon.Back.Color1 = System.Drawing.Color.White;
@@ -642,7 +642,7 @@ namespace VisualCheckingGUI
             // 
             // kryptonGroupBox1
             // 
-            this.kryptonGroupBox1.Location = new System.Drawing.Point(16, 564);
+            this.kryptonGroupBox1.Location = new System.Drawing.Point(16, 495);
             this.kryptonGroupBox1.Name = "kryptonGroupBox1";
             // 
             // kryptonGroupBox1.Panel
@@ -676,7 +676,7 @@ namespace VisualCheckingGUI
             // 
             this.btnFail.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnFail.Location = new System.Drawing.Point(443, 77);
-            this.btnFail.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btnFail.Margin = new System.Windows.Forms.Padding(4);
             this.btnFail.Name = "btnFail";
             this.btnFail.OverrideDefault.Back.Color1 = System.Drawing.Color.FromArgb(((int)(((byte)(92)))), ((int)(((byte)(184)))), ((int)(((byte)(116)))));
             this.btnFail.OverrideDefault.Back.Color2 = System.Drawing.Color.FromArgb(((int)(((byte)(59)))), ((int)(((byte)(143)))), ((int)(((byte)(81)))));
@@ -738,7 +738,7 @@ namespace VisualCheckingGUI
             // 
             this.btnPass.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnPass.Location = new System.Drawing.Point(269, 77);
-            this.btnPass.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btnPass.Margin = new System.Windows.Forms.Padding(4);
             this.btnPass.Name = "btnPass";
             this.btnPass.OverrideDefault.Back.Color1 = System.Drawing.Color.FromArgb(((int)(((byte)(92)))), ((int)(((byte)(184)))), ((int)(((byte)(116)))));
             this.btnPass.OverrideDefault.Back.Color2 = System.Drawing.Color.FromArgb(((int)(((byte)(59)))), ((int)(((byte)(143)))), ((int)(((byte)(81)))));
@@ -893,7 +893,7 @@ namespace VisualCheckingGUI
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(250)))), ((int)(((byte)(252)))), ((int)(((byte)(252)))));
-            this.ClientSize = new System.Drawing.Size(794, 552);
+            this.ClientSize = new System.Drawing.Size(794, 664);
             this.Controls.Add(this.btnResourceSetup);
             this.Controls.Add(this.kryptonGroupBox1);
             this.Controls.Add(this.ResourceDataGroup);
@@ -901,7 +901,7 @@ namespace VisualCheckingGUI
             this.Controls.Add(this.Dg_Maintenance);
             this.Controls.Add(this.ResourceGrouping);
             this.Controls.Add(this.MyTitle);
-            this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.Margin = new System.Windows.Forms.Padding(2);
             this.Name = "Main";
             this.Palette = this.VisualCheckingPalette;
             this.PaletteMode = ComponentFactory.Krypton.Toolkit.PaletteMode.Custom;

@@ -41,7 +41,7 @@ namespace VisualCheckingGUI
 
 
             WindowState = FormWindowState.Normal;
-            Size = new Size(820, 860);
+            Size = new Size(810, 703);
             MyTitle.Text = $"Visual Checking - {AppSettings.Resource}";
             ResourceGrouping.Values.Heading = $"Resource Status: {AppSettings.Resource}";
             ResourceDataGroup.Values.Heading = $"Resource Data Collection: {AppSettings.Resource}";
