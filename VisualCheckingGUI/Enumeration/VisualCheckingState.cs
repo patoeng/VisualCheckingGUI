@@ -13,6 +13,9 @@
         MoveInOkMoveFail,
         MoveInFail,
         Done,
-        WrongPosition
+        WrongPosition,
+        WrongComponent,
+        WrongProductionOrder,
+        WaitPreparation,
     }
 }
