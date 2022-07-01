@@ -35,21 +35,22 @@ namespace VisualCheckingGUI.Model
                 {
 
                     {
-                        var cb = new CheckBox();
+                        var cb = new RoundCheckbox();
                         cb.AutoSize = true;
                         cb.Font = reason.CheckBox.Font;
                         cb.Text = reason.CheckBox.Text;
-                        cb.Appearance = Appearance.Button;
-                        cb.FlatStyle = FlatStyle.Flat;
+                        cb.Appearance = reason.CheckBox.Appearance;
+                        cb.FlatStyle = reason.CheckBox.FlatStyle;
                         cb.Checked = reason.CheckBox.Checked;
-                        cb.BackColor = reason.CheckBox.Checked ? Color.Red : Color.LightGray;
+                        cb.BackColor = reason.CheckBox.BackColor;
                         cb.CheckedChanged += CbReasonChanged;
-                        cb.FlatAppearance.CheckedBackColor = Color.Red;
+                        cb.FlatAppearance.CheckedBackColor = reason.CheckBox.FlatAppearance.CheckedBackColor;
+                        cb.FlatAppearance.BorderSize = reason.CheckBox.FlatAppearance.BorderSize;
                         cb.Refresh();
                         if (left + cb.Width + 5 > kryptonNavigator1.Width - 100)
                         {
                             left = 5;
-                            top += cb.Height + 15;
+                            top += cb.Height + 10;
                         }
                         cb.Left = left;
                         cb.Top = top;
@@ -66,7 +67,6 @@ namespace VisualCheckingGUI.Model
         private void CbReasonChanged(object sender, EventArgs e)
         {
             var cb = (CheckBox)sender;
-            cb.BackColor = cb.Checked ? Color.Red : Color.LightGray;
             var cbList = _vcNgReason.NgReasons.Where(x => x.Reason.Contains(cb.Text) && x.Reason.Contains(_group)).ToList();
             if (cbList.Count > 0)
             {

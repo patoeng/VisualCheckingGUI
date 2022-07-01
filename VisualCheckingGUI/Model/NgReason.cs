@@ -8,8 +8,8 @@ namespace VisualCheckingGUI.Model
         public int Id { get; protected set; }
         public string Group { get; protected set; }
         public string Reason { get; protected set; }
-        public CheckBox CheckBox { get; protected set; }
-        public NgReason(int id, string group, string reason, CheckBox checkBox)
+        public RoundCheckbox CheckBox { get; protected set; }
+        public NgReason(int id, string group, string reason, RoundCheckbox checkBox)
         {
             Id = id;
             Group = group;

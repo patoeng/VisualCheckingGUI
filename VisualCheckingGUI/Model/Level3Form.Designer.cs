@@ -142,6 +142,7 @@ namespace VisualCheckingGUI.Model
             this.ClientSize = new System.Drawing.Size(947, 336);
             this.Controls.Add(this.tableLayoutPanel1);
             this.Name = "Level3Form";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Title";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Level3Form_FormClosing);
             this.Load += new System.EventHandler(this.Level3Form_Load);

@@ -96,7 +96,7 @@ namespace VisualCheckingGUI
                     break;
                 case VisualCheckingState.CheckUnitStatus:
                     Tb_Scanner.Enabled = false;
-                    lblCommand.Text = "Checking Unit Status";
+                    lblCommand.Text = @"Checking Unit Status";
                     _dMoveIn = DateTime.Now;
                     lbMoveIn.Text = _dMoveIn.ToString(Mes.DateTimeStringFormat);
                     lbMoveOut.Text = "";
@@ -135,21 +135,21 @@ namespace VisualCheckingGUI
                 case VisualCheckingState.UnitNotFound:
                     Tb_Scanner.Enabled = false;
                     lblCommand.ForeColor = Color.Red;
-                    lblCommand.Text = "Unit Not Found";
+                    lblCommand.Text = @"Unit Not Found";
                     break;
                 case VisualCheckingState.VisualCheckResult:
                     ResetNgReason();
                     btnFail.Visible = true;
                     btnPass.Visible = true;
                     panelPassFail.Visible = true;
-                    kryptonNavigator2.Visible = false;
+                    panelReason.Visible = false;
                     Tb_Scanner.Enabled = false;
-                    lblCommand.Text = "Visual Checking Result?";
+                    lblCommand.Text = @"Visual Checking Result?";
                     panelPassFail.Visible = true;
                     break;
                 case VisualCheckingState.UpdateMoveInMove:
                     Tb_Scanner.Enabled = false;
-                    lblCommand.Text = "Container Move In"; 
+                    lblCommand.Text = @"Container Move In"; 
 
                     var cDataPoint = new DataPointDetails[1];
                     cDataPoint[0] = new DataPointDetails()
@@ -161,7 +161,7 @@ namespace VisualCheckingGUI
                             _dMoveIn);
                         if (resultMoveIn.Result)
                         {
-                            lblCommand.Text = "Container Move Standard";
+                            lblCommand.Text = @"Container Move Standard";
                             _dMoveOut = DateTime.Now;
                             lbMoveOut.Text = _dMoveOut.ToString(Mes.DateTimeStringFormat);
                             var resultMoveStd = await Mes.ExecuteMoveStandard(_mesData, oContainerStatus.ContainerName.Value, _dMoveOut, cDataPoint);
@@ -185,6 +185,13 @@ namespace VisualCheckingGUI
                                 ? VisualCheckingState.ScanUnitSerialNumber
                                 : VisualCheckingState.MoveInOkMoveFail);
                             break;
+                        }
+                        // check if fail by maintenance Past Due
+                        var transPastDue = Mes.GetMaintenancePastDue(_mesData.MaintenanceStatusDetails);
+                        if (transPastDue.Result)
+                        {
+                            KryptonMessageBox.Show(this, "This resource under maintenance, need to complete!", "Move In",
+                                MessageBoxButtons.OK, MessageBoxIcon.Error);
                         }
                         await SetVisualCheckingState(VisualCheckingState.MoveInFail);
                         break;
@@ -247,6 +254,7 @@ namespace VisualCheckingGUI
                 var maintenanceStatusDetails = await Mes.GetMaintenanceStatusDetails(_mesData);
                 if (maintenanceStatusDetails != null)
                 {
+                    _mesData.SetMaintenanceStatusDetails(maintenanceStatusDetails);
                     Dg_Maintenance.DataSource = maintenanceStatusDetails;
                     Dg_Maintenance.Columns["Due"].Visible = false;
                     Dg_Maintenance.Columns["Warning"].Visible = false;
@@ -391,17 +399,21 @@ namespace VisualCheckingGUI
             var transactionListGroup = await Mes.GetContainerDefectReasonGroup(_mesData, "Visual Checking Fail");
             if (transactionListGroup.Result)
             {
-                var listGroup = (ContDefectReasonGroupChanges) transactionListGroup.Data;
+                var lastGroupHeight = 0;
+                   var listGroup = (ContDefectReasonGroupChanges) transactionListGroup.Data;
                 foreach (var listGroupGroup in listGroup.Groups)
                 {
-                    var page = new KryptonPage(listGroupGroup.Name);
-                    page.AutoScroll = true;
+                    var page = new GroupBox();
+                    page.Top = lastGroupHeight + 5;
+                    page.Width = panelReason.Width;
+                    page.Text = listGroupGroup.Name;
+                    //page. = true;
                     var transReasonByGroup = await Mes.GetContainerDefectReasonGroup(_mesData, listGroupGroup.Name);
                     if (transReasonByGroup.Result)
                     {
                         var listReasonByGroup = (ContDefectReasonGroupChanges)transReasonByGroup.Data;
                         var left = 5;
-                        var top = 5;
+                        var top = 15;
                         foreach (var reason in listReasonByGroup.Entries)
                         {
                             index++;
@@ -410,42 +422,46 @@ namespace VisualCheckingGUI
                                 var split = reason.Name.Split('-');
                                    var grp = split[0].Trim(' ', '\r', '\n');
                                
-                                    var cb = new CheckBox();
+                                    var cb = new RoundCheckbox();
                                     cb.TabIndex = index;
-                                    cb.Font = new Font("Segoe UI", 14);
+                                    cb.Font = new Font("Segoe UI", 9);
                                     cb.AutoSize = true;
                                     cb.Text = split[1].Trim(' ', '\r', '\n');
                                     cb.Appearance = Appearance.Button;
                                     cb.FlatStyle = FlatStyle.Flat;
-                                    cb.BackColor = Color.LightGray;
-                                 cb.FlatAppearance.CheckedBackColor = Color.Red;
-
-                                var exist = _vcNgReason.Level3Group.Where(x => x == grp + " - ").ToList();
+                                    cb.BackColor = Color.FromArgb(0xDE,0xEA,0xF8);
+                                    cb.FlatAppearance.CheckedBackColor = Color.Red;
+                                    cb.FlatAppearance.BorderSize = 0;
+                                    
+                                    var exist = _vcNgReason.Level3Group.Where(x => x == grp + " - ").ToList();
                                     if (exist.Count <= 0)
                                     {
                                         _vcNgReason.Level3Group.Add(grp + " - ");
-                                        var cbGroup = new CheckBox();
+                                        var cbGroup = new RoundCheckbox();
                                         cbGroup.TabIndex = cb.TabIndex;
                                         cbGroup.AutoSize = true;
-                                        cbGroup.Font = new Font("Segoe UI", 14);
+                                        cbGroup.Font = new Font("Segoe UI", 9);
                                         cbGroup.Text = grp;
                                         cbGroup.Appearance = Appearance.Button;
                                         cbGroup.FlatStyle = FlatStyle.Flat;
-                                        cbGroup.BackColor = Color.LightGray;
+                                        cbGroup.BackColor = Color.FromArgb(0xDE, 0xEA, 0xF8);
                                         cbGroup.FlatAppearance.CheckedBackColor = Color.Red;
+                                        cbGroup.FlatAppearance.BorderSize = 0;
                                         cbGroup.AutoCheck = false;
-                                        if (left + cbGroup.Width + 5 > kryptonNavigator2.Width - 100)
+                                        
+                                        if (left + cbGroup.Width + 10 > panelReason.Width - 100)
                                         {
                                             left = 5;
-                                            top += cbGroup.Height + 15;
+                                            top += cbGroup.Height + 10;
                                         }
+                                        page.Height = top + cbGroup.Height + 10;
                                         cbGroup.Left = left;
                                         cbGroup.Top = top;
 
                                         cbGroup.Click += CbReasonClickLevel3;
                                         page.Controls.Add(cbGroup);
                                         _vcNgReason.Level3CheckBoxes.Add(cbGroup);
-                                        left += cbGroup.Width + 5;
+                                        left += cbGroup.Width + 10;
                                     }
                                    
                                   
@@ -454,27 +470,29 @@ namespace VisualCheckingGUI
                             }
                             else
                             {
-                                var cb = new CheckBox();
+                                var cb = new RoundCheckbox();
                                 cb.TabIndex = index;
-                                cb.Font = new Font("Segoe UI", 14);
+                                cb.Font = new Font("Segoe UI", 9);
                                 cb.AutoSize = true;
                                 cb.Text = reason.Name;
                                 cb.Appearance = Appearance.Button;
                                 cb.FlatStyle = FlatStyle.Flat;
-                                cb.BackColor = Color.LightGray;
+                                cb.BackColor = Color.FromArgb(0xDE, 0xEA, 0xF8);
                                 cb.CheckedChanged += CbReasonChanged;
                                 cb.FlatAppearance.CheckedBackColor = Color.Red;
+                                cb.FlatAppearance.BorderSize = 0;
                                 cb.Refresh();
-                                if (left + cb.Width + 5 > kryptonNavigator2.Width - 100)
+                                if (left + cb.Width + 10 > panelReason.Width - 100)
                                 {
                                     left = 5;
-                                    top += cb.Height + 15;
+                                    top += cb.Height + 10;
                                 }
                                 cb.Left = left;
                                 cb.Top = top;
+                                page.Height = top + cb.Height + 10;
 
                                 page.Controls.Add(cb);
-                                left += cb.Width + 5;
+                                left += cb.Width + 10;
                                 var ngReason = new NgReason(index, listGroupGroup.Name, reason.Name, cb);
                                 _vcNgReason.NgReasons.Add(ngReason);
                             }
@@ -482,7 +500,8 @@ namespace VisualCheckingGUI
                         }
                       
                     }
-                    kryptonNavigator2.Pages.Add(page);
+                    panelReason.Controls.Add(page);
+                    lastGroupHeight =page.Top + page.Height;
                 }
 
             }
@@ -497,7 +516,7 @@ namespace VisualCheckingGUI
                 var dialog = frm.ShowDialog();
                 cb.Checked = dialog != DialogResult.Cancel;
             }
-            cb.BackColor = cb.Checked ? Color.Red : Color.LightGray;
+            //cb.BackColor = cb.Checked ? Color.Red : Color.LightGray;
         }
 
         private void ResetNgReason()
@@ -534,7 +553,7 @@ namespace VisualCheckingGUI
         private void CbReasonChanged(object sender, EventArgs e)
         {
             var cb = (CheckBox) sender;
-            cb.BackColor = cb.Checked ? Color.Red : Color.LightGray;
+           // cb.BackColor = cb.Checked ? Color.Red : Color.LightGray;
         }
 
         private async void TimerRealtime_Tick(object sender, EventArgs e)
@@ -590,6 +609,7 @@ namespace VisualCheckingGUI
             Tb_Product.Clear();
             Tb_ProductDesc.Clear();
             Tb_VisualQty.Clear();
+            Tb_FinishedGoodCounter.Clear();
             pictureBox1.ImageLocation = null;
             ClrContainer();
         }
@@ -800,7 +820,7 @@ namespace VisualCheckingGUI
 
         private async void btnFail_Click(object sender, EventArgs e)
         {
-            kryptonNavigator2.Visible = true;
+            panelReason.Visible = true;
             await SetVisualCheckingState(VisualCheckingState.FailReason);
             _containerResult = ResultString.False;
             btnSubmit.Visible = true;
@@ -811,5 +831,9 @@ namespace VisualCheckingGUI
            
         }
 
+        private void panelReason_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
     }
 }
