@@ -41,6 +41,39 @@ namespace VisualCheckingGUI
             kryptonNavigator1.SelectedIndex = 0;
 
             EventLogUtil.LogEvent("Application Start");
+
+            var maintStrings = new[] { "Resource", "MaintenanceType", "MaintenanceReq", "NextDateDue", "NextThruputQtyDue", "MaintenanceState" };
+            for (int i = 0; i < Dg_Maintenance.Columns.Count; i++)
+            {
+                if (!maintStrings.Contains(Dg_Maintenance.Columns[i].DataPropertyName))
+                {
+                    Dg_Maintenance.Columns[i].Visible = false;
+                }
+                else
+                {
+                    switch (Dg_Maintenance.Columns[i].HeaderText)
+                    {
+
+                        case "MaintenanceType":
+                            Dg_Maintenance.Columns[i].HeaderText = @"Maintenance Type";
+                            break;
+                        case "MaintenanceReq":
+                            Dg_Maintenance.Columns[i].HeaderText = @"Maintenance Requirement";
+                            break;
+                        case "NextDateDue":
+                            Dg_Maintenance.Columns[i].HeaderText = @"Next Due Date";
+                            break;
+                        case "NextThruputQtyDue":
+                            Dg_Maintenance.Columns[i].HeaderText = @"Next Thruput Quantity Due";
+                            break;
+                        case "MaintenanceState":
+                            Dg_Maintenance.Columns[i].HeaderText = @"Maintenance State";
+                            _indexMaintenanceState = Dg_Maintenance.Columns[i].Index;
+                            break;
+                    }
+
+                }
+            }
         }
 
         public sealed override string Text
@@ -167,14 +200,13 @@ namespace VisualCheckingGUI
                             var resultMoveStd = await Mes.ExecuteMoveStandard(_mesData, oContainerStatus.ContainerName.Value, _dMoveOut, cDataPoint);
                             if (resultMoveStd.Result)
                             {
-                                var reason = GetReasonAttribute();
-                                if (reason.Count > 1)
+                                if (_containerResult == ResultString.False)
                                 {
-                                    await Mes.ExecuteContainerAttrMaint(_mesData, oContainerStatus.ContainerName.Value,
-                                        reason.ToArray());
-                                }
-                                    //Update Counter
-                                    await Mes.UpdateCounter(_mesData, 1);
+                                    var reason = GetReasonAttribute();
+                                    await Mes.ExecuteContainerAttrMaint(_mesData, oContainerStatus, reason.ToArray());
+                                } //Update Counter
+
+                                await Mes.UpdateCounter(_mesData, 1);
                                     var mfg = await Mes.GetMfgOrder(_mesData,
                                         _mesData.ManufacturingOrder.Name.Value);
                                     _mesData.SetManufacturingOrder(mfg);
@@ -249,49 +281,26 @@ namespace VisualCheckingGUI
 
         private async Task GetStatusMaintenanceDetails()
         {
-            try
-            {
-                var maintenanceStatusDetails = await Mes.GetMaintenanceStatusDetails(_mesData);
-                if (maintenanceStatusDetails != null)
+           
+                try
                 {
+                    var maintenanceStatusDetails = await Mes.GetMaintenanceStatusDetails(_mesData);
                     _mesData.SetMaintenanceStatusDetails(maintenanceStatusDetails);
-                    Dg_Maintenance.DataSource = maintenanceStatusDetails;
-                    Dg_Maintenance.Columns["Due"].Visible = false;
-                    Dg_Maintenance.Columns["Warning"].Visible = false;
-                    Dg_Maintenance.Columns["PastDue"].Visible = false;
-                    Dg_Maintenance.Columns["MaintenanceReqName"].Visible = false;
-                    Dg_Maintenance.Columns["MaintenanceReqDisplayName"].Visible = false;
-                    Dg_Maintenance.Columns["ResourceStatusCodeName"].Visible = false;
-                    Dg_Maintenance.Columns["UOMName"].Visible = false;
-                    Dg_Maintenance.Columns["ResourceName"].Visible = false;
-                    Dg_Maintenance.Columns["UOM2Name"].Visible = false;
-                    Dg_Maintenance.Columns["MaintenanceReqRev"].Visible = false;
-                    Dg_Maintenance.Columns["NextThruputQty2Warning"].Visible = false;
-                    Dg_Maintenance.Columns["NextThruputQty2Limit"].Visible = false;
-                    Dg_Maintenance.Columns["UOM2"].Visible = false;
-                    Dg_Maintenance.Columns["ThruputQty2"].Visible = false;
-                    Dg_Maintenance.Columns["Resource"].Visible = false;
-                    Dg_Maintenance.Columns["ResourceStatusCode"].Visible = false;
-                    Dg_Maintenance.Columns["NextThruputQty2Due"].Visible = false;
-                    Dg_Maintenance.Columns["MaintenanceClassName"].Visible = false;
-                    Dg_Maintenance.Columns["MaintenanceStatus"].Visible = false;
-                    Dg_Maintenance.Columns["ExportImportKey"].Visible = false;
-                    Dg_Maintenance.Columns["DisplayName"].Visible = false;
-                    Dg_Maintenance.Columns["Self"].Visible = false;
-                    Dg_Maintenance.Columns["IsEmpty"].Visible = false;
-                    Dg_Maintenance.Columns["FieldAction"].Visible = false;
-                    Dg_Maintenance.Columns["IgnoreTypeDifference"].Visible = false;
-                    Dg_Maintenance.Columns["ListItemAction"].Visible = false;
-                    Dg_Maintenance.Columns["ListItemIndex"].Visible = false;
-                    Dg_Maintenance.Columns["CDOTypeName"].Visible = false;
-                    Dg_Maintenance.Columns["key"].Visible = false;
+                    if (maintenanceStatusDetails != null)
+                    {
+                        getMaintenanceStatusDetailsBindingSource.DataSource =
+                            new BindingList<GetMaintenanceStatusDetails>(maintenanceStatusDetails);
+                        Dg_Maintenance.DataSource = getMaintenanceStatusDetailsBindingSource;
+                        return;
+                    }
+                    getMaintenanceStatusDetailsBindingSource.Clear();
                 }
-            }
-            catch (Exception ex)
-            {
-                ex.Source = AppSettings.AssemblyName == ex.Source ? MethodBase.GetCurrentMethod()?.Name : MethodBase.GetCurrentMethod()?.Name + "." + ex.Source;
-                EventLogUtil.LogErrorEvent(ex.Source, ex);
-            }
+                catch (Exception ex)
+                {
+                    ex.Source = AppSettings.AssemblyName == ex.Source ? MethodBase.GetCurrentMethod()?.Name : MethodBase.GetCurrentMethod()?.Name + "." + ex.Source;
+                    EventLogUtil.LogErrorEvent(ex.Source, ex);
+                }
+           
         }
         private async Task GetStatusOfResource()
         {
@@ -529,7 +538,7 @@ namespace VisualCheckingGUI
             foreach (var cb in _vcNgReason.Level3CheckBoxes)
             {
                 cb.Checked = false;
-                cb.BackColor = Color.LightGray;
+                cb.BackColor = Color.FromArgb(0xDE, 0xEA, 0xF8);
             }
         }
 
@@ -543,7 +552,7 @@ namespace VisualCheckingGUI
             {
                 if (ngReason.CheckBox.Checked)
                 {
-                    var attribute = new ContainerAttrDetail { Name = $"defectVC{index++}", DataType = TrivialTypeEnum.String, AttributeValue = ngReason.Reason, IsExpression = false };
+                    var attribute = new ContainerAttrDetail { Name = $"defectVC{++index}", DataType = TrivialTypeEnum.String, AttributeValue = ngReason.Reason, IsExpression = false };
                     d.Add(attribute);
                 }
             }
@@ -570,7 +579,8 @@ namespace VisualCheckingGUI
 
         private bool _readScanner;
         private bool _ignoreScanner;
-        
+        private readonly int _indexMaintenanceState;
+
 
         private async void Tb_Scanner_KeyUp(object sender, KeyEventArgs e)
         {
@@ -698,7 +708,7 @@ namespace VisualCheckingGUI
             }
         }
       
-        private void kryptonNavigator1_Selecting(object sender, ComponentFactory.Krypton.Navigator.KryptonPageCancelEventArgs e)
+        private void kryptonNavigator1_Selecting(object sender, KryptonPageCancelEventArgs e)
         {
             if (e.Index != 1 && e.Index != 2) return;
 
@@ -790,34 +800,7 @@ namespace VisualCheckingGUI
             btnSubmit.Visible = true;
         }
 
-        private void Dg_Maintenance_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
-        {
-            try
-            {
-                foreach (DataGridViewRow row in Dg_Maintenance.Rows)
-                {
-                    //Console.WriteLine(Convert.ToString(row.Cells["MaintenanceState"].Value));
-                    if (Convert.ToString(row.Cells["MaintenanceState"].Value) == "Pending")
-                    {
-                        row.DefaultCellStyle.BackColor = Color.Yellow;
-                    }
-                    else if (Convert.ToString(row.Cells["MaintenanceState"].Value) == "Due")
-                    {
-                        row.DefaultCellStyle.BackColor = Color.Orange;
-                    }
-                    else if (Convert.ToString(row.Cells["MaintenanceState"].Value) == "Past Due")
-                    {
-                        row.DefaultCellStyle.BackColor = Color.Red;
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                ex.Source = AppSettings.AssemblyName == ex.Source ? MethodBase.GetCurrentMethod()?.Name : MethodBase.GetCurrentMethod()?.Name + "." + ex.Source;
-                EventLogUtil.LogErrorEvent(ex.Source, ex);
-            }
-        }
-
+     
         private async void btnFail_Click(object sender, EventArgs e)
         {
             panelReason.Visible = true;
@@ -834,6 +817,34 @@ namespace VisualCheckingGUI
         private void panelReason_Paint(object sender, PaintEventArgs e)
         {
 
+        }
+
+        private void Dg_Maintenance_DataBindingComplete(object sender, DataGridViewBindingCompleteEventArgs e)
+        {
+            try
+            {
+                foreach (DataGridViewRow row in Dg_Maintenance.Rows)
+                {
+                    switch (Convert.ToString(row.Cells[_indexMaintenanceState].Value))
+                    {
+                        //Console.WriteLine(Convert.ToString(row.Cells["MaintenanceState"].Value));
+                        case "Pending":
+                            row.DefaultCellStyle.BackColor = Color.Yellow;
+                            break;
+                        case "Due":
+                            row.DefaultCellStyle.BackColor = Color.Orange;
+                            break;
+                        case "Past Due":
+                            row.DefaultCellStyle.BackColor = Color.Red;
+                            break;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                ex.Source = AppSettings.AssemblyName == ex.Source ? MethodBase.GetCurrentMethod()?.Name : MethodBase.GetCurrentMethod()?.Name + "." + ex.Source;
+                EventLogUtil.LogErrorEvent(ex.Source, ex);
+            }
         }
     }
 }

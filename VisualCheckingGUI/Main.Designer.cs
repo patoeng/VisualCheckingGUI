@@ -70,6 +70,53 @@ namespace VisualCheckingGUI
             this.kryptonButton1 = new ComponentFactory.Krypton.Toolkit.KryptonButton();
             this.Cb_StatusReason = new ComponentFactory.Krypton.Toolkit.KryptonComboBox();
             this.Dg_Maintenance = new ComponentFactory.Krypton.Toolkit.KryptonDataGridView();
+            this.resourceDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.maintenanceTypeDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.maintenanceReqDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.nextDateDueDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.nextThruputQtyDueDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.maintenanceReqRevDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dueDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.pastDueDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.completedDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.warningDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.nextThruputQtyLimitDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.resourceStatusCodeDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.thruputQtyDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.nextThruputQtyWarningDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.maintenanceStatusDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.maintenanceClassDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.maintenanceStateDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.availabilityDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.maintenanceReqDisplayNameDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.uOM2NameDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.resourceNameDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.maintenanceReqNameDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.uOMNameDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.resourceStatusCodeNameDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.maintenanceClassNameDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.nextDateWarningDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.nextDateLimitDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.nextThruputQty2LimitDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.thruputQty2DataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.uOM2DataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.nextDateLimitGMTDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.nextDateWarningGMTDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.nextThruputQty2DueDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.nextThruputQty2WarningDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.uOMDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.nextDateDueGMTDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.exportImportKeyDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.displayNameDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.selfDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.isEmptyDataGridViewCheckBoxColumn = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.fieldActionDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ignoreTypeDifferenceDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.listItemActionDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.listItemIndexDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.keyDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.cDOTypeNameDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.getMaintenanceStatusDetailsBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.kryptonPage3 = new ComponentFactory.Krypton.Navigator.KryptonPage();
             this.tableLayoutPanel6 = new System.Windows.Forms.TableLayoutPanel();
             this.kryptonPanel10 = new ComponentFactory.Krypton.Toolkit.KryptonPanel();
@@ -145,6 +192,7 @@ namespace VisualCheckingGUI
             ((System.ComponentModel.ISupportInitialize)(this.Cb_StatusCode)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.Cb_StatusReason)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.Dg_Maintenance)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.getMaintenanceStatusDetailsBindingSource)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonPage3)).BeginInit();
             this.kryptonPage3.SuspendLayout();
             this.tableLayoutPanel6.SuspendLayout();
@@ -890,6 +938,7 @@ namespace VisualCheckingGUI
             this.panelPassFail.StateNormal.Color1 = System.Drawing.Color.White;
             this.panelPassFail.StateNormal.Color2 = System.Drawing.Color.White;
             this.panelPassFail.TabIndex = 1;
+            this.panelPassFail.Visible = false;
             // 
             // panelReason
             // 
@@ -900,6 +949,7 @@ namespace VisualCheckingGUI
             this.panelReason.Name = "panelReason";
             this.panelReason.Size = new System.Drawing.Size(864, 321);
             this.panelReason.TabIndex = 104;
+            this.panelReason.Visible = false;
             this.panelReason.Paint += new System.Windows.Forms.PaintEventHandler(this.panelReason_Paint);
             // 
             // btnFail
@@ -948,8 +998,8 @@ namespace VisualCheckingGUI
             | ComponentFactory.Krypton.Toolkit.PaletteDrawBorders.Right)));
             this.btnFail.StatePressed.Border.Rounding = 0;
             this.btnFail.StatePressed.Border.Width = 1;
-            this.btnFail.StateTracking.Back.Color1 = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.btnFail.StateTracking.Back.Color2 = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.btnFail.StateTracking.Back.Color1 = System.Drawing.Color.Red;
+            this.btnFail.StateTracking.Back.Color2 = System.Drawing.Color.Red;
             this.btnFail.StateTracking.Back.ColorAngle = 45F;
             this.btnFail.StateTracking.Border.Color1 = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
             this.btnFail.StateTracking.Border.Color2 = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
@@ -1010,8 +1060,8 @@ namespace VisualCheckingGUI
             | ComponentFactory.Krypton.Toolkit.PaletteDrawBorders.Right)));
             this.btnPass.StatePressed.Border.Rounding = 0;
             this.btnPass.StatePressed.Border.Width = 1;
-            this.btnPass.StateTracking.Back.Color1 = System.Drawing.Color.FromArgb(((int)(((byte)(59)))), ((int)(((byte)(143)))), ((int)(((byte)(81)))));
-            this.btnPass.StateTracking.Back.Color2 = System.Drawing.Color.FromArgb(((int)(((byte)(59)))), ((int)(((byte)(143)))), ((int)(((byte)(81)))));
+            this.btnPass.StateTracking.Back.Color1 = System.Drawing.Color.Lime;
+            this.btnPass.StateTracking.Back.Color2 = System.Drawing.Color.Lime;
             this.btnPass.StateTracking.Back.ColorAngle = 45F;
             this.btnPass.StateTracking.Border.Color1 = System.Drawing.Color.YellowGreen;
             this.btnPass.StateTracking.Border.Color2 = System.Drawing.Color.YellowGreen;
@@ -1047,7 +1097,7 @@ namespace VisualCheckingGUI
             this.kryptonPage2.LastVisibleSet = true;
             this.kryptonPage2.MinimumSize = new System.Drawing.Size(50, 50);
             this.kryptonPage2.Name = "kryptonPage2";
-            this.kryptonPage2.Size = new System.Drawing.Size(870, 515);
+            this.kryptonPage2.Size = new System.Drawing.Size(870, 567);
             this.kryptonPage2.Text = "Machine Status";
             this.kryptonPage2.ToolTipTitle = "Page ToolTip";
             this.kryptonPage2.UniqueName = "A9D5235342774A400794C8B7FCD02899";
@@ -1264,12 +1314,63 @@ namespace VisualCheckingGUI
             // 
             // Dg_Maintenance
             // 
-            this.Dg_Maintenance.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.Dg_Maintenance.Location = new System.Drawing.Point(3, 151);
+            this.Dg_Maintenance.AllowUserToAddRows = false;
+            this.Dg_Maintenance.AutoGenerateColumns = false;
+            this.Dg_Maintenance.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells;
+            this.Dg_Maintenance.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.resourceDataGridViewTextBoxColumn,
+            this.maintenanceTypeDataGridViewTextBoxColumn,
+            this.maintenanceReqDataGridViewTextBoxColumn,
+            this.nextDateDueDataGridViewTextBoxColumn,
+            this.nextThruputQtyDueDataGridViewTextBoxColumn,
+            this.maintenanceReqRevDataGridViewTextBoxColumn,
+            this.dueDataGridViewTextBoxColumn,
+            this.pastDueDataGridViewTextBoxColumn,
+            this.completedDataGridViewTextBoxColumn,
+            this.warningDataGridViewTextBoxColumn,
+            this.nextThruputQtyLimitDataGridViewTextBoxColumn,
+            this.resourceStatusCodeDataGridViewTextBoxColumn,
+            this.thruputQtyDataGridViewTextBoxColumn,
+            this.nextThruputQtyWarningDataGridViewTextBoxColumn,
+            this.maintenanceStatusDataGridViewTextBoxColumn,
+            this.maintenanceClassDataGridViewTextBoxColumn,
+            this.maintenanceStateDataGridViewTextBoxColumn,
+            this.availabilityDataGridViewTextBoxColumn,
+            this.maintenanceReqDisplayNameDataGridViewTextBoxColumn,
+            this.uOM2NameDataGridViewTextBoxColumn,
+            this.resourceNameDataGridViewTextBoxColumn,
+            this.maintenanceReqNameDataGridViewTextBoxColumn,
+            this.uOMNameDataGridViewTextBoxColumn,
+            this.resourceStatusCodeNameDataGridViewTextBoxColumn,
+            this.maintenanceClassNameDataGridViewTextBoxColumn,
+            this.nextDateWarningDataGridViewTextBoxColumn,
+            this.nextDateLimitDataGridViewTextBoxColumn,
+            this.nextThruputQty2LimitDataGridViewTextBoxColumn,
+            this.thruputQty2DataGridViewTextBoxColumn,
+            this.uOM2DataGridViewTextBoxColumn,
+            this.nextDateLimitGMTDataGridViewTextBoxColumn,
+            this.nextDateWarningGMTDataGridViewTextBoxColumn,
+            this.nextThruputQty2DueDataGridViewTextBoxColumn,
+            this.nextThruputQty2WarningDataGridViewTextBoxColumn,
+            this.uOMDataGridViewTextBoxColumn,
+            this.nextDateDueGMTDataGridViewTextBoxColumn,
+            this.exportImportKeyDataGridViewTextBoxColumn,
+            this.displayNameDataGridViewTextBoxColumn,
+            this.selfDataGridViewTextBoxColumn,
+            this.isEmptyDataGridViewCheckBoxColumn,
+            this.fieldActionDataGridViewTextBoxColumn,
+            this.ignoreTypeDifferenceDataGridViewTextBoxColumn,
+            this.listItemActionDataGridViewTextBoxColumn,
+            this.listItemIndexDataGridViewTextBoxColumn,
+            this.keyDataGridViewTextBoxColumn,
+            this.cDOTypeNameDataGridViewTextBoxColumn});
+            this.Dg_Maintenance.DataSource = this.getMaintenanceStatusDetailsBindingSource;
+            this.Dg_Maintenance.Location = new System.Drawing.Point(3, 144);
             this.Dg_Maintenance.Margin = new System.Windows.Forms.Padding(6);
             this.Dg_Maintenance.Name = "Dg_Maintenance";
+            this.Dg_Maintenance.ReadOnly = true;
             this.Dg_Maintenance.RowHeadersWidth = 51;
-            this.Dg_Maintenance.Size = new System.Drawing.Size(757, 354);
+            this.Dg_Maintenance.Size = new System.Drawing.Size(861, 423);
             this.Dg_Maintenance.StateCommon.Background.Color1 = System.Drawing.Color.White;
             this.Dg_Maintenance.StateCommon.Background.Color2 = System.Drawing.Color.White;
             this.Dg_Maintenance.StateCommon.Background.GraphicsHint = ComponentFactory.Krypton.Toolkit.PaletteGraphicsHint.AntiAlias;
@@ -1302,7 +1403,380 @@ namespace VisualCheckingGUI
             | ComponentFactory.Krypton.Toolkit.PaletteDrawBorders.Right)));
             this.Dg_Maintenance.StateNormal.DataCell.Border.GraphicsHint = ComponentFactory.Krypton.Toolkit.PaletteGraphicsHint.AntiAlias;
             this.Dg_Maintenance.TabIndex = 64;
-            this.Dg_Maintenance.CellFormatting += new System.Windows.Forms.DataGridViewCellFormattingEventHandler(this.Dg_Maintenance_CellFormatting);
+            this.Dg_Maintenance.DataBindingComplete += new System.Windows.Forms.DataGridViewBindingCompleteEventHandler(this.Dg_Maintenance_DataBindingComplete);
+            // 
+            // resourceDataGridViewTextBoxColumn
+            // 
+            this.resourceDataGridViewTextBoxColumn.DataPropertyName = "Resource";
+            this.resourceDataGridViewTextBoxColumn.HeaderText = "Resource";
+            this.resourceDataGridViewTextBoxColumn.Name = "resourceDataGridViewTextBoxColumn";
+            this.resourceDataGridViewTextBoxColumn.ReadOnly = true;
+            this.resourceDataGridViewTextBoxColumn.Width = 84;
+            // 
+            // maintenanceTypeDataGridViewTextBoxColumn
+            // 
+            this.maintenanceTypeDataGridViewTextBoxColumn.DataPropertyName = "MaintenanceType";
+            this.maintenanceTypeDataGridViewTextBoxColumn.HeaderText = "MaintenanceType";
+            this.maintenanceTypeDataGridViewTextBoxColumn.Name = "maintenanceTypeDataGridViewTextBoxColumn";
+            this.maintenanceTypeDataGridViewTextBoxColumn.ReadOnly = true;
+            this.maintenanceTypeDataGridViewTextBoxColumn.Width = 129;
+            // 
+            // maintenanceReqDataGridViewTextBoxColumn
+            // 
+            this.maintenanceReqDataGridViewTextBoxColumn.DataPropertyName = "MaintenanceReq";
+            this.maintenanceReqDataGridViewTextBoxColumn.HeaderText = "MaintenanceReq";
+            this.maintenanceReqDataGridViewTextBoxColumn.Name = "maintenanceReqDataGridViewTextBoxColumn";
+            this.maintenanceReqDataGridViewTextBoxColumn.ReadOnly = true;
+            this.maintenanceReqDataGridViewTextBoxColumn.Width = 125;
+            // 
+            // nextDateDueDataGridViewTextBoxColumn
+            // 
+            this.nextDateDueDataGridViewTextBoxColumn.DataPropertyName = "NextDateDue";
+            this.nextDateDueDataGridViewTextBoxColumn.HeaderText = "NextDateDue";
+            this.nextDateDueDataGridViewTextBoxColumn.Name = "nextDateDueDataGridViewTextBoxColumn";
+            this.nextDateDueDataGridViewTextBoxColumn.ReadOnly = true;
+            this.nextDateDueDataGridViewTextBoxColumn.Width = 106;
+            // 
+            // nextThruputQtyDueDataGridViewTextBoxColumn
+            // 
+            this.nextThruputQtyDueDataGridViewTextBoxColumn.DataPropertyName = "NextThruputQtyDue";
+            this.nextThruputQtyDueDataGridViewTextBoxColumn.HeaderText = "NextThruputQtyDue";
+            this.nextThruputQtyDueDataGridViewTextBoxColumn.Name = "nextThruputQtyDueDataGridViewTextBoxColumn";
+            this.nextThruputQtyDueDataGridViewTextBoxColumn.ReadOnly = true;
+            this.nextThruputQtyDueDataGridViewTextBoxColumn.Width = 143;
+            // 
+            // maintenanceReqRevDataGridViewTextBoxColumn
+            // 
+            this.maintenanceReqRevDataGridViewTextBoxColumn.DataPropertyName = "MaintenanceReqRev";
+            this.maintenanceReqRevDataGridViewTextBoxColumn.HeaderText = "MaintenanceReqRev";
+            this.maintenanceReqRevDataGridViewTextBoxColumn.Name = "maintenanceReqRevDataGridViewTextBoxColumn";
+            this.maintenanceReqRevDataGridViewTextBoxColumn.ReadOnly = true;
+            this.maintenanceReqRevDataGridViewTextBoxColumn.Width = 144;
+            // 
+            // dueDataGridViewTextBoxColumn
+            // 
+            this.dueDataGridViewTextBoxColumn.DataPropertyName = "Due";
+            this.dueDataGridViewTextBoxColumn.HeaderText = "Due";
+            this.dueDataGridViewTextBoxColumn.Name = "dueDataGridViewTextBoxColumn";
+            this.dueDataGridViewTextBoxColumn.ReadOnly = true;
+            this.dueDataGridViewTextBoxColumn.Width = 57;
+            // 
+            // pastDueDataGridViewTextBoxColumn
+            // 
+            this.pastDueDataGridViewTextBoxColumn.DataPropertyName = "PastDue";
+            this.pastDueDataGridViewTextBoxColumn.HeaderText = "PastDue";
+            this.pastDueDataGridViewTextBoxColumn.Name = "pastDueDataGridViewTextBoxColumn";
+            this.pastDueDataGridViewTextBoxColumn.ReadOnly = true;
+            this.pastDueDataGridViewTextBoxColumn.Width = 79;
+            // 
+            // completedDataGridViewTextBoxColumn
+            // 
+            this.completedDataGridViewTextBoxColumn.DataPropertyName = "Completed";
+            this.completedDataGridViewTextBoxColumn.HeaderText = "Completed";
+            this.completedDataGridViewTextBoxColumn.Name = "completedDataGridViewTextBoxColumn";
+            this.completedDataGridViewTextBoxColumn.ReadOnly = true;
+            this.completedDataGridViewTextBoxColumn.Width = 95;
+            // 
+            // warningDataGridViewTextBoxColumn
+            // 
+            this.warningDataGridViewTextBoxColumn.DataPropertyName = "Warning";
+            this.warningDataGridViewTextBoxColumn.HeaderText = "Warning";
+            this.warningDataGridViewTextBoxColumn.Name = "warningDataGridViewTextBoxColumn";
+            this.warningDataGridViewTextBoxColumn.ReadOnly = true;
+            this.warningDataGridViewTextBoxColumn.Width = 81;
+            // 
+            // nextThruputQtyLimitDataGridViewTextBoxColumn
+            // 
+            this.nextThruputQtyLimitDataGridViewTextBoxColumn.DataPropertyName = "NextThruputQtyLimit";
+            this.nextThruputQtyLimitDataGridViewTextBoxColumn.HeaderText = "NextThruputQtyLimit";
+            this.nextThruputQtyLimitDataGridViewTextBoxColumn.Name = "nextThruputQtyLimitDataGridViewTextBoxColumn";
+            this.nextThruputQtyLimitDataGridViewTextBoxColumn.ReadOnly = true;
+            this.nextThruputQtyLimitDataGridViewTextBoxColumn.Width = 149;
+            // 
+            // resourceStatusCodeDataGridViewTextBoxColumn
+            // 
+            this.resourceStatusCodeDataGridViewTextBoxColumn.DataPropertyName = "ResourceStatusCode";
+            this.resourceStatusCodeDataGridViewTextBoxColumn.HeaderText = "ResourceStatusCode";
+            this.resourceStatusCodeDataGridViewTextBoxColumn.Name = "resourceStatusCodeDataGridViewTextBoxColumn";
+            this.resourceStatusCodeDataGridViewTextBoxColumn.ReadOnly = true;
+            this.resourceStatusCodeDataGridViewTextBoxColumn.Width = 144;
+            // 
+            // thruputQtyDataGridViewTextBoxColumn
+            // 
+            this.thruputQtyDataGridViewTextBoxColumn.DataPropertyName = "ThruputQty";
+            this.thruputQtyDataGridViewTextBoxColumn.HeaderText = "ThruputQty";
+            this.thruputQtyDataGridViewTextBoxColumn.Name = "thruputQtyDataGridViewTextBoxColumn";
+            this.thruputQtyDataGridViewTextBoxColumn.ReadOnly = true;
+            this.thruputQtyDataGridViewTextBoxColumn.Width = 97;
+            // 
+            // nextThruputQtyWarningDataGridViewTextBoxColumn
+            // 
+            this.nextThruputQtyWarningDataGridViewTextBoxColumn.DataPropertyName = "NextThruputQtyWarning";
+            this.nextThruputQtyWarningDataGridViewTextBoxColumn.HeaderText = "NextThruputQtyWarning";
+            this.nextThruputQtyWarningDataGridViewTextBoxColumn.Name = "nextThruputQtyWarningDataGridViewTextBoxColumn";
+            this.nextThruputQtyWarningDataGridViewTextBoxColumn.ReadOnly = true;
+            this.nextThruputQtyWarningDataGridViewTextBoxColumn.Width = 167;
+            // 
+            // maintenanceStatusDataGridViewTextBoxColumn
+            // 
+            this.maintenanceStatusDataGridViewTextBoxColumn.DataPropertyName = "MaintenanceStatus";
+            this.maintenanceStatusDataGridViewTextBoxColumn.HeaderText = "MaintenanceStatus";
+            this.maintenanceStatusDataGridViewTextBoxColumn.Name = "maintenanceStatusDataGridViewTextBoxColumn";
+            this.maintenanceStatusDataGridViewTextBoxColumn.ReadOnly = true;
+            this.maintenanceStatusDataGridViewTextBoxColumn.Width = 137;
+            // 
+            // maintenanceClassDataGridViewTextBoxColumn
+            // 
+            this.maintenanceClassDataGridViewTextBoxColumn.DataPropertyName = "MaintenanceClass";
+            this.maintenanceClassDataGridViewTextBoxColumn.HeaderText = "MaintenanceClass";
+            this.maintenanceClassDataGridViewTextBoxColumn.Name = "maintenanceClassDataGridViewTextBoxColumn";
+            this.maintenanceClassDataGridViewTextBoxColumn.ReadOnly = true;
+            this.maintenanceClassDataGridViewTextBoxColumn.Width = 132;
+            // 
+            // maintenanceStateDataGridViewTextBoxColumn
+            // 
+            this.maintenanceStateDataGridViewTextBoxColumn.DataPropertyName = "MaintenanceState";
+            this.maintenanceStateDataGridViewTextBoxColumn.HeaderText = "MaintenanceState";
+            this.maintenanceStateDataGridViewTextBoxColumn.Name = "maintenanceStateDataGridViewTextBoxColumn";
+            this.maintenanceStateDataGridViewTextBoxColumn.ReadOnly = true;
+            this.maintenanceStateDataGridViewTextBoxColumn.Visible = false;
+            this.maintenanceStateDataGridViewTextBoxColumn.Width = 131;
+            // 
+            // availabilityDataGridViewTextBoxColumn
+            // 
+            this.availabilityDataGridViewTextBoxColumn.DataPropertyName = "Availability";
+            this.availabilityDataGridViewTextBoxColumn.HeaderText = "Availability";
+            this.availabilityDataGridViewTextBoxColumn.Name = "availabilityDataGridViewTextBoxColumn";
+            this.availabilityDataGridViewTextBoxColumn.ReadOnly = true;
+            this.availabilityDataGridViewTextBoxColumn.Width = 94;
+            // 
+            // maintenanceReqDisplayNameDataGridViewTextBoxColumn
+            // 
+            this.maintenanceReqDisplayNameDataGridViewTextBoxColumn.DataPropertyName = "MaintenanceReqDisplayName";
+            this.maintenanceReqDisplayNameDataGridViewTextBoxColumn.HeaderText = "MaintenanceReqDisplayName";
+            this.maintenanceReqDisplayNameDataGridViewTextBoxColumn.Name = "maintenanceReqDisplayNameDataGridViewTextBoxColumn";
+            this.maintenanceReqDisplayNameDataGridViewTextBoxColumn.ReadOnly = true;
+            this.maintenanceReqDisplayNameDataGridViewTextBoxColumn.Width = 195;
+            // 
+            // uOM2NameDataGridViewTextBoxColumn
+            // 
+            this.uOM2NameDataGridViewTextBoxColumn.DataPropertyName = "UOM2Name";
+            this.uOM2NameDataGridViewTextBoxColumn.HeaderText = "UOM2Name";
+            this.uOM2NameDataGridViewTextBoxColumn.Name = "uOM2NameDataGridViewTextBoxColumn";
+            this.uOM2NameDataGridViewTextBoxColumn.ReadOnly = true;
+            this.uOM2NameDataGridViewTextBoxColumn.Width = 102;
+            // 
+            // resourceNameDataGridViewTextBoxColumn
+            // 
+            this.resourceNameDataGridViewTextBoxColumn.DataPropertyName = "ResourceName";
+            this.resourceNameDataGridViewTextBoxColumn.HeaderText = "ResourceName";
+            this.resourceNameDataGridViewTextBoxColumn.Name = "resourceNameDataGridViewTextBoxColumn";
+            this.resourceNameDataGridViewTextBoxColumn.ReadOnly = true;
+            this.resourceNameDataGridViewTextBoxColumn.Width = 116;
+            // 
+            // maintenanceReqNameDataGridViewTextBoxColumn
+            // 
+            this.maintenanceReqNameDataGridViewTextBoxColumn.DataPropertyName = "MaintenanceReqName";
+            this.maintenanceReqNameDataGridViewTextBoxColumn.HeaderText = "MaintenanceReqName";
+            this.maintenanceReqNameDataGridViewTextBoxColumn.Name = "maintenanceReqNameDataGridViewTextBoxColumn";
+            this.maintenanceReqNameDataGridViewTextBoxColumn.ReadOnly = true;
+            this.maintenanceReqNameDataGridViewTextBoxColumn.Width = 157;
+            // 
+            // uOMNameDataGridViewTextBoxColumn
+            // 
+            this.uOMNameDataGridViewTextBoxColumn.DataPropertyName = "UOMName";
+            this.uOMNameDataGridViewTextBoxColumn.HeaderText = "UOMName";
+            this.uOMNameDataGridViewTextBoxColumn.Name = "uOMNameDataGridViewTextBoxColumn";
+            this.uOMNameDataGridViewTextBoxColumn.ReadOnly = true;
+            this.uOMNameDataGridViewTextBoxColumn.Width = 96;
+            // 
+            // resourceStatusCodeNameDataGridViewTextBoxColumn
+            // 
+            this.resourceStatusCodeNameDataGridViewTextBoxColumn.DataPropertyName = "ResourceStatusCodeName";
+            this.resourceStatusCodeNameDataGridViewTextBoxColumn.HeaderText = "ResourceStatusCodeName";
+            this.resourceStatusCodeNameDataGridViewTextBoxColumn.Name = "resourceStatusCodeNameDataGridViewTextBoxColumn";
+            this.resourceStatusCodeNameDataGridViewTextBoxColumn.ReadOnly = true;
+            this.resourceStatusCodeNameDataGridViewTextBoxColumn.Width = 176;
+            // 
+            // maintenanceClassNameDataGridViewTextBoxColumn
+            // 
+            this.maintenanceClassNameDataGridViewTextBoxColumn.DataPropertyName = "MaintenanceClassName";
+            this.maintenanceClassNameDataGridViewTextBoxColumn.HeaderText = "MaintenanceClassName";
+            this.maintenanceClassNameDataGridViewTextBoxColumn.Name = "maintenanceClassNameDataGridViewTextBoxColumn";
+            this.maintenanceClassNameDataGridViewTextBoxColumn.ReadOnly = true;
+            this.maintenanceClassNameDataGridViewTextBoxColumn.Width = 164;
+            // 
+            // nextDateWarningDataGridViewTextBoxColumn
+            // 
+            this.nextDateWarningDataGridViewTextBoxColumn.DataPropertyName = "NextDateWarning";
+            this.nextDateWarningDataGridViewTextBoxColumn.HeaderText = "NextDateWarning";
+            this.nextDateWarningDataGridViewTextBoxColumn.Name = "nextDateWarningDataGridViewTextBoxColumn";
+            this.nextDateWarningDataGridViewTextBoxColumn.ReadOnly = true;
+            this.nextDateWarningDataGridViewTextBoxColumn.Width = 130;
+            // 
+            // nextDateLimitDataGridViewTextBoxColumn
+            // 
+            this.nextDateLimitDataGridViewTextBoxColumn.DataPropertyName = "NextDateLimit";
+            this.nextDateLimitDataGridViewTextBoxColumn.HeaderText = "NextDateLimit";
+            this.nextDateLimitDataGridViewTextBoxColumn.Name = "nextDateLimitDataGridViewTextBoxColumn";
+            this.nextDateLimitDataGridViewTextBoxColumn.ReadOnly = true;
+            this.nextDateLimitDataGridViewTextBoxColumn.Width = 112;
+            // 
+            // nextThruputQty2LimitDataGridViewTextBoxColumn
+            // 
+            this.nextThruputQty2LimitDataGridViewTextBoxColumn.DataPropertyName = "NextThruputQty2Limit";
+            this.nextThruputQty2LimitDataGridViewTextBoxColumn.HeaderText = "NextThruputQty2Limit";
+            this.nextThruputQty2LimitDataGridViewTextBoxColumn.Name = "nextThruputQty2LimitDataGridViewTextBoxColumn";
+            this.nextThruputQty2LimitDataGridViewTextBoxColumn.ReadOnly = true;
+            this.nextThruputQty2LimitDataGridViewTextBoxColumn.Width = 155;
+            // 
+            // thruputQty2DataGridViewTextBoxColumn
+            // 
+            this.thruputQty2DataGridViewTextBoxColumn.DataPropertyName = "ThruputQty2";
+            this.thruputQty2DataGridViewTextBoxColumn.HeaderText = "ThruputQty2";
+            this.thruputQty2DataGridViewTextBoxColumn.Name = "thruputQty2DataGridViewTextBoxColumn";
+            this.thruputQty2DataGridViewTextBoxColumn.ReadOnly = true;
+            this.thruputQty2DataGridViewTextBoxColumn.Width = 103;
+            // 
+            // uOM2DataGridViewTextBoxColumn
+            // 
+            this.uOM2DataGridViewTextBoxColumn.DataPropertyName = "UOM2";
+            this.uOM2DataGridViewTextBoxColumn.HeaderText = "UOM2";
+            this.uOM2DataGridViewTextBoxColumn.Name = "uOM2DataGridViewTextBoxColumn";
+            this.uOM2DataGridViewTextBoxColumn.ReadOnly = true;
+            this.uOM2DataGridViewTextBoxColumn.Width = 70;
+            // 
+            // nextDateLimitGMTDataGridViewTextBoxColumn
+            // 
+            this.nextDateLimitGMTDataGridViewTextBoxColumn.DataPropertyName = "NextDateLimitGMT";
+            this.nextDateLimitGMTDataGridViewTextBoxColumn.HeaderText = "NextDateLimitGMT";
+            this.nextDateLimitGMTDataGridViewTextBoxColumn.Name = "nextDateLimitGMTDataGridViewTextBoxColumn";
+            this.nextDateLimitGMTDataGridViewTextBoxColumn.ReadOnly = true;
+            this.nextDateLimitGMTDataGridViewTextBoxColumn.Width = 137;
+            // 
+            // nextDateWarningGMTDataGridViewTextBoxColumn
+            // 
+            this.nextDateWarningGMTDataGridViewTextBoxColumn.DataPropertyName = "NextDateWarningGMT";
+            this.nextDateWarningGMTDataGridViewTextBoxColumn.HeaderText = "NextDateWarningGMT";
+            this.nextDateWarningGMTDataGridViewTextBoxColumn.Name = "nextDateWarningGMTDataGridViewTextBoxColumn";
+            this.nextDateWarningGMTDataGridViewTextBoxColumn.ReadOnly = true;
+            this.nextDateWarningGMTDataGridViewTextBoxColumn.Width = 155;
+            // 
+            // nextThruputQty2DueDataGridViewTextBoxColumn
+            // 
+            this.nextThruputQty2DueDataGridViewTextBoxColumn.DataPropertyName = "NextThruputQty2Due";
+            this.nextThruputQty2DueDataGridViewTextBoxColumn.HeaderText = "NextThruputQty2Due";
+            this.nextThruputQty2DueDataGridViewTextBoxColumn.Name = "nextThruputQty2DueDataGridViewTextBoxColumn";
+            this.nextThruputQty2DueDataGridViewTextBoxColumn.ReadOnly = true;
+            this.nextThruputQty2DueDataGridViewTextBoxColumn.Width = 149;
+            // 
+            // nextThruputQty2WarningDataGridViewTextBoxColumn
+            // 
+            this.nextThruputQty2WarningDataGridViewTextBoxColumn.DataPropertyName = "NextThruputQty2Warning";
+            this.nextThruputQty2WarningDataGridViewTextBoxColumn.HeaderText = "NextThruputQty2Warning";
+            this.nextThruputQty2WarningDataGridViewTextBoxColumn.Name = "nextThruputQty2WarningDataGridViewTextBoxColumn";
+            this.nextThruputQty2WarningDataGridViewTextBoxColumn.ReadOnly = true;
+            this.nextThruputQty2WarningDataGridViewTextBoxColumn.Width = 173;
+            // 
+            // uOMDataGridViewTextBoxColumn
+            // 
+            this.uOMDataGridViewTextBoxColumn.DataPropertyName = "UOM";
+            this.uOMDataGridViewTextBoxColumn.HeaderText = "UOM";
+            this.uOMDataGridViewTextBoxColumn.Name = "uOMDataGridViewTextBoxColumn";
+            this.uOMDataGridViewTextBoxColumn.ReadOnly = true;
+            this.uOMDataGridViewTextBoxColumn.Width = 64;
+            // 
+            // nextDateDueGMTDataGridViewTextBoxColumn
+            // 
+            this.nextDateDueGMTDataGridViewTextBoxColumn.DataPropertyName = "NextDateDueGMT";
+            this.nextDateDueGMTDataGridViewTextBoxColumn.HeaderText = "NextDateDueGMT";
+            this.nextDateDueGMTDataGridViewTextBoxColumn.Name = "nextDateDueGMTDataGridViewTextBoxColumn";
+            this.nextDateDueGMTDataGridViewTextBoxColumn.ReadOnly = true;
+            this.nextDateDueGMTDataGridViewTextBoxColumn.Width = 131;
+            // 
+            // exportImportKeyDataGridViewTextBoxColumn
+            // 
+            this.exportImportKeyDataGridViewTextBoxColumn.DataPropertyName = "ExportImportKey";
+            this.exportImportKeyDataGridViewTextBoxColumn.HeaderText = "ExportImportKey";
+            this.exportImportKeyDataGridViewTextBoxColumn.Name = "exportImportKeyDataGridViewTextBoxColumn";
+            this.exportImportKeyDataGridViewTextBoxColumn.ReadOnly = true;
+            this.exportImportKeyDataGridViewTextBoxColumn.Width = 125;
+            // 
+            // displayNameDataGridViewTextBoxColumn
+            // 
+            this.displayNameDataGridViewTextBoxColumn.DataPropertyName = "DisplayName";
+            this.displayNameDataGridViewTextBoxColumn.HeaderText = "DisplayName";
+            this.displayNameDataGridViewTextBoxColumn.Name = "displayNameDataGridViewTextBoxColumn";
+            this.displayNameDataGridViewTextBoxColumn.ReadOnly = true;
+            this.displayNameDataGridViewTextBoxColumn.Width = 106;
+            // 
+            // selfDataGridViewTextBoxColumn
+            // 
+            this.selfDataGridViewTextBoxColumn.DataPropertyName = "Self";
+            this.selfDataGridViewTextBoxColumn.HeaderText = "Self";
+            this.selfDataGridViewTextBoxColumn.Name = "selfDataGridViewTextBoxColumn";
+            this.selfDataGridViewTextBoxColumn.ReadOnly = true;
+            this.selfDataGridViewTextBoxColumn.Width = 55;
+            // 
+            // isEmptyDataGridViewCheckBoxColumn
+            // 
+            this.isEmptyDataGridViewCheckBoxColumn.DataPropertyName = "IsEmpty";
+            this.isEmptyDataGridViewCheckBoxColumn.HeaderText = "IsEmpty";
+            this.isEmptyDataGridViewCheckBoxColumn.Name = "isEmptyDataGridViewCheckBoxColumn";
+            this.isEmptyDataGridViewCheckBoxColumn.ReadOnly = true;
+            this.isEmptyDataGridViewCheckBoxColumn.Width = 59;
+            // 
+            // fieldActionDataGridViewTextBoxColumn
+            // 
+            this.fieldActionDataGridViewTextBoxColumn.DataPropertyName = "FieldAction";
+            this.fieldActionDataGridViewTextBoxColumn.HeaderText = "FieldAction";
+            this.fieldActionDataGridViewTextBoxColumn.Name = "fieldActionDataGridViewTextBoxColumn";
+            this.fieldActionDataGridViewTextBoxColumn.ReadOnly = true;
+            this.fieldActionDataGridViewTextBoxColumn.Width = 96;
+            // 
+            // ignoreTypeDifferenceDataGridViewTextBoxColumn
+            // 
+            this.ignoreTypeDifferenceDataGridViewTextBoxColumn.DataPropertyName = "IgnoreTypeDifference";
+            this.ignoreTypeDifferenceDataGridViewTextBoxColumn.HeaderText = "IgnoreTypeDifference";
+            this.ignoreTypeDifferenceDataGridViewTextBoxColumn.Name = "ignoreTypeDifferenceDataGridViewTextBoxColumn";
+            this.ignoreTypeDifferenceDataGridViewTextBoxColumn.ReadOnly = true;
+            this.ignoreTypeDifferenceDataGridViewTextBoxColumn.Width = 148;
+            // 
+            // listItemActionDataGridViewTextBoxColumn
+            // 
+            this.listItemActionDataGridViewTextBoxColumn.DataPropertyName = "ListItemAction";
+            this.listItemActionDataGridViewTextBoxColumn.HeaderText = "ListItemAction";
+            this.listItemActionDataGridViewTextBoxColumn.Name = "listItemActionDataGridViewTextBoxColumn";
+            this.listItemActionDataGridViewTextBoxColumn.ReadOnly = true;
+            this.listItemActionDataGridViewTextBoxColumn.Width = 113;
+            // 
+            // listItemIndexDataGridViewTextBoxColumn
+            // 
+            this.listItemIndexDataGridViewTextBoxColumn.DataPropertyName = "ListItemIndex";
+            this.listItemIndexDataGridViewTextBoxColumn.HeaderText = "ListItemIndex";
+            this.listItemIndexDataGridViewTextBoxColumn.Name = "listItemIndexDataGridViewTextBoxColumn";
+            this.listItemIndexDataGridViewTextBoxColumn.ReadOnly = true;
+            this.listItemIndexDataGridViewTextBoxColumn.Width = 107;
+            // 
+            // keyDataGridViewTextBoxColumn
+            // 
+            this.keyDataGridViewTextBoxColumn.DataPropertyName = "Key";
+            this.keyDataGridViewTextBoxColumn.HeaderText = "Key";
+            this.keyDataGridViewTextBoxColumn.Name = "keyDataGridViewTextBoxColumn";
+            this.keyDataGridViewTextBoxColumn.ReadOnly = true;
+            this.keyDataGridViewTextBoxColumn.Width = 55;
+            // 
+            // cDOTypeNameDataGridViewTextBoxColumn
+            // 
+            this.cDOTypeNameDataGridViewTextBoxColumn.DataPropertyName = "CDOTypeName";
+            this.cDOTypeNameDataGridViewTextBoxColumn.HeaderText = "CDOTypeName";
+            this.cDOTypeNameDataGridViewTextBoxColumn.Name = "cDOTypeNameDataGridViewTextBoxColumn";
+            this.cDOTypeNameDataGridViewTextBoxColumn.ReadOnly = true;
+            this.cDOTypeNameDataGridViewTextBoxColumn.Width = 116;
+            // 
+            // getMaintenanceStatusDetailsBindingSource
+            // 
+            this.getMaintenanceStatusDetailsBindingSource.DataSource = typeof(Camstar.WCF.ObjectStack.GetMaintenanceStatusDetails);
             // 
             // kryptonPage3
             // 
@@ -1908,6 +2382,7 @@ namespace VisualCheckingGUI
             ((System.ComponentModel.ISupportInitialize)(this.Cb_StatusCode)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.Cb_StatusReason)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.Dg_Maintenance)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.getMaintenanceStatusDetailsBindingSource)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonPage3)).EndInit();
             this.kryptonPage3.ResumeLayout(false);
             this.tableLayoutPanel6.ResumeLayout(false);
@@ -2031,6 +2506,53 @@ namespace VisualCheckingGUI
         private ComponentFactory.Krypton.Toolkit.KryptonBreadCrumbItem kryptonBreadCrumbItem6;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Panel panelReason;
+        private System.Windows.Forms.BindingSource getMaintenanceStatusDetailsBindingSource;
+        private System.Windows.Forms.DataGridViewTextBoxColumn resourceDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn maintenanceTypeDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn maintenanceReqDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn nextDateDueDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn nextThruputQtyDueDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn maintenanceReqRevDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dueDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn pastDueDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn completedDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn warningDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn nextThruputQtyLimitDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn resourceStatusCodeDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn thruputQtyDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn nextThruputQtyWarningDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn maintenanceStatusDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn maintenanceClassDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn maintenanceStateDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn availabilityDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn maintenanceReqDisplayNameDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn uOM2NameDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn resourceNameDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn maintenanceReqNameDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn uOMNameDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn resourceStatusCodeNameDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn maintenanceClassNameDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn nextDateWarningDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn nextDateLimitDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn nextThruputQty2LimitDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn thruputQty2DataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn uOM2DataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn nextDateLimitGMTDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn nextDateWarningGMTDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn nextThruputQty2DueDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn nextThruputQty2WarningDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn uOMDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn nextDateDueGMTDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn exportImportKeyDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn displayNameDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn selfDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewCheckBoxColumn isEmptyDataGridViewCheckBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn fieldActionDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn ignoreTypeDifferenceDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn listItemActionDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn listItemIndexDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn keyDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn cDOTypeNameDataGridViewTextBoxColumn;
     }
 }
 
