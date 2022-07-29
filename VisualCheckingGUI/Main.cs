@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
+using System.IO.Ports;
 using System.Linq;
 using System.Reflection;
 using System.Threading;
@@ -18,12 +19,26 @@ using MesData.Repair;
 using Newtonsoft.Json;
 using OpcenterWikLibrary;
 using VisualCheckingGUI.Enumeration;
+using VisualCheckingGUI.Hardware;
 using VisualCheckingGUI.Model;
+using VisualCheckingGUI.Properties;
 
 namespace VisualCheckingGUI
 {
     public partial class Main : KryptonForm
     {
+        #region INSTANCE VARIABLE
+
+        private VisualCheckingState _visualCheckingState;
+        private readonly Mes _mesData;
+        private DateTime _dMoveIn;
+        private DateTime _dMoveOut;
+        private string _containerResult = ResultString.False;
+        private VcNgReason _vcNgReason;
+        private string _wrongOperationPosition;
+        private Rs232Scanner _keyenceRs232Scanner;
+        #endregion
+
         #region CONSTRUCTOR
         public Main()
         {
@@ -75,6 +90,38 @@ namespace VisualCheckingGUI
 
                 }
             }
+            //Instantiate Setting
+            var setting = new Settings();
+            //Init Com
+            var serialCom = new SerialPort
+            {
+                PortName = setting.PortName,
+                BaudRate = setting.BaudRate,
+                Parity = setting.Parity,
+                DataBits = setting.DataBits,
+                StopBits = setting.StopBits
+            };
+
+            _keyenceRs232Scanner = new Rs232Scanner(serialCom);
+            _keyenceRs232Scanner.OnDataReadValid += KeyenceDataReadValid;
+        }
+
+        private async Task KeyenceDataReadValid(object sender)
+        {
+              if (!_readScanner) Tb_Scanner.Clear();
+              _ignoreScanner = true;
+                if (string.IsNullOrEmpty(Tb_Scanner.Text)) return;
+                switch (_visualCheckingState)
+                {
+                    case VisualCheckingState.ScanUnitSerialNumber:
+                        Tb_Scanner.Text = _keyenceRs232Scanner.DataValue;
+                        Tb_SerialNumber.Text = Tb_Scanner.Text;
+                        Tb_Scanner.Clear();
+                        await SetVisualCheckingState(VisualCheckingState.CheckUnitStatus);
+                        break;
+                }
+                _ignoreScanner = false;
+                Tb_Scanner.Clear();
         }
 
         public sealed override string Text
@@ -85,16 +132,7 @@ namespace VisualCheckingGUI
 
         #endregion
 
-#region INSTANCE VARIABLE
-      
-        private VisualCheckingState _visualCheckingState;
-        private readonly Mes _mesData;
-        private DateTime _dMoveIn;
-        private DateTime _dMoveOut;
-        private string _containerResult = ResultString.False;
-        private VcNgReason _vcNgReason;
-        private string _wrongOperationPosition;
-        #endregion
+
 
         #region FUNCTION USEFULL
 
@@ -109,7 +147,7 @@ namespace VisualCheckingGUI
                     lblCommand.Text = @"Resource is not in ""Up"" condition!";
                     break;
                 case VisualCheckingState.ScanUnitSerialNumber:
-
+                    _keyenceRs232Scanner?.StopRead();
                     btnFail.Visible = false;
                     btnPass.Visible = false;
                     panelPassFail.Visible = false;
@@ -135,9 +173,11 @@ namespace VisualCheckingGUI
                     lblCommand.Text = @"Scan Unit Serial Number!";
                     ActiveControl = Tb_Scanner;
                     _readScanner = true;
+                    _keyenceRs232Scanner?.StartRead();
                     break;
                 case VisualCheckingState.CheckUnitStatus:
                     lblCommand.Text = @"Checking Unit Status";
+                    _keyenceRs232Scanner?.StopRead();
                     if (_mesData.ResourceStatusDetails == null || _mesData.ResourceStatusDetails?.Availability != "Up")
                     {
                         await SetVisualCheckingState(VisualCheckingState.PlaceUnit);
