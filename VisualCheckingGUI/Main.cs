@@ -6,6 +6,7 @@ using System.Linq;
 using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Web.Configuration;
 using System.Windows.Forms;
 using Camstar.WCF.ObjectStack;
 using ComponentFactory.Krypton.Navigator;
@@ -13,6 +14,8 @@ using ComponentFactory.Krypton.Toolkit;
 using MesData;
 using MesData.Login;
 using MesData.Ppa;
+using MesData.Repair;
+using Newtonsoft.Json;
 using OpcenterWikLibrary;
 using VisualCheckingGUI.Enumeration;
 using VisualCheckingGUI.Model;
@@ -34,8 +37,6 @@ namespace VisualCheckingGUI
 #endif
             _mesData = new Mes(name, AppSettings.Resource,name);
 
-            WindowState = FormWindowState.Normal;
-            Size = new Size(1134, 701);
             lbTitle.Text =AppSettings.Resource;
 
             kryptonNavigator1.SelectedIndex = 0;
@@ -92,7 +93,7 @@ namespace VisualCheckingGUI
         private DateTime _dMoveOut;
         private string _containerResult = ResultString.False;
         private VcNgReason _vcNgReason;
-
+        private string _wrongOperationPosition;
         #endregion
 
         #region FUNCTION USEFULL
@@ -105,7 +106,7 @@ namespace VisualCheckingGUI
                 case VisualCheckingState.PlaceUnit:
                     Tb_Scanner.Enabled = false;
                     lblCommand.ForeColor = Color.Red;
-                    lblCommand.Text = "Resource is not in \"Up\" condition!";
+                    lblCommand.Text = @"Resource is not in ""Up"" condition!";
                     break;
                 case VisualCheckingState.ScanUnitSerialNumber:
 
@@ -121,27 +122,48 @@ namespace VisualCheckingGUI
                         await SetVisualCheckingState(VisualCheckingState.PlaceUnit);
                         break;
                     }
+                    // check if fail by maintenance Past Due
+                    var transPastDue = Mes.GetMaintenancePastDue(_mesData.MaintenanceStatusDetails);
+                    if (transPastDue.Result)
+                    {
+                        KryptonMessageBox.Show(this, "This resource under maintenance, need to complete!", "Move In",
+                            MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        break;
+                    }
                     Tb_Scanner.Enabled = true;
                     lblCommand.ForeColor = Color.LimeGreen;
-                    lblCommand.Text = "Scan Unit Serial Number!";
+                    lblCommand.Text = @"Scan Unit Serial Number!";
                     ActiveControl = Tb_Scanner;
                     _readScanner = true;
                     break;
                 case VisualCheckingState.CheckUnitStatus:
+                    lblCommand.Text = @"Checking Unit Status";
+                    if (_mesData.ResourceStatusDetails == null || _mesData.ResourceStatusDetails?.Availability != "Up")
+                    {
+                        await SetVisualCheckingState(VisualCheckingState.PlaceUnit);
+                        break;
+                    }
+                    // check if fail by maintenance Past Due
+                    transPastDue = Mes.GetMaintenancePastDue(_mesData.MaintenanceStatusDetails);
+                    if (transPastDue.Result)
+                    {
+                        KryptonMessageBox.Show(this, "This resource under maintenance, need to complete!", "Move In",
+                            MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        break;
+                    }
                     Tb_Scanner.Enabled = false;
                     lblCommand.Text = @"Checking Unit Status";
                     _dMoveIn = DateTime.Now;
                     lbMoveIn.Text = _dMoveIn.ToString(Mes.DateTimeStringFormat);
                     lbMoveOut.Text = "";
                     var oContainerStatus = await Mes.GetContainerStatusDetails(_mesData, Tb_SerialNumber.Text, _mesData.DataCollectionName);
-                    //Tb_ContainerPosition.Text = await Mes.GetCurrentContainerStep(_mesData, Tb_SerialNumber.Text);
                     if (oContainerStatus != null)
                     {
                         if (oContainerStatus.Operation != null)
                         {
-                          //  Tb_Operation.Text = oContainerStatus.Operation.Name;
                             if (oContainerStatus.Operation.Name != _mesData.OperationName)
                             {
+                                _wrongOperationPosition = oContainerStatus.Operation.Name;
                                 await SetVisualCheckingState(VisualCheckingState.WrongPosition);
                                 break;
                             }
@@ -158,17 +180,33 @@ namespace VisualCheckingGUI
                                 var cnt = await Mes.GetCounterFromMfgOrder(_mesData);
                                 Tb_VisualQty.Text = cnt.ToString();
                             }
+
                         }
-                        _dMoveIn = DateTime.Now;
+
+                        var vcAttempt = oContainerStatus.Attributes?.Where(x => x.Name == "VcAttempt").ToList();
+                        if (vcAttempt != null && vcAttempt.Count > 0)
+                        {
+                            _vcAttempt = Convert.ToInt32(vcAttempt[0].AttributeValue.ToString());
+                        }
+                        else
+                        {
+                            _vcAttempt = 0;
+                        }
+
                         await SetVisualCheckingState(VisualCheckingState.VisualCheckResult);
                         break;
                     }
+                    else
+                    {
+                        var position = await Mes.GetCurrentContainerStep(_mesData, Tb_SerialNumber.Text);
+                        if (position != _mesData.OperationName)
+                        {
+                            _wrongOperationPosition = position;
+                            await SetVisualCheckingState(VisualCheckingState.WrongPosition);
+                            break;
+                        }
+                    }
                     await SetVisualCheckingState(VisualCheckingState.UnitNotFound);
-                    break;
-                case VisualCheckingState.UnitNotFound:
-                    Tb_Scanner.Enabled = false;
-                    lblCommand.ForeColor = Color.Red;
-                    lblCommand.Text = @"Unit Not Found";
                     break;
                 case VisualCheckingState.VisualCheckResult:
                     ResetNgReason();
@@ -200,11 +238,22 @@ namespace VisualCheckingGUI
                             var resultMoveStd = await Mes.ExecuteMoveStandard(_mesData, oContainerStatus.ContainerName.Value, _dMoveOut, cDataPoint);
                             if (resultMoveStd.Result)
                             {
+                                _vcAttempt += 1;
                                 if (_containerResult == ResultString.False)
                                 {
                                     var reason = GetReasonAttribute();
                                     await Mes.ExecuteContainerAttrMaint(_mesData, oContainerStatus, reason.ToArray());
-                                } //Update Counter
+                                }
+                                else
+                                {
+                                    var reason2 = new List<ContainerAttrDetail>
+                                    {
+                                        new ContainerAttrDetail { Name = "VcAttempt", DataType = TrivialTypeEnum.Integer, AttributeValue = _vcAttempt.ToString(), IsExpression = false }
+                                    };
+                                    await Mes.ExecuteContainerAttrMaint(_mesData, oContainerStatus, reason2.ToArray());
+                                } 
+                                
+                                //Update Counter
 
                                 await Mes.UpdateCounter(_mesData, 1);
                                     var mfg = await Mes.GetMfgOrder(_mesData,
@@ -219,7 +268,7 @@ namespace VisualCheckingGUI
                             break;
                         }
                         // check if fail by maintenance Past Due
-                        var transPastDue = Mes.GetMaintenancePastDue(_mesData.MaintenanceStatusDetails);
+                        transPastDue = Mes.GetMaintenancePastDue(_mesData.MaintenanceStatusDetails);
                         if (transPastDue.Result)
                         {
                             KryptonMessageBox.Show(this, "This resource under maintenance, need to complete!", "Move In",
@@ -235,34 +284,34 @@ namespace VisualCheckingGUI
                 case VisualCheckingState.MoveInOkMoveFail:
                     lblCommand.ForeColor = Color.Red;
                     Tb_Scanner.Enabled = false;
-                    lblCommand.Text = "Move Standard Fail";
+                    lblCommand.Text = @"Move Standard Fail";
                     break;
                 case VisualCheckingState.MoveInFail:
                     lblCommand.ForeColor = Color.Red;
                     Tb_Scanner.Enabled = false;
-                    lblCommand.Text = "Move In Fail";
+                    lblCommand.Text = @"Move In Fail";
                     break;
                 case VisualCheckingState.Done:
                     break;
                 case VisualCheckingState.FailReason:
                     Tb_Scanner.Enabled = true;
-                    lblCommand.Text = "Select NG reason!";
+                    lblCommand.Text = @"Select NG reason!";
                     break;
                 case VisualCheckingState.WrongPosition:
                     _readScanner = false;
                     lblCommand.ForeColor = Color.Red;
-                    lblCommand.Text = @"Wrong product position";
-                    break;
-                case VisualCheckingState.WrongComponent:
-                    _readScanner = false;
-                    lblCommand.ForeColor = Color.Red;
-                    lblCommand.Text = @"Wrong Component";
+                    lblCommand.Text = $@"Wrong Operation, Container in {_wrongOperationPosition}";
                     break;
                 case VisualCheckingState.WaitPreparation:
                     _readScanner = false;
                     lblCommand.ForeColor = Color.Red;
                     lblCommand.Text = @"Wait Preparation";
                     btnStartPreparation.Enabled = true;
+                    break;
+                case VisualCheckingState.UnitNotFound:
+                    Tb_Scanner.Enabled = false;
+                    lblCommand.ForeColor = Color.Red;
+                    lblCommand.Text = @"Unit Not Found";
                     break;
             }
         }
@@ -287,12 +336,35 @@ namespace VisualCheckingGUI
                     var maintenanceStatusDetails = await Mes.GetMaintenanceStatusDetails(_mesData);
                     _mesData.SetMaintenanceStatusDetails(maintenanceStatusDetails);
                     if (maintenanceStatusDetails != null)
-                    {
-                        getMaintenanceStatusDetailsBindingSource.DataSource =
-                            new BindingList<GetMaintenanceStatusDetails>(maintenanceStatusDetails);
-                        Dg_Maintenance.DataSource = getMaintenanceStatusDetailsBindingSource;
-                        return;
+                    {//get past due, warning, and tolerance
+                        var pastDue = maintenanceStatusDetails.Where(x => x.MaintenanceState == "Past Due").ToList();
+                        var due = maintenanceStatusDetails.Where(x => x.MaintenanceState == "Due").ToList();
+                        var pending = maintenanceStatusDetails.Where(x => x.MaintenanceState == "Pending").ToList();
+
+                        if (pastDue.Count > 0)
+                        {
+                            lblResMaintMesg.Text = @"Resource Maintenance Past Due";
+                            lblResMaintMesg.BackColor = Color.Red;
+                            lblResMaintMesg.Visible = true;
+                            return;
+                        }
+                        if (due.Count > 0)
+                        {
+                            lblResMaintMesg.Text = @"Resource Maintenance Due";
+                            lblResMaintMesg.BackColor = Color.Orange;
+                            lblResMaintMesg.Visible = true;
+                            return;
+                        }
+                        if (pending.Count > 0)
+                        {
+                            lblResMaintMesg.Text = @"Resource Maintenance Pending";
+                            lblResMaintMesg.BackColor = Color.Yellow;
+                            lblResMaintMesg.Visible = true;
+                            return;
+                        }
                     }
+                    lblResMaintMesg.Visible = false;
+                    lblResMaintMesg.Text = "";
                     getMaintenanceStatusDetailsBindingSource.Clear();
                 }
                 catch (Exception ex)
@@ -413,8 +485,9 @@ namespace VisualCheckingGUI
                 foreach (var listGroupGroup in listGroup.Groups)
                 {
                     var page = new GroupBox();
+                    page.Font = new Font("Segoe UI", 14);
                     page.Top = lastGroupHeight + 5;
-                    page.Width = panelReason.Width;
+                    page.Width = tableLayoutPanel4.ClientSize.Width-40;
                     page.Text = listGroupGroup.Name;
                     //page. = true;
                     var transReasonByGroup = await Mes.GetContainerDefectReasonGroup(_mesData, listGroupGroup.Name);
@@ -422,7 +495,7 @@ namespace VisualCheckingGUI
                     {
                         var listReasonByGroup = (ContDefectReasonGroupChanges)transReasonByGroup.Data;
                         var left = 5;
-                        var top = 15;
+                        var top = 30;
                         foreach (var reason in listReasonByGroup.Entries)
                         {
                             index++;
@@ -433,7 +506,7 @@ namespace VisualCheckingGUI
                                
                                     var cb = new RoundCheckbox();
                                     cb.TabIndex = index;
-                                    cb.Font = new Font("Segoe UI", 9);
+                                    cb.Font = new Font("Segoe UI", 14);
                                     cb.AutoSize = true;
                                     cb.Text = split[1].Trim(' ', '\r', '\n');
                                     cb.Appearance = Appearance.Button;
@@ -449,21 +522,21 @@ namespace VisualCheckingGUI
                                         var cbGroup = new RoundCheckbox();
                                         cbGroup.TabIndex = cb.TabIndex;
                                         cbGroup.AutoSize = true;
-                                        cbGroup.Font = new Font("Segoe UI", 9);
+                                        cbGroup.Font = new Font("Segoe UI", 14);
                                         cbGroup.Text = grp;
                                         cbGroup.Appearance = Appearance.Button;
                                         cbGroup.FlatStyle = FlatStyle.Flat;
-                                        cbGroup.BackColor = Color.FromArgb(0xDE, 0xEA, 0xF8);
-                                        cbGroup.FlatAppearance.CheckedBackColor = Color.Red;
+                                        cbGroup.BackColor = Color.DodgerBlue;
+                                        cbGroup.FlatAppearance.CheckedBackColor = Color.IndianRed;
                                         cbGroup.FlatAppearance.BorderSize = 0;
                                         cbGroup.AutoCheck = false;
                                         
-                                        if (left + cbGroup.Width + 10 > panelReason.Width - 100)
+                                        if (left + cbGroup.Width + 10 > tableLayoutPanel4.ClientSize.Width - 100)
                                         {
                                             left = 5;
-                                            top += cbGroup.Height + 10;
+                                            top += cbGroup.Height + 20;
                                         }
-                                        page.Height = top + cbGroup.Height + 10;
+                                        page.Height = top + cbGroup.Height + 20;
                                         cbGroup.Left = left;
                                         cbGroup.Top = top;
 
@@ -481,7 +554,7 @@ namespace VisualCheckingGUI
                             {
                                 var cb = new RoundCheckbox();
                                 cb.TabIndex = index;
-                                cb.Font = new Font("Segoe UI", 9);
+                                cb.Font = new Font("Segoe UI", 14);
                                 cb.AutoSize = true;
                                 cb.Text = reason.Name;
                                 cb.Appearance = Appearance.Button;
@@ -491,14 +564,14 @@ namespace VisualCheckingGUI
                                 cb.FlatAppearance.CheckedBackColor = Color.Red;
                                 cb.FlatAppearance.BorderSize = 0;
                                 cb.Refresh();
-                                if (left + cb.Width + 10 > panelReason.Width - 100)
+                                if (left + cb.Width + 10 > tableLayoutPanel4.ClientSize.Width - 100)
                                 {
                                     left = 5;
-                                    top += cb.Height + 10;
+                                    top += cb.Height + 20;
                                 }
                                 cb.Left = left;
                                 cb.Top = top;
-                                page.Height = top + cb.Height + 10;
+                                page.Height = top + cb.Height + 20;
 
                                 page.Controls.Add(cb);
                                 left += cb.Width + 10;
@@ -538,7 +611,6 @@ namespace VisualCheckingGUI
             foreach (var cb in _vcNgReason.Level3CheckBoxes)
             {
                 cb.Checked = false;
-                cb.BackColor = Color.FromArgb(0xDE, 0xEA, 0xF8);
             }
         }
 
@@ -546,13 +618,17 @@ namespace VisualCheckingGUI
         {
             var d = new List<ContainerAttrDetail>();
             if (_vcNgReason == null) return d;
-            d.Add(new ContainerAttrDetail { Name = "defectSource", DataType = TrivialTypeEnum.String, AttributeValue = "Visual Checking Inspection", IsExpression = false });
+            var sc = new DefectSource {ShortName = "VC", LongName = "Visual Checking Inspection"};
+            d.Add(new ContainerAttrDetail { Name = "defectSource", DataType = TrivialTypeEnum.String, AttributeValue = JsonConvert.SerializeObject(sc), IsExpression = false });
+            d.Add(new ContainerAttrDetail { Name = "AfterRepair", DataType = TrivialTypeEnum.String, AttributeValue = "No", IsExpression = false });
+            d.Add(new ContainerAttrDetail { Name = "VcAttempt", DataType = TrivialTypeEnum.Integer, AttributeValue = _vcAttempt.ToString(), IsExpression = false });
             int index = 0;
             foreach (var ngReason in _vcNgReason.NgReasons)
             {
                 if (ngReason.CheckBox.Checked)
                 {
-                    var attribute = new ContainerAttrDetail { Name = $"defectVC{++index}", DataType = TrivialTypeEnum.String, AttributeValue = ngReason.Reason, IsExpression = false };
+                    var defect = new DefectItem {DefectName = ngReason.Reason, Value = "", TestAttempt = _vcAttempt.ToString()};
+                    var attribute = new ContainerAttrDetail { Name = $"defectVC_{_vcAttempt}_{++index}", DataType = TrivialTypeEnum.String, AttributeValue = JsonConvert.SerializeObject(defect), IsExpression = false };
                     d.Add(attribute);
                 }
             }
@@ -580,6 +656,7 @@ namespace VisualCheckingGUI
         private bool _readScanner;
         private bool _ignoreScanner;
         private readonly int _indexMaintenanceState;
+        private int _vcAttempt;
 
 
         private async void Tb_Scanner_KeyUp(object sender, KeyEventArgs e)
@@ -712,7 +789,7 @@ namespace VisualCheckingGUI
         {
             if (e.Index != 1 && e.Index != 2) return;
 
-            using (var ss = new LoginForm24())
+            using (var ss = new LoginForm24(e.Index == 1 ? "Maintenance" : "Quality"))
             {
                 var dlg = ss.ShowDialog(this);
                 if (dlg == DialogResult.Abort)

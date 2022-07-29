@@ -88,6 +88,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>lib\InSiteXMLClient.dll</HintPath>
     </Reference>
+    <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.13.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="OpcenterWikLibrary, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\GitHub\GitHub\OpcenterWikLibrary.dll</HintPath>
@@ -156,6 +159,7 @@
     <None Include="Endpoints.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Include="packages.config" />
     <None Include="Properties\DataSources\Camstar.WCF.ObjectStack.GetMaintenanceStatusDetails.datasource" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>

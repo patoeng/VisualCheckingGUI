@@ -20,6 +20,7 @@ namespace VisualCheckingGUI.Model
             InitializeComponent();
             _vcNgReason = vcNgReason;
             _group = group;
+            Text = group;
             InitCheckBox();
         }
 
@@ -50,7 +51,7 @@ namespace VisualCheckingGUI.Model
                         if (left + cb.Width + 5 > kryptonNavigator1.Width - 100)
                         {
                             left = 5;
-                            top += cb.Height + 10;
+                            top += cb.Height + 20;
                         }
                         cb.Left = left;
                         cb.Top = top;
