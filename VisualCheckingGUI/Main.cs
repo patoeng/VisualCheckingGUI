@@ -110,7 +110,7 @@ namespace VisualCheckingGUI
         {
               if (!_readScanner) Tb_Scanner.Clear();
               _ignoreScanner = true;
-                if (string.IsNullOrEmpty(Tb_Scanner.Text)) return;
+                if (string.IsNullOrEmpty(_keyenceRs232Scanner.DataValue)) return;
                 switch (_visualCheckingState)
                 {
                     case VisualCheckingState.ScanUnitSerialNumber:
@@ -376,7 +376,12 @@ namespace VisualCheckingGUI
                     var maintenanceStatusDetails = await Mes.GetMaintenanceStatusDetails(_mesData);
                     _mesData.SetMaintenanceStatusDetails(maintenanceStatusDetails);
                     if (maintenanceStatusDetails != null)
-                    {//get past due, warning, and tolerance
+                    {
+                        getMaintenanceStatusDetailsBindingSource.DataSource =
+                            new BindingList<GetMaintenanceStatusDetails>(maintenanceStatusDetails);
+                        Dg_Maintenance.DataSource = getMaintenanceStatusDetailsBindingSource;
+
+                        //get past due, warning, and tolerance
                         var pastDue = maintenanceStatusDetails.Where(x => x.MaintenanceState == "Past Due").ToList();
                         var due = maintenanceStatusDetails.Where(x => x.MaintenanceState == "Due").ToList();
                         var pending = maintenanceStatusDetails.Where(x => x.MaintenanceState == "Pending").ToList();
@@ -386,6 +391,10 @@ namespace VisualCheckingGUI
                             lblResMaintMesg.Text = @"Resource Maintenance Past Due";
                             lblResMaintMesg.BackColor = Color.Red;
                             lblResMaintMesg.Visible = true;
+                            if (_mesData?.ResourceStatusDetails?.Reason?.Name != "Planned Maintenance")
+                            {
+                                await Mes.SetResourceStatus(_mesData, "VC - Planned Downtime", "Planned Maintenance");
+                            }
                             return;
                         }
                         if (due.Count > 0)
@@ -405,7 +414,7 @@ namespace VisualCheckingGUI
                     }
                     lblResMaintMesg.Visible = false;
                     lblResMaintMesg.Text = "";
-                    getMaintenanceStatusDetailsBindingSource.Clear();
+                    getMaintenanceStatusDetailsBindingSource.DataSource = null;
                 }
                 catch (Exception ex)
                 {
@@ -870,6 +879,7 @@ namespace VisualCheckingGUI
         {
             if (_mesData.ResourceStatusDetails == null) return;
             if (_mesData.ResourceStatusDetails.Reason.Name == "Maintenance") return;
+            if (_mesData.ResourceStatusDetails?.Reason?.Name == "Planned Maintenance") return;
             var result = await Mes.SetResourceStatus(_mesData, "VC - Productive Time", "Pass");
             await GetStatusOfResource();
             if (result)
@@ -885,6 +895,7 @@ namespace VisualCheckingGUI
             ClearPo();
             if (_mesData.ResourceStatusDetails==null) return;
             if (_mesData.ResourceStatusDetails?.Reason?.Name=="Maintenance") return;
+            if (_mesData.ResourceStatusDetails?.Reason?.Name == "Planned Maintenance") return;
             _mesData.SetManufacturingOrder(null);
             var result = await Mes.SetResourceStatus(_mesData, "VC - Planned Downtime", "Preparation");
             await GetStatusOfResource();

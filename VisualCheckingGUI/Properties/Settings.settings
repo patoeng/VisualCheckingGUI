@@ -14,7 +14,7 @@
     <Setting Name="DataBits" Type="System.Int32" Scope="Application">
       <Value Profile="(Default)">8</Value>
     </Setting>
-    <Setting Name="StopBits" Type="System.IO.Ports.StopBits" Scope="User">
+    <Setting Name="StopBits" Type="System.IO.Ports.StopBits" Scope="Application">
       <Value Profile="(Default)">One</Value>
     </Setting>
   </Settings>

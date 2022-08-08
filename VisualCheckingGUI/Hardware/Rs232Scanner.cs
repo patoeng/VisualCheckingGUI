@@ -76,11 +76,11 @@ namespace VisualCheckingGUI.Hardware
                 {
                     try
                     {
-                        _serialPort.Open();
+                       _serialPort.Open();
                     }
-                    catch
+                    catch 
                     {
-                        //
+                       //
                     }
                 }
             }
