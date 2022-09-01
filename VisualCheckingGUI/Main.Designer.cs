@@ -58,6 +58,7 @@ namespace VisualCheckingGUI
             this.lblCommand = new System.Windows.Forms.Label();
             this.Tb_Scanner = new ComponentFactory.Krypton.Toolkit.KryptonTextBox();
             this.kryptonPanel8 = new ComponentFactory.Krypton.Toolkit.KryptonPanel();
+            this.lblLoadingPo = new System.Windows.Forms.Label();
             this.btnCallMaintenance = new ComponentFactory.Krypton.Toolkit.KryptonButton();
             this.btnFinishPreparation = new ComponentFactory.Krypton.Toolkit.KryptonButton();
             this.btnStartPreparation = new ComponentFactory.Krypton.Toolkit.KryptonButton();
@@ -492,6 +493,13 @@ namespace VisualCheckingGUI
             this.kryptonNavigator1.StateNormal.HeaderGroup.HeaderBar.Back.Color2 = System.Drawing.Color.FromArgb(((int)(((byte)(250)))), ((int)(((byte)(252)))), ((int)(((byte)(252)))));
             this.kryptonNavigator1.StateNormal.Page.Color1 = System.Drawing.Color.FromArgb(((int)(((byte)(250)))), ((int)(((byte)(252)))), ((int)(((byte)(252)))));
             this.kryptonNavigator1.StateNormal.Page.Color2 = System.Drawing.Color.FromArgb(((int)(((byte)(250)))), ((int)(((byte)(252)))), ((int)(((byte)(252)))));
+            this.kryptonNavigator1.StateSelected.Tab.Back.Color1 = System.Drawing.Color.Blue;
+            this.kryptonNavigator1.StateSelected.Tab.Back.Color2 = System.Drawing.Color.Blue;
+            this.kryptonNavigator1.StateSelected.Tab.Border.Color1 = System.Drawing.Color.Blue;
+            this.kryptonNavigator1.StateSelected.Tab.Border.Color2 = System.Drawing.Color.Blue;
+            this.kryptonNavigator1.StateSelected.Tab.Border.DrawBorders = ((ComponentFactory.Krypton.Toolkit.PaletteDrawBorders)((((ComponentFactory.Krypton.Toolkit.PaletteDrawBorders.Top | ComponentFactory.Krypton.Toolkit.PaletteDrawBorders.Bottom) 
+            | ComponentFactory.Krypton.Toolkit.PaletteDrawBorders.Left) 
+            | ComponentFactory.Krypton.Toolkit.PaletteDrawBorders.Right)));
             this.kryptonNavigator1.TabIndex = 59;
             this.kryptonNavigator1.Text = "kryptonNavigator1";
             this.kryptonNavigator1.SelectedPageChanged += new System.EventHandler(this.kryptonNavigator1_SelectedPageChanged);
@@ -773,6 +781,7 @@ namespace VisualCheckingGUI
             // 
             // kryptonPanel8
             // 
+            this.kryptonPanel8.Controls.Add(this.lblLoadingPo);
             this.kryptonPanel8.Controls.Add(this.btnCallMaintenance);
             this.kryptonPanel8.Controls.Add(this.btnFinishPreparation);
             this.kryptonPanel8.Controls.Add(this.btnStartPreparation);
@@ -786,10 +795,22 @@ namespace VisualCheckingGUI
             this.kryptonPanel8.StateCommon.Color2 = System.Drawing.Color.FromArgb(((int)(((byte)(250)))), ((int)(((byte)(252)))), ((int)(((byte)(252)))));
             this.kryptonPanel8.TabIndex = 0;
             // 
+            // lblLoadingPo
+            // 
+            this.lblLoadingPo.AutoSize = true;
+            this.lblLoadingPo.BackColor = System.Drawing.Color.Yellow;
+            this.lblLoadingPo.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblLoadingPo.Location = new System.Drawing.Point(380, 18);
+            this.lblLoadingPo.Name = "lblLoadingPo";
+            this.lblLoadingPo.Size = new System.Drawing.Size(206, 20);
+            this.lblLoadingPo.TabIndex = 115;
+            this.lblLoadingPo.Text = "Loading Production Order ...";
+            this.lblLoadingPo.Visible = false;
+            // 
             // btnCallMaintenance
             // 
             this.btnCallMaintenance.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnCallMaintenance.Location = new System.Drawing.Point(546, 3);
+            this.btnCallMaintenance.Location = new System.Drawing.Point(607, 4);
             this.btnCallMaintenance.Name = "btnCallMaintenance";
             this.btnCallMaintenance.OverrideDefault.Back.Color1 = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(101)))), ((int)(((byte)(1)))));
             this.btnCallMaintenance.OverrideDefault.Back.Color2 = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(101)))), ((int)(((byte)(1)))));
@@ -2505,6 +2526,7 @@ namespace VisualCheckingGUI
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "PPAGUI";
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Main_FormClosing);
             this.Load += new System.EventHandler(this.Main_Load);
             this.SizeChanged += new System.EventHandler(this.Main_SizeChanged);
             this.tableLayoutPanel1.ResumeLayout(false);
@@ -2532,6 +2554,7 @@ namespace VisualCheckingGUI
             this.kryptonGroupBox1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.kryptonPanel8)).EndInit();
             this.kryptonPanel8.ResumeLayout(false);
+            this.kryptonPanel8.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.panelPassFail)).EndInit();
             this.panelPassFail.ResumeLayout(false);
             this.tableLayoutPanel9.ResumeLayout(false);
@@ -2732,6 +2755,7 @@ namespace VisualCheckingGUI
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel9;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel10;
         private System.Windows.Forms.Panel panel5;
+        private System.Windows.Forms.Label lblLoadingPo;
     }
 }
 

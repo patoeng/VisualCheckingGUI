@@ -16,12 +16,14 @@ using MesData;
 using MesData.Login;
 using MesData.Ppa;
 using MesData.Repair;
+using MesData.UnitCounter;
 using Newtonsoft.Json;
 using OpcenterWikLibrary;
 using VisualCheckingGUI.Enumeration;
 using VisualCheckingGUI.Hardware;
 using VisualCheckingGUI.Model;
 using VisualCheckingGUI.Properties;
+using Environment = System.Environment;
 
 namespace VisualCheckingGUI
 {
@@ -36,7 +38,7 @@ namespace VisualCheckingGUI
         private string _containerResult = ResultString.False;
         private VcNgReason _vcNgReason;
         private string _wrongOperationPosition;
-        private Rs232Scanner _keyenceRs232Scanner;
+        private readonly Rs232Scanner _keyenceRs232Scanner;
         #endregion
 
         #region CONSTRUCTOR
@@ -51,7 +53,6 @@ namespace VisualCheckingGUI
             Text = Mes.AddVersionNumber(name);
 #endif
             _mesData = new Mes(name, AppSettings.Resource,name);
-
             lbTitle.Text =AppSettings.Resource;
 
             kryptonNavigator1.SelectedIndex = 0;
@@ -111,13 +112,19 @@ namespace VisualCheckingGUI
               if (!_readScanner) Tb_Scanner.Clear();
               _ignoreScanner = true;
                 if (string.IsNullOrEmpty(_keyenceRs232Scanner.DataValue)) return;
-                switch (_visualCheckingState)
+                var temp = _keyenceRs232Scanner.DataValue.Trim('\r', '\n');
+                if (_keyenceRs232Scanner.DataValue.Length != 19) return;
+               switch (_visualCheckingState)
                 {
                     case VisualCheckingState.ScanUnitSerialNumber:
-                        Tb_Scanner.Text = _keyenceRs232Scanner.DataValue;
-                        Tb_SerialNumber.Text = Tb_Scanner.Text;
+                        Tb_SerialNumber.Text = temp;
                         Tb_Scanner.Clear();
-                        await SetVisualCheckingState(VisualCheckingState.CheckUnitStatus);
+                        _ignoreScanner = false;
+                        if (Tb_SerialNumber.Text.Length == 19)
+                        {
+                            _keyenceRs232Scanner.StopRead();
+                            await SetVisualCheckingState(VisualCheckingState.CheckUnitStatus);
+                        }
                         break;
                 }
                 _ignoreScanner = false;
@@ -187,7 +194,7 @@ namespace VisualCheckingGUI
                     transPastDue = Mes.GetMaintenancePastDue(_mesData.MaintenanceStatusDetails);
                     if (transPastDue.Result)
                     {
-                        KryptonMessageBox.Show(this, "This resource under maintenance, need to complete!", "Move In",
+                        KryptonMessageBox.Show(this, "This resource under maintenance, need to complete!", "Check Unit",
                             MessageBoxButtons.OK, MessageBoxIcon.Error);
                         break;
                     }
@@ -209,29 +216,46 @@ namespace VisualCheckingGUI
                             }
                             if (oContainerStatus.MfgOrderName != null && _mesData.ManufacturingOrder == null)
                             {
+                                ClearPo();
+                                lblLoadingPo.Visible = true;
                                 var mfg = await Mes.GetMfgOrder(_mesData, oContainerStatus.MfgOrderName.ToString());
+                                if (mfg == null)
+                                {
+                                    KryptonMessageBox.Show(this, "Failed To Get Manufacturing Order Information", "Check Unit",
+                                        MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                    await SetVisualCheckingState(VisualCheckingState.ScanUnitSerialNumber);
+                                    break;
+                                }
                                 _mesData.SetManufacturingOrder(mfg);
                                 Tb_PO.Text = oContainerStatus.MfgOrderName.ToString();
                                 Tb_Product.Text = oContainerStatus.Product.Name;
                                 Tb_ProductDesc.Text = oContainerStatus.ProductDescription.Value;
                                 var img = await Mes.GetImage(_mesData, oContainerStatus.Product.Name);
                                 pictureBox1.ImageLocation = img.Identifier.Value;
+                                if (_mesUnitCounter != null)
+                                {
+                                    await _mesUnitCounter.StopPoll();
+                                }
+                                _mesUnitCounter = MesUnitCounter.Load(MesUnitCounter.GetFileName(mfg.Name.Value));
 
-                                var cnt = await Mes.GetCounterFromMfgOrder(_mesData);
-                                Tb_VisualQty.Text = cnt.ToString();
+                                if (!MesUnitCounter.FileExist(mfg.Name.ToString()))
+                                {
+                                    var cnt = await Mes.GetCounterFromMfgOrder(_mesData, 120000);
+                                    _mesUnitCounter.SetActiveMfgOrder(mfg.Name.Value, cnt);
+                                }
+                                _mesUnitCounter.InitPoll(_mesData);
+                                _mesUnitCounter.StartPoll();
+                                MesUnitCounter.Save(_mesUnitCounter);
+
+                                Tb_VisualQty.Text = _mesUnitCounter.Counter.ToString();
+                                lblLoadingPo.Visible = false;
                             }
 
                         }
 
-                        var vcAttempt = oContainerStatus.Attributes?.Where(x => x.Name == "VcAttempt").ToList();
-                        if (vcAttempt != null && vcAttempt.Count > 0)
-                        {
-                            _vcAttempt = Convert.ToInt32(vcAttempt[0].AttributeValue.ToString());
-                        }
-                        else
-                        {
-                            _vcAttempt = 0;
-                        }
+
+                        _vcAttempt = Mes.GetIntegerAttribute(oContainerStatus.Attributes, "VcAttempt");
+                        
 
                         await SetVisualCheckingState(VisualCheckingState.VisualCheckResult);
                         break;
@@ -260,7 +284,11 @@ namespace VisualCheckingGUI
                     break;
                 case VisualCheckingState.UpdateMoveInMove:
                     Tb_Scanner.Enabled = false;
-                    lblCommand.Text = @"Container Move In"; 
+                    lblCommand.Text = @"Container Move In";
+
+                    panelPassFail.Visible = false;
+                    btnSubmit.Visible = false;
+                    panelReason.Visible = false;
 
                     var cDataPoint = new DataPointDetails[1];
                     cDataPoint[0] = new DataPointDetails()
@@ -268,14 +296,44 @@ namespace VisualCheckingGUI
                     oContainerStatus = await Mes.GetContainerStatusDetails(_mesData, Tb_SerialNumber.Text, _mesData.DataCollectionName);
                     if (oContainerStatus != null)
                     {
-                        var resultMoveIn = await Mes.ExecuteMoveIn(_mesData, oContainerStatus.ContainerName.Value,
-                            _dMoveIn);
-                        if (resultMoveIn.Result)
+                        lblCommand.Text = @"Container Move In Attempt 1";
+                        var transaction = await Mes.ExecuteMoveIn(_mesData, oContainerStatus.ContainerName.Value, _dMoveIn);
+                        var resultMoveIn = transaction.Result || transaction.Message == "Move-in has already been performed for this operation.";
+                        if (!resultMoveIn && transaction.Message.Contains("TimeOut"))
+                        {
+                            lblCommand.Text = @"Container Move In Attempt 2";
+                            transaction = await Mes.ExecuteMoveIn(_mesData, oContainerStatus.ContainerName.Value, _dMoveIn);
+                            resultMoveIn = transaction.Result || transaction.Message == "Move-in has already been performed for this operation.";
+                            if (!resultMoveIn && transaction.Message.Contains("TimeOut"))
+                            {
+                                lblCommand.Text = @"Container Move In Attempt 3";
+                                transaction = await Mes.ExecuteMoveIn(_mesData, oContainerStatus.ContainerName.Value, _dMoveIn);
+                                resultMoveIn = transaction.Result || transaction.Message == "Move-in has already been performed for this operation.";
+                            }
+                        }
+                        if (resultMoveIn)
                         {
                             lblCommand.Text = @"Container Move Standard";
                             _dMoveOut = DateTime.Now;
+                            lblCommand.Text = @"Container Move Standard Attempt 1";
+                            var resultMoveStd = await Mes.ExecuteMoveStandard(_mesData,
+                                oContainerStatus.ContainerName.Value, _dMoveOut, cDataPoint, 30000);
+                            if (!resultMoveStd.Result && resultMoveStd.Message.Contains("TimeOut"))
+                            {
+                                _dMoveOut = DateTime.Now;
+                                lblCommand.Text = @"Container Move Standard Attempt 2";
+                                resultMoveStd = await Mes.ExecuteMoveStandard(_mesData,
+                                    oContainerStatus.ContainerName.Value, _dMoveOut, cDataPoint, 30000);
+                                if (!resultMoveStd.Result && resultMoveStd.Message.Contains("TimeOut"))
+                                {
+                                    _dMoveOut = DateTime.Now;
+                                    lblCommand.Text = @"Container Move Standard Attempt 3";
+                                    resultMoveStd = await Mes.ExecuteMoveStandard(_mesData,
+                                        oContainerStatus.ContainerName.Value, _dMoveOut, cDataPoint, 30000);
+                                }
+                            }
+
                             lbMoveOut.Text = _dMoveOut.ToString(Mes.DateTimeStringFormat);
-                            var resultMoveStd = await Mes.ExecuteMoveStandard(_mesData, oContainerStatus.ContainerName.Value, _dMoveOut, cDataPoint);
                             if (resultMoveStd.Result)
                             {
                                 _vcAttempt += 1;
@@ -291,16 +349,16 @@ namespace VisualCheckingGUI
                                         new ContainerAttrDetail { Name = "VcAttempt", DataType = TrivialTypeEnum.Integer, AttributeValue = _vcAttempt.ToString(), IsExpression = false }
                                     };
                                     await Mes.ExecuteContainerAttrMaint(_mesData, oContainerStatus, reason2.ToArray());
-                                } 
-                                
+                                }
+
                                 //Update Counter
 
-                                await Mes.UpdateCounter(_mesData, 1);
-                                    var mfg = await Mes.GetMfgOrder(_mesData,
-                                        _mesData.ManufacturingOrder.Name.Value);
-                                    _mesData.SetManufacturingOrder(mfg);
-                                    var count = await Mes.GetCounterFromMfgOrder(_mesData);
-                                    Tb_VisualQty.Text = count.ToString();
+                                var currentPos = await Mes.GetCurrentContainerStep(_mesData, oContainerStatus.ContainerName.Value);
+                                await Mes.UpdateOrCreateFinishGoodRecordToCached(_mesData, oContainerStatus.MfgOrderName?.Value, oContainerStatus.ContainerName.Value, currentPos);
+                                _mesUnitCounter.UpdateCounter(1);
+                                MesUnitCounter.Save(_mesUnitCounter);
+
+                                Tb_VisualQty.Text = _mesUnitCounter.Counter.ToString();
                             }
                             await SetVisualCheckingState(resultMoveStd.Result
                                 ? VisualCheckingState.ScanUnitSerialNumber
@@ -428,10 +486,9 @@ namespace VisualCheckingGUI
             try
             {
                 var resourceStatus = await Mes.GetResourceStatusDetails(_mesData);
-                _mesData.SetResourceStatusDetails(resourceStatus);
-
                 if (resourceStatus != null)
                 {
+                    _mesData.SetResourceStatusDetails(resourceStatus);
                     if (resourceStatus.Status != null) Tb_StatusCode.Text = resourceStatus.Reason?.Name;
                     if (resourceStatus.Availability != null)
                     {
@@ -465,10 +522,9 @@ namespace VisualCheckingGUI
             try
             {
                 var resourceStatus = await Mes.GetResourceStatusDetails(_mesData);
-                _mesData.SetResourceStatusDetails(resourceStatus);
-
                 if (resourceStatus != null)
                 {
+                    _mesData.SetResourceStatusDetails(resourceStatus);
                     if (resourceStatus.Status != null) Cb_StatusCode.Text = resourceStatus.Status.Name;
                     await Task.Delay(1000);
                     if (resourceStatus.Reason != null) Cb_StatusReason.Text = resourceStatus.Reason.Name;
@@ -706,6 +762,8 @@ namespace VisualCheckingGUI
         private bool _ignoreScanner;
         private readonly int _indexMaintenanceState;
         private int _vcAttempt;
+        private  MesUnitCounter _mesUnitCounter;
+        private bool _allowClose;
 
 
         private async void Tb_Scanner_KeyUp(object sender, KeyEventArgs e)
@@ -747,7 +805,6 @@ namespace VisualCheckingGUI
             Tb_VisualQty.Clear();
             Tb_FinishedGoodCounter.Clear();
             pictureBox1.ImageLocation = null;
-            ClrContainer();
         }
       
         private void kryptonGroupBox2_Panel_Paint(object sender, PaintEventArgs e)
@@ -808,6 +865,10 @@ namespace VisualCheckingGUI
 
         private async void kryptonNavigator1_SelectedPageChanged(object sender, EventArgs e)
         {
+            if (kryptonNavigator1.SelectedIndex == 0)
+            {
+                ActiveControl = Tb_Scanner;
+            }
             if (kryptonNavigator1.SelectedIndex == 1)
             {
                 await GetStatusOfResourceDetail();
@@ -824,10 +885,12 @@ namespace VisualCheckingGUI
         }
         private async Task GetFinishedGoodRecord()
         {
-            var data = await Mes.GetFinishGoodRecord(_mesData, _mesData.ManufacturingOrder?.Name.ToString());
+            if (_mesData == null) return;
+
+            var data = await Mes.GetFinishGoodRecordFromCached(_mesData, _mesData.ManufacturingOrder?.Name.ToString());
             if (data != null)
             {
-                var list = await Mes.ContainerStatusesToFinishedGood(data);
+                var list = await Mes.FinishGoodToFinishedGood(data);
                 finishedGoodBindingSource.DataSource = new BindingList<FinishedGood>(list);
                 kryptonDataGridView1.DataSource = finishedGoodBindingSource;
                 Tb_FinishedGoodCounter.Text = list.Length.ToString();
@@ -973,6 +1036,27 @@ namespace VisualCheckingGUI
                 ex.Source = AppSettings.AssemblyName == ex.Source ? MethodBase.GetCurrentMethod()?.Name : MethodBase.GetCurrentMethod()?.Name + "." + ex.Source;
                 EventLogUtil.LogErrorEvent(ex.Source, ex);
             }
+        }
+
+        private async Task AsyncClosing()
+        {
+            if (_mesUnitCounter != null)
+            {
+                await _mesUnitCounter.StopPoll();
+            }
+            _allowClose = true;
+            Close();
+        }
+        private async void Main_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            if (_allowClose)
+            {
+                e.Cancel = true;
+                Environment.Exit(Environment.ExitCode);
+            }
+
+            e.Cancel = true;
+            await AsyncClosing();
         }
     }
 }
