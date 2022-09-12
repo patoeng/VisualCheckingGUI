@@ -313,6 +313,21 @@ namespace VisualCheckingGUI
                         }
                         if (resultMoveIn)
                         {
+                            _vcAttempt += 1;
+                            if (_containerResult == ResultString.False)
+                            {
+                                var reason = GetReasonAttribute();
+                                await Mes.ExecuteContainerAttrMaint(_mesData, oContainerStatus, reason.ToArray());
+                            }
+                            else
+                            {
+                                var reason2 = new List<ContainerAttrDetail>
+                                {
+                                    new ContainerAttrDetail { Name = "VcAttempt", DataType = TrivialTypeEnum.Integer, AttributeValue = _vcAttempt.ToString(), IsExpression = false }
+                                };
+                                await Mes.ExecuteContainerAttrMaint(_mesData, oContainerStatus, reason2.ToArray());
+                            }
+
                             lblCommand.Text = @"Container Move Standard";
                             _dMoveOut = DateTime.Now;
                             lblCommand.Text = @"Container Move Standard Attempt 1";
@@ -336,21 +351,7 @@ namespace VisualCheckingGUI
                             lbMoveOut.Text = _dMoveOut.ToString(Mes.DateTimeStringFormat);
                             if (resultMoveStd.Result)
                             {
-                                _vcAttempt += 1;
-                                if (_containerResult == ResultString.False)
-                                {
-                                    var reason = GetReasonAttribute();
-                                    await Mes.ExecuteContainerAttrMaint(_mesData, oContainerStatus, reason.ToArray());
-                                }
-                                else
-                                {
-                                    var reason2 = new List<ContainerAttrDetail>
-                                    {
-                                        new ContainerAttrDetail { Name = "VcAttempt", DataType = TrivialTypeEnum.Integer, AttributeValue = _vcAttempt.ToString(), IsExpression = false }
-                                    };
-                                    await Mes.ExecuteContainerAttrMaint(_mesData, oContainerStatus, reason2.ToArray());
-                                }
-
+                               
                                 //Update Counter
 
                                 var currentPos = await Mes.GetCurrentContainerStep(_mesData, oContainerStatus.ContainerName.Value);
