@@ -227,7 +227,6 @@ namespace VisualCheckingGUI
                             }
                             if (oContainerStatus.MfgOrderName != null && (_mesData.ManufacturingOrder == null || oContainerStatus.MfgOrderName?.Value != _mesData.ManufacturingOrder?.Name?.Value))
                             {
-                                _mfgOrderReady = false;
                                 ClearPo();
                                 lblLoadingPo.Visible = true;
                                 var mfg = await Mes.GetMfgOrder(_mesData, oContainerStatus.MfgOrderName.ToString());
@@ -330,6 +329,9 @@ namespace VisualCheckingGUI
                             {
                                 var reason = GetReasonAttribute();
                                 await Mes.ExecuteContainerAttrMaint(_mesData, oContainerStatus, reason.ToArray());
+                                var list = CreateDefectDetails(oContainerStatus.ContainerName.Value).ToArray();
+                                await Mes.ExecuteContainerDefect(_mesData, oContainerStatus.ContainerName.Value, list);
+
                             }
                             else
                             {
@@ -681,6 +683,7 @@ namespace VisualCheckingGUI
                             {
                                 var cb = new RoundCheckbox();
                                 cb.TabIndex = index;
+                                cb.AccessibleDescription = index.ToString();
                                 cb.Font = new Font("Segoe UI", 14);
                                 cb.AutoSize = true;
                                 cb.Text = reason.Name;
@@ -734,6 +737,7 @@ namespace VisualCheckingGUI
             foreach (var ngReason in _vcNgReason.NgReasons)
             {
                 ngReason.CheckBox.Checked = false;
+                ngReason.SetComment("");
             }
             foreach (var cb in _vcNgReason.Level3CheckBoxes)
             {
@@ -755,6 +759,11 @@ namespace VisualCheckingGUI
                 if (ngReason.CheckBox.Checked)
                 {
                     var defect = new DefectItem {DefectName = ngReason.Reason, Value = "", TestAttempt = _vcAttempt.ToString()};
+                    if (ngReason.Reason.ToUpper().Contains("OTHERS"))
+                    {
+                        defect = new DefectItem { DefectName = $"{ngReason.Reason} ({ngReason.Comment}) ", Value = "", TestAttempt = _vcAttempt.ToString() };
+                    }
+                  
                     var attribute = new ContainerAttrDetail { Name = $"defectVC_{_vcAttempt}_{++index}", DataType = TrivialTypeEnum.String, AttributeValue = JsonConvert.SerializeObject(defect), IsExpression = false };
                     d.Add(attribute);
                 }
@@ -762,10 +771,46 @@ namespace VisualCheckingGUI
 
             return d;
         }
+        private List<ContainerDefectDetail> CreateDefectDetails(string container)
+        {
+            var d = new List<ContainerDefectDetail>();
+            if (_vcNgReason == null) return d;
+           
+            foreach (var ngReason in _vcNgReason.NgReasons)
+            {
+                if (ngReason.CheckBox.Checked)
+                {
+                    var dd = new ContainerDefectDetail
+                    {
+                        Container = new ContainerRef(container),
+                        DefectCount = 1,
+                        ReasonCode = new NamedObjectRef(ngReason.Reason)
+                    };
+                    if (ngReason.Reason.ToUpper().Contains("OTHERS"))
+                    {
+                        dd.Comment = new Primitive<string>(ngReason.Comment);
+                    }
+                    d.Add(dd);
+                }
+                
+            }
+
+            return d;
+        }
         private void CbReasonChanged(object sender, EventArgs e)
         {
             var cb = (CheckBox) sender;
-           // cb.BackColor = cb.Checked ? Color.Red : Color.LightGray;
+
+            if (cb.Text.Contains("Others")  )
+            {
+                if (cb.Checked)
+                {
+                    var index = Convert.ToInt32(cb.AccessibleDescription);
+                    var comment = _vcNgReason.NgReasons[index - 1].Comment;
+                    var inputBox = KryptonInputBox.Show("Type in the Reasons", "Other Reason", comment);
+                    _vcNgReason.NgReasons[index - 1].SetComment(inputBox);
+                }
+            }
         }
 
         private async void TimerRealtime_Tick(object sender, EventArgs e)
@@ -786,7 +831,6 @@ namespace VisualCheckingGUI
         private int _vcAttempt;
         private  MesUnitCounter _mesUnitCounter;
         private bool _allowClose;
-        private bool _mfgOrderReady;
         private bool _sortAscending;
         private BindingList<FinishedGood> _bindingList;
 

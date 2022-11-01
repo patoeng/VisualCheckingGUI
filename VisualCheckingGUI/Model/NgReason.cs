@@ -8,6 +8,7 @@ namespace VisualCheckingGUI.Model
         public int Id { get; protected set; }
         public string Group { get; protected set; }
         public string Reason { get; protected set; }
+        public string Comment { get; protected set; } = "";
         public RoundCheckbox CheckBox { get; protected set; }
         public NgReason(int id, string group, string reason, RoundCheckbox checkBox)
         {
@@ -15,6 +16,11 @@ namespace VisualCheckingGUI.Model
             Group = group;
             Reason = reason;
             CheckBox = checkBox;
+        }
+
+        public void SetComment(string comment)
+        {
+            Comment = comment;
         }
     }
 }

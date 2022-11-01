@@ -48,6 +48,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="AdvancedPageDragAndDrop">
+      <HintPath>..\..\Krypton\Bin\AdvancedPageDragAndDrop.exe</HintPath>
+    </Reference>
     <Reference Include="Camstar.Exceptions, Version=8.3.7871.22572, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\GitHub\GitHub\Camstar.Exceptions.dll</HintPath>
@@ -115,6 +118,12 @@
   <ItemGroup>
     <Compile Include="Enumeration\VisualCheckingState.cs" />
     <Compile Include="Hardware\Rs232Scanner.cs" />
+    <Compile Include="InputForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="InputForm.Designer.cs">
+      <DependentUpon>InputForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Main.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -141,6 +150,9 @@
     <Compile Include="RoundCheckbox.cs">
       <SubType>Component</SubType>
     </Compile>
+    <EmbeddedResource Include="InputForm.resx">
+      <DependentUpon>InputForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Main.resx">
       <DependentUpon>Main.cs</DependentUpon>
     </EmbeddedResource>
