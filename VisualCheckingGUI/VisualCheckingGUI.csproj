@@ -121,7 +121,7 @@
     <Compile Include="InputForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="InputForm.Designer.cs">
+    <Compile Include="InputForm.designer.cs">
       <DependentUpon>InputForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Main.cs">
@@ -129,12 +129,6 @@
     </Compile>
     <Compile Include="Main.Designer.cs">
       <DependentUpon>Main.cs</DependentUpon>
-    </Compile>
-    <Compile Include="MainOld.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="MainOld.Designer.cs">
-      <DependentUpon>MainOld.cs</DependentUpon>
     </Compile>
     <Compile Include="Model\Level3Form.cs">
       <SubType>Form</SubType>
@@ -155,9 +149,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Main.resx">
       <DependentUpon>Main.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="MainOld.resx">
-      <DependentUpon>MainOld.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Model\Level3Form.resx">
       <DependentUpon>Level3Form.cs</DependentUpon>
