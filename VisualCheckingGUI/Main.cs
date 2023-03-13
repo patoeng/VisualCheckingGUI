@@ -49,10 +49,10 @@ namespace VisualCheckingGUI
             InitializeComponent();
 #if MiniMe
             var  name = "Visual Checking Minime";
-            Text = Mes.AddVersionNumber(name);
+            Text = Mes.AddVersionNumber(name + " MiniMe");
 #elif Ariel
             var name = "Visual Checking Ariel";
-            Text = Mes.AddVersionNumber(name);
+            Text = Mes.AddVersionNumber(name + " Ariel");
 #endif
             _mesData = new Mes(name, AppSettings.Resource,name);
             lbTitle.Text =AppSettings.Resource;
@@ -382,7 +382,7 @@ namespace VisualCheckingGUI
                                 Tb_Product.Text = oContainerStatus.Product.Name;
                                 Tb_ProductDesc.Text = oContainerStatus.ProductDescription.Value;
                                 var img =   Mes.GetImage(_mesData, oContainerStatus.Product.Name);
-                                pictureBox1.ImageLocation = img.Identifier.Value;
+                                pictureBox1.ImageLocation = img?.Identifier?.Value;
                                 if (_mesUnitCounter != null)
                                 {
                                       _mesUnitCounter.StopPoll();
