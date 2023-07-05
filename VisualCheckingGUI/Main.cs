@@ -49,11 +49,12 @@ namespace VisualCheckingGUI
             InitializeComponent();
 #if MiniMe
             var  name = "Visual Checking Minime";
-            Text = Mes.AddVersionNumber(name + " MiniMe");
 #elif Ariel
             var name = "Visual Checking Ariel";
-            Text = Mes.AddVersionNumber(name + " Ariel");
+#elif Gaia
+            var name = "Visual Checking GAIA";
 #endif
+            Text = name + @" V1.2";
             _mesData = new Mes(name, AppSettings.Resource,name);
             lbTitle.Text =AppSettings.Resource;
 
