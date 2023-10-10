@@ -181,4 +181,7 @@
   <metadata name="finishedGoodBindingSource.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>278, 20</value>
   </metadata>
+  <metadata name="tmrAutoStandByChecker.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>202, 59</value>
+  </metadata>
 </root>

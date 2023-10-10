@@ -25,15 +25,6 @@ namespace VisualCheckingGUI.Properties {
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("COM3")]
-        public string PortName {
-            get {
-                return ((string)(this["PortName"]));
-            }
-        }
-        
-        [global::System.Configuration.ApplicationScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("115200")]
         public int BaudRate {
             get {
@@ -65,6 +56,25 @@ namespace VisualCheckingGUI.Properties {
         public global::System.IO.Ports.StopBits StopBits {
             get {
                 return ((global::System.IO.Ports.StopBits)(this["StopBits"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("Data Source=\"127.0.0.1\";Initial Catalog=\"9630\";User id=\"wik\";Password=\"passwordwi" +
+            "k\";")]
+        public string WeighingDatabaseConnection {
+            get {
+                return ((string)(this["WeighingDatabaseConnection"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("COM1")]
+        public string PortName {
+            get {
+                return ((string)(this["PortName"]));
             }
         }
     }

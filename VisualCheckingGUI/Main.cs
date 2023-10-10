@@ -4,30 +4,29 @@ using System.ComponentModel;
 using System.Drawing;
 using System.IO.Ports;
 using System.Linq;
+using System.Linq.Dynamic;
 using System.Reflection;
-using System.Threading;
 using System.Threading.Tasks;
-using System.Web.Configuration;
 using System.Windows.Forms;
 using Camstar.WCF.ObjectStack;
 using ComponentFactory.Krypton.Navigator;
 using ComponentFactory.Krypton.Toolkit;
+using Hmi.Helpers;
 using MesData;
+using MesData.Common;
 using MesData.Login;
-using MesData.Ppa;
 using MesData.Repair;
 using MesData.UnitCounter;
 using Newtonsoft.Json;
 using OpcenterWikLibrary;
+using VisualCheckingGUI.Properties;
+using VisualCheckingGUI;
 using VisualCheckingGUI.Enumeration;
 using VisualCheckingGUI.Hardware;
 using VisualCheckingGUI.Model;
-using VisualCheckingGUI.Properties;
 using Environment = System.Environment;
-using System.Linq.Dynamic;
-using Hmi.Helpers;
 
-namespace VisualCheckingGUI
+namespace VCGUI
 {
     public partial class Main : KryptonForm
     {
@@ -54,13 +53,13 @@ namespace VisualCheckingGUI
 #elif Gaia
             var name = "Visual Checking GAIA";
 #endif
-            Text = name + @" V1.2";
+            Text = name + @" V1.3";
             _mesData = new Mes(name, AppSettings.Resource,name);
             lbTitle.Text =AppSettings.Resource;
 
             kryptonNavigator1.SelectedIndex = 0;
 
-            EventLogUtil.LogEvent("Application Start");
+         
 
             var maintStrings = new[] { "Resource", "MaintenanceType", "MaintenanceReq", "NextDateDue", "NextThruputQtyDue", "MaintenanceState" };
             for (int i = 0; i < Dg_Maintenance.Columns.Count; i++)
@@ -96,6 +95,7 @@ namespace VisualCheckingGUI
             }
             //Instantiate Setting
             var setting = new Settings();
+            InitStandByTimer(setting.WeighingDatabaseConnection, this);
             //Init Com
             var serialCom = new SerialPort
             {
@@ -120,6 +120,7 @@ namespace VisualCheckingGUI
             _moveWorker.RunWorkerCompleted += MoveWorkerCompleted;
             _moveWorker.ProgressChanged += MoveWorkerProgress;
             _moveWorker.DoWork += MoveWorkerDoWork;
+            EventLogUtil.LogEvent("Application Start");
         }
 
         private void MoveWorkerDoWork(object sender, DoWorkEventArgs e)
@@ -246,10 +247,49 @@ namespace VisualCheckingGUI
         {
             
             var states = (VisualCheckingState) e.Result;
+            _startStandByTimer = true;
             SetVisualCheckingState(states);
         }
+        #region Auto Standby
+        public void InitStandByTimer(string connection, Form parentForm)
+        {
+            _standByConnection = connection;
+            _autoStandBy = new AutoStandBy(_mesData, parentForm)
+            {
+                StandbyStatus = "VC - Standby Time",
+                DefaultPreStandbyStatus = "VC - Productive Time",
+                DefaultPreStandbyStatusReason = "Pass",
+                MaintenanceStatus = "VC - Internal Downtime"
+            };
+            _autoStandBy.AutoStandByStatusUpdated += AutoStandByStatusUpdated;
+            _autoStandBy.Init(connection);
+            tbPrePopUp.Text = _autoStandBy.AutoStandBySetting.PrePopUpTimer.ToString("0.##");
+            tbPreStandBy.Text = _autoStandBy.AutoStandBySetting.PreStandByTimer.ToString("0.##");
+            _startStandByTimer = true;
+            tmrAutoStandByChecker.Start();
+        }
 
-        private  void KeyenceDataReadValid(object sender)
+        private void AutoStandByStatusUpdated(StandByState standbystate)
+        {
+            GetStatusOfResource();
+        }
+
+        public void RestoreStatusPreStandBy()
+        {
+            _autoStandBy.RestoreStatusPreStandBy(_autoStandBy.StatusPreStandby);
+        }
+
+        public void StartStandByTimer()
+        {
+            _autoStandBy?.StartStandByTimer();
+        }
+        public void StopStandByTimer()
+        {
+            _autoStandBy?.StopPopUpTimer();
+            _autoStandBy?.StopStandByTimer();
+        }
+        #endregion
+        private void KeyenceDataReadValid(object sender)
         {
               if (!_readScanner) Tb_Scanner.Clear();
               _ignoreScanner = true;
@@ -286,7 +326,7 @@ namespace VisualCheckingGUI
 
         #region FUNCTION USEFULL
 
-        private   void SetVisualCheckingState(VisualCheckingState visualCheckingState)
+        private void SetVisualCheckingState(VisualCheckingState visualCheckingState)
         {
             _visualCheckingState = visualCheckingState;
             switch (_visualCheckingState)
@@ -309,9 +349,10 @@ namespace VisualCheckingGUI
 
                     if (_mesData.ResourceStatusDetails == null || _mesData.ResourceStatusDetails?.Availability != "Up")
                     {
-                          SetVisualCheckingState(VisualCheckingState.PlaceUnit);
+                        SetVisualCheckingState(VisualCheckingState.PlaceUnit);
                         break;
                     }
+
                     // check if fail by maintenance Past Due
                     var transPastDue = Mes.GetMaintenancePastDue(_mesData.MaintenanceStatusDetails);
                     if (transPastDue.Result)
@@ -320,6 +361,7 @@ namespace VisualCheckingGUI
                             MessageBoxButtons.OK, MessageBoxIcon.Error);
                         break;
                     }
+
                     Tb_Scanner.Enabled = true;
                     lblCommand.ForeColor = Color.LimeGreen;
                     lblCommand.Text = @"Scan Unit Serial Number!";
@@ -328,14 +370,16 @@ namespace VisualCheckingGUI
                     _keyenceRs232Scanner?.StartRead();
                     break;
                 case VisualCheckingState.CheckUnitStatus:
+                    RestoreStatusPreStandBy();
                     btnResetState.Enabled = false;
                     lblCommand.Text = @"Checking Unit Status";
                     _keyenceRs232Scanner?.StopRead();
                     if (_mesData.ResourceStatusDetails == null || _mesData.ResourceStatusDetails?.Availability != "Up")
                     {
-                          SetVisualCheckingState(VisualCheckingState.PlaceUnit);
+                        SetVisualCheckingState(VisualCheckingState.PlaceUnit);
                         break;
                     }
+
                     // check if fail by maintenance Past Due
                     transPastDue = Mes.GetMaintenancePastDue(_mesData.MaintenanceStatusDetails);
                     if (transPastDue.Result)
@@ -344,12 +388,14 @@ namespace VisualCheckingGUI
                             MessageBoxButtons.OK, MessageBoxIcon.Error);
                         break;
                     }
+
                     Tb_Scanner.Enabled = false;
                     lblCommand.Text = @"Checking Unit Status";
                     _dMoveIn = DateTime.Now;
                     lbMoveIn.Text = _dMoveIn.ToString(Mes.DateTimeStringFormat);
                     lbMoveOut.Text = "";
-                    var oContainerStatus =   Mes.GetContainerStatusDetails(_mesData, Tb_SerialNumber.Text, _mesData.DataCollectionName);
+                    var oContainerStatus =
+                        Mes.GetContainerStatusDetails(_mesData, Tb_SerialNumber.Text, _mesData.DataCollectionName);
                     if (oContainerStatus != null)
                     {
                         if (oContainerStatus.Operation != null)
@@ -357,42 +403,49 @@ namespace VisualCheckingGUI
                             if (oContainerStatus.Qty == 0)
                             {
                                 _wrongOperationPosition = "Scrap";
-                                  SetVisualCheckingState(VisualCheckingState.WrongPosition);
+                                SetVisualCheckingState(VisualCheckingState.WrongPosition);
                                 break;
                             }
+
                             if (oContainerStatus.Operation.Name != _mesData.OperationName)
                             {
                                 _wrongOperationPosition = oContainerStatus.Operation.Name;
-                                  SetVisualCheckingState(VisualCheckingState.WrongPosition);
+                                SetVisualCheckingState(VisualCheckingState.WrongPosition);
                                 break;
                             }
-                            if (oContainerStatus.MfgOrderName != null && (_mesData.ManufacturingOrder == null || oContainerStatus.MfgOrderName?.Value != _mesData.ManufacturingOrder?.Name?.Value))
+
+                            if (oContainerStatus.MfgOrderName != null && (_mesData.ManufacturingOrder == null ||
+                                                                          oContainerStatus.MfgOrderName?.Value !=
+                                                                          _mesData.ManufacturingOrder?.Name?.Value))
                             {
                                 ClearPo();
                                 lblLoadingPo.Visible = true;
-                                var mfg =   Mes.GetMfgOrder(_mesData, oContainerStatus.MfgOrderName.ToString());
+                                var mfg = Mes.GetMfgOrder(_mesData, oContainerStatus.MfgOrderName.ToString());
                                 if (mfg == null)
                                 {
-                                    KryptonMessageBox.Show(this, "Failed To Get Manufacturing Order Information", "Check Unit",
+                                    KryptonMessageBox.Show(this, "Failed To Get Manufacturing Order Information",
+                                        "Check Unit",
                                         MessageBoxButtons.OK, MessageBoxIcon.Error);
-                                      SetVisualCheckingState(VisualCheckingState.ScanUnitSerialNumber);
+                                    SetVisualCheckingState(VisualCheckingState.ScanUnitSerialNumber);
                                     break;
                                 }
+
                                 _mesData.SetManufacturingOrder(mfg);
                                 Tb_PO.Text = oContainerStatus.MfgOrderName.ToString();
                                 Tb_Product.Text = oContainerStatus.Product.Name;
                                 Tb_ProductDesc.Text = oContainerStatus.ProductDescription.Value;
-                                var img =   Mes.GetImage(_mesData, oContainerStatus.Product.Name);
+                                var img = Mes.GetImage(_mesData, oContainerStatus.Product.Name);
                                 pictureBox1.ImageLocation = img?.Identifier?.Value;
                                 if (_mesUnitCounter != null)
                                 {
-                                      _mesUnitCounter.StopPoll();
+                                    _mesUnitCounter.StopPoll();
                                 }
+
                                 _mesUnitCounter = MesUnitCounter.Load(MesUnitCounter.GetFileName(mfg.Name.Value));
 
-                              
+
                                 _mesUnitCounter.SetActiveMfgOrder(mfg.Name.Value);
-                                
+
                                 _mesUnitCounter.InitPoll(_mesData);
                                 _mesUnitCounter.StartPoll();
                                 MesUnitCounter.Save(_mesUnitCounter);
@@ -405,21 +458,22 @@ namespace VisualCheckingGUI
 
 
                         _vcAttempt = Mes.GetIntegerAttribute(oContainerStatus.Attributes, "VcAttempt");
-                        
 
-                          SetVisualCheckingState(VisualCheckingState.VisualCheckResult);
+
+                        SetVisualCheckingState(VisualCheckingState.VisualCheckResult);
                         break;
                     }
                     else
                     {
-                        var position =   Mes.GetCurrentContainerStep(_mesData, Tb_SerialNumber.Text);
+                        var position = Mes.GetCurrentContainerStep(_mesData, Tb_SerialNumber.Text);
                         if (position != _mesData.OperationName && !string.IsNullOrEmpty(position))
                         {
                             _wrongOperationPosition = position;
-                              SetVisualCheckingState(VisualCheckingState.WrongPosition);
+                            SetVisualCheckingState(VisualCheckingState.WrongPosition);
                             break;
                         }
                     }
+
                     SetVisualCheckingState(VisualCheckingState.UnitNotFound);
                     break;
                 case VisualCheckingState.VisualCheckResult:
@@ -435,6 +489,8 @@ namespace VisualCheckingGUI
                     break;
                 case VisualCheckingState.UpdateMoveInMove:
                     Tb_Scanner.Enabled = false;
+                    _startStandByTimer = false;
+                    RestoreStatusPreStandBy();
                     lblCommand.Text = @"Container Move In";
                     btnResetState.Enabled = false;
                     panelPassFail.Visible = false;
@@ -485,6 +541,25 @@ namespace VisualCheckingGUI
                     lblCommand.ForeColor = Color.Red;
                     lblCommand.Text = @"Unit Not Found";
                     break;
+            }
+
+            switch (_visualCheckingState)
+            {
+                
+                case VisualCheckingState.ScanUnitSerialNumber:
+                case VisualCheckingState.UnitNotFound:
+                case VisualCheckingState.VisualCheckResult:
+                case VisualCheckingState.FailReason:
+                case VisualCheckingState.MoveSuccess:
+                case VisualCheckingState.MoveInOkMoveFail:
+                case VisualCheckingState.MoveInFail:
+                case VisualCheckingState.Done:
+                case VisualCheckingState.WrongPosition:
+                case VisualCheckingState.WrongComponent:
+                case VisualCheckingState.WrongProductionOrder:
+                    _startStandByTimer = true;
+                    break;
+               
             }
         }
 
@@ -564,11 +639,12 @@ namespace VisualCheckingGUI
                 {
                     _mesData.SetResourceStatusDetails(resourceStatus);
                     if (resourceStatus.Status != null) Tb_StatusCode.Text = resourceStatus.Reason?.Name;
+                    if (resourceStatus.Reason?.Name == "Standby") _autoStandBy.SetToStandBy(); else _autoStandBy.ResetStandBy();
                     if (resourceStatus.Availability != null)
                     {
                         if (resourceStatus.Availability.Value == "Up")
                         {
-                            Tb_StatusCode.StateCommon.Content.Color1 = resourceStatus.Reason?.Name == "Quality Inspection" ? Color.Orange : Color.Green;
+                            Tb_StatusCode.StateCommon.Content.Color1 = resourceStatus.Reason?.Name == "Standby" ? Color.Yellow : Color.Green;
                         }
                         else if (resourceStatus.Availability.Value == "Down")
                         {
@@ -885,6 +961,9 @@ namespace VisualCheckingGUI
         private BindingList<FinishedGood> _bindingList;
         private BackgroundWorker _syncWorker;
         private readonly AbortableBackgroundWorker _moveWorker;
+        private string _standByConnection;
+        private AutoStandBy _autoStandBy;
+        private bool _startStandByTimer;
 
 
         private   void Tb_Scanner_KeyUp(object sender, KeyEventArgs e)
@@ -965,6 +1044,7 @@ namespace VisualCheckingGUI
                 var result = false;
                 if (Cb_StatusCode.Text != "" && Cb_StatusReason.Text != "")
                 {
+                    if (Cb_StatusReason.Text == "Standby") _autoStandBy.SetToStandBy(); else _autoStandBy.ResetStandBy();
                     result =   Mes.SetResourceStatus(_mesData, Cb_StatusCode.Text, Cb_StatusReason.Text);
                 }
                 else if (Cb_StatusCode.Text != "")
@@ -1233,5 +1313,18 @@ namespace VisualCheckingGUI
             _sortAscending = !_sortAscending;
         }
 
+        private void btnSaveSetting_Click(object sender, EventArgs e)
+        {
+            _autoStandBy.SetStandByTimer((double)tbPreStandBy.Value, (double)tbPrePopUp.Value);
+            _autoStandBy.SaveCurrentSetting(_standByConnection);
+        }
+
+        private void tmrAutoStandByChecker_Tick(object sender, EventArgs e)
+        {
+            tmrAutoStandByChecker.Stop();
+            lbPreStandBy.Text = (_autoStandBy.AutoStandBySetting.PreStandByTimer - _autoStandBy.PreStandByTimer.ElapsedMilliseconds / 1000f).ToString("0.#");
+            if (_startStandByTimer) StartStandByTimer(); else StopStandByTimer();
+            tmrAutoStandByChecker.Start();
+        }
     }
 }
