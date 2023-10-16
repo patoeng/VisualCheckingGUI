@@ -60,7 +60,15 @@ namespace VisualCheckingGUI
 
             kryptonNavigator1.SelectedIndex = 0;
 
-            EventLogUtil.LogEvent("Application Start");
+            try
+            {
+                EventLogUtil.LogEvent("Application Start");
+            }
+            catch (Exception exception)
+            {
+                MessageBox.Show($"Error Accessing Windows Event Log Service\r\n{exception.Message}",
+                    "Loading Application", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
 
             var maintStrings = new[] { "Resource", "MaintenanceType", "MaintenanceReq", "NextDateDue", "NextThruputQtyDue", "MaintenanceState" };
             for (int i = 0; i < Dg_Maintenance.Columns.Count; i++)
