@@ -4,7 +4,6 @@ using System.Security.AccessControl;
 using System.Security.Principal;
 using System.Threading;
 using System.Windows.Forms;
-using VCGUI;
 
 namespace VisualCheckingGUI
 {

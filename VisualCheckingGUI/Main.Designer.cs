@@ -1,5 +1,5 @@
 ﻿
-namespace VCGUI
+namespace VisualCheckingGUI
 {
     partial class Main
     {
@@ -36,6 +36,8 @@ namespace VCGUI
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.tableLayoutPanel8 = new System.Windows.Forms.TableLayoutPanel();
             this.kryptonPanel1 = new ComponentFactory.Krypton.Toolkit.KryptonPanel();
+            this.label23 = new System.Windows.Forms.Label();
+            this.lbPreStandBy = new System.Windows.Forms.Label();
             this.lblResMaintMesg = new System.Windows.Forms.Label();
             this.lbTitle = new System.Windows.Forms.Label();
             this.MyTitle = new System.Windows.Forms.Label();
@@ -186,8 +188,6 @@ namespace VCGUI
             this.kryptonBreadCrumbItem5 = new ComponentFactory.Krypton.Toolkit.KryptonBreadCrumbItem();
             this.kryptonBreadCrumbItem6 = new ComponentFactory.Krypton.Toolkit.KryptonBreadCrumbItem();
             this.tmrAutoStandByChecker = new System.Windows.Forms.Timer(this.components);
-            this.label23 = new System.Windows.Forms.Label();
-            this.lbPreStandBy = new System.Windows.Forms.Label();
             this.tableLayoutPanel1.SuspendLayout();
             this.tableLayoutPanel8.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonPanel1)).BeginInit();
@@ -345,6 +345,26 @@ namespace VCGUI
             this.kryptonPanel1.StateCommon.Color2 = System.Drawing.Color.FromArgb(((int)(((byte)(250)))), ((int)(((byte)(252)))), ((int)(((byte)(252)))));
             this.kryptonPanel1.TabIndex = 1;
             // 
+            // label23
+            // 
+            this.label23.AutoSize = true;
+            this.label23.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label23.Location = new System.Drawing.Point(953, 7);
+            this.label23.Name = "label23";
+            this.label23.Size = new System.Drawing.Size(137, 21);
+            this.label23.TabIndex = 65;
+            this.label23.Text = "Pre Standby Timer";
+            // 
+            // lbPreStandBy
+            // 
+            this.lbPreStandBy.AutoSize = true;
+            this.lbPreStandBy.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbPreStandBy.Location = new System.Drawing.Point(1096, 7);
+            this.lbPreStandBy.Name = "lbPreStandBy";
+            this.lbPreStandBy.Size = new System.Drawing.Size(50, 21);
+            this.lbPreStandBy.TabIndex = 64;
+            this.lbPreStandBy.Text = "Maint";
+            // 
             // lblResMaintMesg
             // 
             this.lblResMaintMesg.AutoSize = true;
@@ -428,7 +448,7 @@ namespace VCGUI
             this.kryptonPage4});
             this.kryptonNavigator1.Palette = this.PPAPalette;
             this.kryptonNavigator1.PaletteMode = ComponentFactory.Krypton.Toolkit.PaletteMode.Custom;
-            this.kryptonNavigator1.SelectedIndex = 1;
+            this.kryptonNavigator1.SelectedIndex = 0;
             this.kryptonNavigator1.Size = new System.Drawing.Size(1147, 632);
             this.kryptonNavigator1.StateCommon.Bar.BarPaddingInside = new System.Windows.Forms.Padding(0);
             this.kryptonNavigator1.StateCommon.Bar.BarPaddingOnly = new System.Windows.Forms.Padding(0);
@@ -1020,10 +1040,9 @@ namespace VCGUI
             // 
             this.panelReason.AutoScroll = true;
             this.panelReason.BackColor = System.Drawing.Color.White;
-            this.panelReason.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panelReason.Location = new System.Drawing.Point(0, 0);
+            this.panelReason.Location = new System.Drawing.Point(-3, 0);
             this.panelReason.Name = "panelReason";
-            this.panelReason.Size = new System.Drawing.Size(1139, 215);
+            this.panelReason.Size = new System.Drawing.Size(1142, 215);
             this.panelReason.TabIndex = 104;
             this.panelReason.Paint += new System.Windows.Forms.PaintEventHandler(this.panelReason_Paint);
             // 
@@ -2699,26 +2718,6 @@ namespace VCGUI
             // 
             this.tmrAutoStandByChecker.Interval = 1000;
             this.tmrAutoStandByChecker.Tick += new System.EventHandler(this.tmrAutoStandByChecker_Tick);
-            // 
-            // label23
-            // 
-            this.label23.AutoSize = true;
-            this.label23.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label23.Location = new System.Drawing.Point(953, 7);
-            this.label23.Name = "label23";
-            this.label23.Size = new System.Drawing.Size(137, 21);
-            this.label23.TabIndex = 65;
-            this.label23.Text = "Pre Standby Timer";
-            // 
-            // lbPreStandBy
-            // 
-            this.lbPreStandBy.AutoSize = true;
-            this.lbPreStandBy.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbPreStandBy.Location = new System.Drawing.Point(1096, 7);
-            this.lbPreStandBy.Name = "lbPreStandBy";
-            this.lbPreStandBy.Size = new System.Drawing.Size(50, 21);
-            this.lbPreStandBy.TabIndex = 64;
-            this.lbPreStandBy.Text = "Maint";
             // 
             // Main
             // 

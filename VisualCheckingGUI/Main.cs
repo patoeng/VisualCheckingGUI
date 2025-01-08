@@ -19,14 +19,14 @@ using MesData.Repair;
 using MesData.UnitCounter;
 using Newtonsoft.Json;
 using OpcenterWikLibrary;
-using VisualCheckingGUI.Properties;
-using VisualCheckingGUI;
 using VisualCheckingGUI.Enumeration;
 using VisualCheckingGUI.Hardware;
 using VisualCheckingGUI.Model;
+using VisualCheckingGUI.Properties;
+//using VisualChecking;
 using Environment = System.Environment;
 
-namespace VCGUI
+namespace VisualCheckingGUI
 {
     public partial class Main : KryptonForm
     {
@@ -94,8 +94,11 @@ namespace VCGUI
                 }
             }
             //Instantiate Setting
+
             var setting = new Settings();
+          //  MessageBox.Show(setting.WeighingDatabaseConnection);
             InitStandByTimer(setting.WeighingDatabaseConnection, this);
+            
             //Init Com
             var serialCom = new SerialPort
             {
