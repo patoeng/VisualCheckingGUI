@@ -6,6 +6,8 @@
         ScanUnitSerialNumber,
         CheckUnitStatus,
         UnitNotFound,
+        CleanUnit,
+        InspectUnit,
         VisualCheckResult,
         FailReason,
         UpdateMoveInMove,

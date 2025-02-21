@@ -87,6 +87,10 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>lib\ComponentFactory.Krypton.Workspace.dll</HintPath>
     </Reference>
+    <Reference Include="Hmi, Version=1.0.9182.21660, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Hmi\Hmi\bin\Debug\Hmi.dll</HintPath>
+    </Reference>
     <Reference Include="InSiteXMLClient, Version=8.3.7871.22683, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>lib\InSiteXMLClient.dll</HintPath>
@@ -131,18 +135,18 @@
   <ItemGroup>
     <Compile Include="Enumeration\VisualCheckingState.cs" />
     <Compile Include="Hardware\Rs232Scanner.cs" />
-    <Compile Include="InputForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="InputForm.designer.cs">
-      <DependentUpon>InputForm.cs</DependentUpon>
-    </Compile>
     <Compile Include="Main.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Main.Designer.cs">
       <DependentUpon>Main.cs</DependentUpon>
     </Compile>
+    <Compile Include="Model\ApplicationConfig.cs" />
+    <Compile Include="Model\FileEditorSound.cs" />
+    <Compile Include="Model\InspectionTimer.cs" />
+    <Compile Include="Model\CleaningTimer.cs" />
+    <Compile Include="Model\CountDownTimer.cs" />
+    <Compile Include="Model\CountDownTimerParameters.cs" />
     <Compile Include="Model\Level3Form.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -157,9 +161,12 @@
     <Compile Include="RoundCheckbox.cs">
       <SubType>Component</SubType>
     </Compile>
-    <EmbeddedResource Include="InputForm.resx">
-      <DependentUpon>InputForm.cs</DependentUpon>
-    </EmbeddedResource>
+    <Compile Include="TestForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="TestForm.Designer.cs">
+      <DependentUpon>TestForm.cs</DependentUpon>
+    </Compile>
     <EmbeddedResource Include="Main.resx">
       <DependentUpon>Main.cs</DependentUpon>
     </EmbeddedResource>
@@ -176,6 +183,9 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
+    <EmbeddedResource Include="TestForm.resx">
+      <DependentUpon>TestForm.cs</DependentUpon>
+    </EmbeddedResource>
     <None Include="Endpoints.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
@@ -215,6 +225,8 @@
       <Install>false</Install>
     </BootstrapperPackage>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <None Include="Resources\WIK new Logo.jpeg" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

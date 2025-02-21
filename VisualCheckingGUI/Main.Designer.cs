@@ -30,7 +30,6 @@ namespace VisualCheckingGUI
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Main));
             this.PPAPalette = new ComponentFactory.Krypton.Toolkit.KryptonPalette(this.components);
             this.TimerRealtime = new System.Windows.Forms.Timer(this.components);
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
@@ -65,14 +64,14 @@ namespace VisualCheckingGUI
             this.btnFinishPreparation = new ComponentFactory.Krypton.Toolkit.KryptonButton();
             this.btnStartPreparation = new ComponentFactory.Krypton.Toolkit.KryptonButton();
             this.panelPassFail = new ComponentFactory.Krypton.Toolkit.KryptonPanel();
-            this.panelReason = new System.Windows.Forms.Panel();
             this.tableLayoutPanel9 = new System.Windows.Forms.TableLayoutPanel();
             this.tableLayoutPanel10 = new System.Windows.Forms.TableLayoutPanel();
             this.btnPass = new ComponentFactory.Krypton.Toolkit.KryptonButton();
             this.btnFail = new ComponentFactory.Krypton.Toolkit.KryptonButton();
-            this.panel5 = new System.Windows.Forms.Panel();
-            this.label5 = new System.Windows.Forms.Label();
+            this.panelReason = new System.Windows.Forms.Panel();
             this.panel4 = new System.Windows.Forms.Panel();
+            this.button2 = new System.Windows.Forms.Button();
+            this.button1 = new System.Windows.Forms.Button();
             this.btnSubmit = new ComponentFactory.Krypton.Toolkit.KryptonButton();
             this.kryptonPage2 = new ComponentFactory.Krypton.Navigator.KryptonPage();
             this.tableLayoutPanel5 = new System.Windows.Forms.TableLayoutPanel();
@@ -160,6 +159,19 @@ namespace VisualCheckingGUI
             this.label28 = new System.Windows.Forms.Label();
             this.panel6 = new System.Windows.Forms.Panel();
             this.kryptonDataGridView1 = new ComponentFactory.Krypton.Toolkit.KryptonDataGridView();
+            this.idDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.serialNumberDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.controlPointDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.finishedGoodBindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this.kryptonPage5 = new ComponentFactory.Krypton.Navigator.KryptonPage();
+            this.menuStrip1 = new System.Windows.Forms.MenuStrip();
+            this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.userToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.logInToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.changePasswordToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.settingToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.tableLayoutPanel3 = new System.Windows.Forms.TableLayoutPanel();
             this.kryptonPanel2 = new ComponentFactory.Krypton.Toolkit.KryptonPanel();
             this.Tb_Product = new System.Windows.Forms.TextBox();
@@ -184,10 +196,6 @@ namespace VisualCheckingGUI
             this.kryptonBreadCrumbItem5 = new ComponentFactory.Krypton.Toolkit.KryptonBreadCrumbItem();
             this.kryptonBreadCrumbItem6 = new ComponentFactory.Krypton.Toolkit.KryptonBreadCrumbItem();
             this.tmrAutoStandByChecker = new System.Windows.Forms.Timer(this.components);
-            this.idDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.serialNumberDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.controlPointDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.finishedGoodBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.tableLayoutPanel1.SuspendLayout();
             this.tableLayoutPanel8.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonPanel1)).BeginInit();
@@ -214,7 +222,6 @@ namespace VisualCheckingGUI
             this.panelPassFail.SuspendLayout();
             this.tableLayoutPanel9.SuspendLayout();
             this.tableLayoutPanel10.SuspendLayout();
-            this.panel5.SuspendLayout();
             this.panel4.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonPage2)).BeginInit();
             this.kryptonPage2.SuspendLayout();
@@ -248,6 +255,10 @@ namespace VisualCheckingGUI
             this.panel2.SuspendLayout();
             this.panel6.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonDataGridView1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.finishedGoodBindingSource)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.kryptonPage5)).BeginInit();
+            this.kryptonPage5.SuspendLayout();
+            this.menuStrip1.SuspendLayout();
             this.tableLayoutPanel3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonPanel2)).BeginInit();
             this.kryptonPanel2.SuspendLayout();
@@ -256,7 +267,6 @@ namespace VisualCheckingGUI
             this.kryptonPanel3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonPanel4)).BeginInit();
             this.kryptonPanel4.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.finishedGoodBindingSource)).BeginInit();
             this.SuspendLayout();
             // 
             // PPAPalette
@@ -310,7 +320,7 @@ namespace VisualCheckingGUI
             this.tableLayoutPanel1.RowCount = 2;
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 79F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(1385, 723);
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(1141, 681);
             this.tableLayoutPanel1.TabIndex = 0;
             // 
             // tableLayoutPanel8
@@ -325,7 +335,7 @@ namespace VisualCheckingGUI
             this.tableLayoutPanel8.Name = "tableLayoutPanel8";
             this.tableLayoutPanel8.RowCount = 1;
             this.tableLayoutPanel8.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel8.Size = new System.Drawing.Size(1379, 73);
+            this.tableLayoutPanel8.Size = new System.Drawing.Size(1135, 73);
             this.tableLayoutPanel8.TabIndex = 59;
             // 
             // kryptonPanel1
@@ -340,7 +350,7 @@ namespace VisualCheckingGUI
             this.kryptonPanel1.Name = "kryptonPanel1";
             this.kryptonPanel1.Palette = this.PPAPalette;
             this.kryptonPanel1.PaletteMode = ComponentFactory.Krypton.Toolkit.PaletteMode.Custom;
-            this.kryptonPanel1.Size = new System.Drawing.Size(1153, 67);
+            this.kryptonPanel1.Size = new System.Drawing.Size(909, 67);
             this.kryptonPanel1.StateCommon.Color1 = System.Drawing.Color.FromArgb(((int)(((byte)(250)))), ((int)(((byte)(252)))), ((int)(((byte)(252)))));
             this.kryptonPanel1.StateCommon.Color2 = System.Drawing.Color.FromArgb(((int)(((byte)(250)))), ((int)(((byte)(252)))), ((int)(((byte)(252)))));
             this.kryptonPanel1.TabIndex = 1;
@@ -402,18 +412,18 @@ namespace VisualCheckingGUI
             // 
             this.panel3.Controls.Add(this.Logo);
             this.panel3.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel3.Location = new System.Drawing.Point(1162, 3);
+            this.panel3.Location = new System.Drawing.Point(918, 3);
             this.panel3.Name = "panel3";
             this.panel3.Size = new System.Drawing.Size(214, 67);
             this.panel3.TabIndex = 2;
             // 
             // Logo
             // 
-            this.Logo.Image = ((System.Drawing.Image)(resources.GetObject("Logo.Image")));
-            this.Logo.Location = new System.Drawing.Point(44, 7);
+            this.Logo.Image = global::VisualCheckingGUI.Properties.Resources.WIK_new_Logo;
+            this.Logo.Location = new System.Drawing.Point(0, 0);
             this.Logo.Margin = new System.Windows.Forms.Padding(4);
             this.Logo.Name = "Logo";
-            this.Logo.Size = new System.Drawing.Size(128, 56);
+            this.Logo.Size = new System.Drawing.Size(211, 67);
             this.Logo.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.Logo.TabIndex = 54;
             this.Logo.TabStop = false;
@@ -430,7 +440,7 @@ namespace VisualCheckingGUI
             this.tableLayoutPanel2.Name = "tableLayoutPanel2";
             this.tableLayoutPanel2.RowCount = 1;
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel2.Size = new System.Drawing.Size(1379, 638);
+            this.tableLayoutPanel2.Size = new System.Drawing.Size(1135, 596);
             this.tableLayoutPanel2.TabIndex = 0;
             // 
             // kryptonNavigator1
@@ -445,11 +455,12 @@ namespace VisualCheckingGUI
             this.kryptonPage1,
             this.kryptonPage2,
             this.kryptonPage3,
-            this.kryptonPage4});
+            this.kryptonPage4,
+            this.kryptonPage5});
             this.kryptonNavigator1.Palette = this.PPAPalette;
             this.kryptonNavigator1.PaletteMode = ComponentFactory.Krypton.Toolkit.PaletteMode.Custom;
             this.kryptonNavigator1.SelectedIndex = 0;
-            this.kryptonNavigator1.Size = new System.Drawing.Size(1147, 632);
+            this.kryptonNavigator1.Size = new System.Drawing.Size(903, 590);
             this.kryptonNavigator1.StateCommon.Bar.BarPaddingInside = new System.Windows.Forms.Padding(0);
             this.kryptonNavigator1.StateCommon.Bar.BarPaddingOnly = new System.Windows.Forms.Padding(0);
             this.kryptonNavigator1.StateCommon.Bar.BarPaddingOutside = new System.Windows.Forms.Padding(0);
@@ -552,7 +563,7 @@ namespace VisualCheckingGUI
             this.kryptonPage1.Margin = new System.Windows.Forms.Padding(0);
             this.kryptonPage1.MinimumSize = new System.Drawing.Size(200, 200);
             this.kryptonPage1.Name = "kryptonPage1";
-            this.kryptonPage1.Size = new System.Drawing.Size(1145, 597);
+            this.kryptonPage1.Size = new System.Drawing.Size(901, 555);
             this.kryptonPage1.Text = "Operator";
             this.kryptonPage1.ToolTipTitle = "Page ToolTip";
             this.kryptonPage1.UniqueName = "501B0C3FE96C4E3A44B7C108A74D7124";
@@ -573,10 +584,10 @@ namespace VisualCheckingGUI
             this.tableLayoutPanel4.RowCount = 5;
             this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 80F));
             this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 132F));
+            this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 93F));
             this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 102F));
             this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 62F));
-            this.tableLayoutPanel4.Size = new System.Drawing.Size(1145, 597);
+            this.tableLayoutPanel4.Size = new System.Drawing.Size(901, 555);
             this.tableLayoutPanel4.TabIndex = 1;
             // 
             // kryptonPanel5
@@ -592,7 +603,7 @@ namespace VisualCheckingGUI
             this.kryptonPanel5.Name = "kryptonPanel5";
             this.kryptonPanel5.Palette = this.PPAPalette;
             this.kryptonPanel5.PaletteMode = ComponentFactory.Krypton.Toolkit.PaletteMode.Custom;
-            this.kryptonPanel5.Size = new System.Drawing.Size(1139, 74);
+            this.kryptonPanel5.Size = new System.Drawing.Size(895, 74);
             this.kryptonPanel5.StateCommon.Color1 = System.Drawing.Color.FromArgb(((int)(((byte)(46)))), ((int)(((byte)(68)))), ((int)(((byte)(101)))));
             this.kryptonPanel5.StateCommon.Color2 = System.Drawing.Color.FromArgb(((int)(((byte)(46)))), ((int)(((byte)(68)))), ((int)(((byte)(101)))));
             this.kryptonPanel5.TabIndex = 0;
@@ -679,11 +690,11 @@ namespace VisualCheckingGUI
             // 
             this.kryptonPanel7.Controls.Add(this.kryptonGroupBox1);
             this.kryptonPanel7.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.kryptonPanel7.Location = new System.Drawing.Point(3, 436);
+            this.kryptonPanel7.Location = new System.Drawing.Point(3, 394);
             this.kryptonPanel7.Name = "kryptonPanel7";
             this.kryptonPanel7.Palette = this.PPAPalette;
             this.kryptonPanel7.PaletteMode = ComponentFactory.Krypton.Toolkit.PaletteMode.Custom;
-            this.kryptonPanel7.Size = new System.Drawing.Size(1139, 96);
+            this.kryptonPanel7.Size = new System.Drawing.Size(895, 96);
             this.kryptonPanel7.StateCommon.Color1 = System.Drawing.Color.FromArgb(((int)(((byte)(250)))), ((int)(((byte)(252)))), ((int)(((byte)(252)))));
             this.kryptonPanel7.StateCommon.Color2 = System.Drawing.Color.FromArgb(((int)(((byte)(250)))), ((int)(((byte)(252)))), ((int)(((byte)(252)))));
             this.kryptonPanel7.TabIndex = 0;
@@ -700,7 +711,7 @@ namespace VisualCheckingGUI
             this.kryptonGroupBox1.Panel.Controls.Add(this.btnResetState);
             this.kryptonGroupBox1.Panel.Controls.Add(this.lblCommand);
             this.kryptonGroupBox1.Panel.Controls.Add(this.Tb_Scanner);
-            this.kryptonGroupBox1.Size = new System.Drawing.Size(1139, 96);
+            this.kryptonGroupBox1.Size = new System.Drawing.Size(895, 96);
             this.kryptonGroupBox1.StateCommon.Back.Color1 = System.Drawing.Color.White;
             this.kryptonGroupBox1.StateCommon.Back.Color2 = System.Drawing.Color.White;
             this.kryptonGroupBox1.StateCommon.Back.GraphicsHint = ComponentFactory.Krypton.Toolkit.PaletteGraphicsHint.AntiAlias;
@@ -821,11 +832,11 @@ namespace VisualCheckingGUI
             this.kryptonPanel8.Controls.Add(this.btnFinishPreparation);
             this.kryptonPanel8.Controls.Add(this.btnStartPreparation);
             this.kryptonPanel8.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.kryptonPanel8.Location = new System.Drawing.Point(3, 538);
+            this.kryptonPanel8.Location = new System.Drawing.Point(3, 496);
             this.kryptonPanel8.Name = "kryptonPanel8";
             this.kryptonPanel8.Palette = this.PPAPalette;
             this.kryptonPanel8.PaletteMode = ComponentFactory.Krypton.Toolkit.PaletteMode.Custom;
-            this.kryptonPanel8.Size = new System.Drawing.Size(1139, 56);
+            this.kryptonPanel8.Size = new System.Drawing.Size(895, 56);
             this.kryptonPanel8.StateCommon.Color1 = System.Drawing.Color.FromArgb(((int)(((byte)(250)))), ((int)(((byte)(252)))), ((int)(((byte)(252)))));
             this.kryptonPanel8.StateCommon.Color2 = System.Drawing.Color.FromArgb(((int)(((byte)(250)))), ((int)(((byte)(252)))), ((int)(((byte)(252)))));
             this.kryptonPanel8.TabIndex = 0;
@@ -1023,42 +1034,30 @@ namespace VisualCheckingGUI
             // 
             // panelPassFail
             // 
-            this.panelPassFail.Controls.Add(this.panelReason);
             this.panelPassFail.Controls.Add(this.tableLayoutPanel9);
             this.panelPassFail.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panelPassFail.Location = new System.Drawing.Point(3, 83);
             this.panelPassFail.Name = "panelPassFail";
-            this.panelPassFail.Size = new System.Drawing.Size(1139, 215);
+            this.panelPassFail.Size = new System.Drawing.Size(895, 212);
             this.panelPassFail.StateCommon.Color1 = System.Drawing.Color.White;
             this.panelPassFail.StateCommon.Color2 = System.Drawing.Color.White;
             this.panelPassFail.StateNormal.Color1 = System.Drawing.Color.White;
             this.panelPassFail.StateNormal.Color2 = System.Drawing.Color.White;
             this.panelPassFail.TabIndex = 1;
-            this.panelPassFail.Visible = false;
-            // 
-            // panelReason
-            // 
-            this.panelReason.AutoScroll = true;
-            this.panelReason.BackColor = System.Drawing.Color.White;
-            this.panelReason.Location = new System.Drawing.Point(-3, 0);
-            this.panelReason.Name = "panelReason";
-            this.panelReason.Size = new System.Drawing.Size(1142, 215);
-            this.panelReason.TabIndex = 104;
-            this.panelReason.Paint += new System.Windows.Forms.PaintEventHandler(this.panelReason_Paint);
             // 
             // tableLayoutPanel9
             // 
             this.tableLayoutPanel9.ColumnCount = 1;
             this.tableLayoutPanel9.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanel9.Controls.Add(this.tableLayoutPanel10, 0, 1);
-            this.tableLayoutPanel9.Controls.Add(this.panel5, 0, 0);
+            this.tableLayoutPanel9.Controls.Add(this.panelReason, 0, 0);
             this.tableLayoutPanel9.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel9.Location = new System.Drawing.Point(0, 0);
             this.tableLayoutPanel9.Name = "tableLayoutPanel9";
             this.tableLayoutPanel9.RowCount = 2;
             this.tableLayoutPanel9.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 40F));
             this.tableLayoutPanel9.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel9.Size = new System.Drawing.Size(1139, 215);
+            this.tableLayoutPanel9.Size = new System.Drawing.Size(895, 212);
             this.tableLayoutPanel9.TabIndex = 105;
             // 
             // tableLayoutPanel10
@@ -1073,8 +1072,8 @@ namespace VisualCheckingGUI
             this.tableLayoutPanel10.Name = "tableLayoutPanel10";
             this.tableLayoutPanel10.RowCount = 1;
             this.tableLayoutPanel10.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel10.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 169F));
-            this.tableLayoutPanel10.Size = new System.Drawing.Size(1133, 169);
+            this.tableLayoutPanel10.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 166F));
+            this.tableLayoutPanel10.Size = new System.Drawing.Size(889, 166);
             this.tableLayoutPanel10.TabIndex = 0;
             // 
             // btnPass
@@ -1097,7 +1096,7 @@ namespace VisualCheckingGUI
             this.btnPass.OverrideDefault.Border.Rounding = 0;
             this.btnPass.OverrideDefault.Border.Width = 1;
             this.btnPass.PaletteMode = ComponentFactory.Krypton.Toolkit.PaletteMode.ProfessionalSystem;
-            this.btnPass.Size = new System.Drawing.Size(558, 161);
+            this.btnPass.Size = new System.Drawing.Size(436, 158);
             this.btnPass.StateCommon.Back.Color1 = System.Drawing.Color.FromArgb(((int)(((byte)(59)))), ((int)(((byte)(143)))), ((int)(((byte)(81)))));
             this.btnPass.StateCommon.Back.Color2 = System.Drawing.Color.FromArgb(((int)(((byte)(59)))), ((int)(((byte)(143)))), ((int)(((byte)(81)))));
             this.btnPass.StateCommon.Back.ColorAngle = 45F;
@@ -1144,7 +1143,7 @@ namespace VisualCheckingGUI
             // 
             this.btnFail.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnFail.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.btnFail.Location = new System.Drawing.Point(570, 4);
+            this.btnFail.Location = new System.Drawing.Point(448, 4);
             this.btnFail.Margin = new System.Windows.Forms.Padding(4);
             this.btnFail.Name = "btnFail";
             this.btnFail.OverrideDefault.Back.Color1 = System.Drawing.Color.Red;
@@ -1160,7 +1159,7 @@ namespace VisualCheckingGUI
             this.btnFail.OverrideDefault.Border.Rounding = 0;
             this.btnFail.OverrideDefault.Border.Width = 1;
             this.btnFail.PaletteMode = ComponentFactory.Krypton.Toolkit.PaletteMode.ProfessionalSystem;
-            this.btnFail.Size = new System.Drawing.Size(559, 161);
+            this.btnFail.Size = new System.Drawing.Size(437, 158);
             this.btnFail.StateCommon.Back.Color1 = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
             this.btnFail.StateCommon.Back.Color2 = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
             this.btnFail.StateCommon.Back.ColorAngle = 45F;
@@ -1203,40 +1202,53 @@ namespace VisualCheckingGUI
             this.btnFail.Values.Text = "FAIL";
             this.btnFail.Click += new System.EventHandler(this.btnFail_Click);
             // 
-            // panel5
+            // panelReason
             // 
-            this.panel5.Controls.Add(this.label5);
-            this.panel5.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel5.Location = new System.Drawing.Point(3, 3);
-            this.panel5.Name = "panel5";
-            this.panel5.Size = new System.Drawing.Size(1133, 34);
-            this.panel5.TabIndex = 1;
-            // 
-            // label5
-            // 
-            this.label5.AutoSize = true;
-            this.label5.BackColor = System.Drawing.Color.Transparent;
-            this.label5.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold);
-            this.label5.ForeColor = System.Drawing.Color.Black;
-            this.label5.Location = new System.Drawing.Point(16, 7);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(75, 19);
-            this.label5.TabIndex = 103;
-            this.label5.Text = "Pass/Fail :";
+            this.panelReason.AutoScroll = true;
+            this.panelReason.BackColor = System.Drawing.Color.White;
+            this.panelReason.Location = new System.Drawing.Point(3, 3);
+            this.panelReason.Name = "panelReason";
+            this.panelReason.Size = new System.Drawing.Size(447, 34);
+            this.panelReason.TabIndex = 104;
+            this.panelReason.Paint += new System.Windows.Forms.PaintEventHandler(this.panelReason_Paint);
             // 
             // panel4
             // 
+            this.panel4.Controls.Add(this.button2);
+            this.panel4.Controls.Add(this.button1);
             this.panel4.Controls.Add(this.btnSubmit);
             this.panel4.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel4.Location = new System.Drawing.Point(3, 304);
+            this.panel4.Location = new System.Drawing.Point(3, 301);
             this.panel4.Name = "panel4";
-            this.panel4.Size = new System.Drawing.Size(1139, 126);
+            this.panel4.Size = new System.Drawing.Size(895, 87);
             this.panel4.TabIndex = 2;
+            // 
+            // button2
+            // 
+            this.button2.Location = new System.Drawing.Point(476, 31);
+            this.button2.Name = "button2";
+            this.button2.Size = new System.Drawing.Size(75, 23);
+            this.button2.TabIndex = 62;
+            this.button2.Text = "Inspect";
+            this.button2.UseVisualStyleBackColor = true;
+            this.button2.Visible = false;
+            this.button2.Click += new System.EventHandler(this.button2_Click_1);
+            // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(343, 32);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(75, 23);
+            this.button1.TabIndex = 61;
+            this.button1.Text = "Cleaning";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Visible = false;
+            this.button1.Click += new System.EventHandler(this.button1_Click_1);
             // 
             // btnSubmit
             // 
             this.btnSubmit.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnSubmit.Location = new System.Drawing.Point(26, 16);
+            this.btnSubmit.Location = new System.Drawing.Point(26, 5);
             this.btnSubmit.Margin = new System.Windows.Forms.Padding(4);
             this.btnSubmit.Name = "btnSubmit";
             this.btnSubmit.OverrideDefault.Back.Color1 = System.Drawing.Color.FromArgb(((int)(((byte)(92)))), ((int)(((byte)(184)))), ((int)(((byte)(116)))));
@@ -1304,7 +1316,7 @@ namespace VisualCheckingGUI
             this.kryptonPage2.LastVisibleSet = true;
             this.kryptonPage2.MinimumSize = new System.Drawing.Size(50, 50);
             this.kryptonPage2.Name = "kryptonPage2";
-            this.kryptonPage2.Size = new System.Drawing.Size(1145, 597);
+            this.kryptonPage2.Size = new System.Drawing.Size(901, 555);
             this.kryptonPage2.Text = "Machine Status";
             this.kryptonPage2.ToolTipTitle = "Page ToolTip";
             this.kryptonPage2.UniqueName = "A9D5235342774A400794C8B7FCD02899";
@@ -1321,7 +1333,7 @@ namespace VisualCheckingGUI
             this.tableLayoutPanel5.RowCount = 2;
             this.tableLayoutPanel5.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 120F));
             this.tableLayoutPanel5.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel5.Size = new System.Drawing.Size(1145, 597);
+            this.tableLayoutPanel5.Size = new System.Drawing.Size(901, 555);
             this.tableLayoutPanel5.TabIndex = 92;
             // 
             // tableLayoutPanel11
@@ -1337,7 +1349,7 @@ namespace VisualCheckingGUI
             this.tableLayoutPanel11.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 88.03149F));
             this.tableLayoutPanel11.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 11.9685F));
             this.tableLayoutPanel11.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.tableLayoutPanel11.Size = new System.Drawing.Size(1139, 471);
+            this.tableLayoutPanel11.Size = new System.Drawing.Size(895, 429);
             this.tableLayoutPanel11.TabIndex = 96;
             // 
             // Dg_Maintenance
@@ -1345,6 +1357,7 @@ namespace VisualCheckingGUI
             this.Dg_Maintenance.AllowUserToAddRows = false;
             this.Dg_Maintenance.AutoGenerateColumns = false;
             this.Dg_Maintenance.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells;
+            this.Dg_Maintenance.ColumnHeadersHeight = 34;
             this.Dg_Maintenance.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.resourceDataGridViewTextBoxColumn,
             this.maintenanceTypeDataGridViewTextBoxColumn,
@@ -1399,7 +1412,7 @@ namespace VisualCheckingGUI
             this.Dg_Maintenance.Name = "Dg_Maintenance";
             this.Dg_Maintenance.ReadOnly = true;
             this.Dg_Maintenance.RowHeadersWidth = 51;
-            this.Dg_Maintenance.Size = new System.Drawing.Size(1127, 402);
+            this.Dg_Maintenance.Size = new System.Drawing.Size(883, 365);
             this.Dg_Maintenance.StateCommon.Background.Color1 = System.Drawing.Color.White;
             this.Dg_Maintenance.StateCommon.Background.Color2 = System.Drawing.Color.White;
             this.Dg_Maintenance.StateCommon.Background.GraphicsHint = ComponentFactory.Krypton.Toolkit.PaletteGraphicsHint.AntiAlias;
@@ -1438,6 +1451,7 @@ namespace VisualCheckingGUI
             // 
             this.resourceDataGridViewTextBoxColumn.DataPropertyName = "Resource";
             this.resourceDataGridViewTextBoxColumn.HeaderText = "Resource";
+            this.resourceDataGridViewTextBoxColumn.MinimumWidth = 8;
             this.resourceDataGridViewTextBoxColumn.Name = "resourceDataGridViewTextBoxColumn";
             this.resourceDataGridViewTextBoxColumn.ReadOnly = true;
             this.resourceDataGridViewTextBoxColumn.Width = 84;
@@ -1446,6 +1460,7 @@ namespace VisualCheckingGUI
             // 
             this.maintenanceTypeDataGridViewTextBoxColumn.DataPropertyName = "MaintenanceType";
             this.maintenanceTypeDataGridViewTextBoxColumn.HeaderText = "MaintenanceType";
+            this.maintenanceTypeDataGridViewTextBoxColumn.MinimumWidth = 8;
             this.maintenanceTypeDataGridViewTextBoxColumn.Name = "maintenanceTypeDataGridViewTextBoxColumn";
             this.maintenanceTypeDataGridViewTextBoxColumn.ReadOnly = true;
             this.maintenanceTypeDataGridViewTextBoxColumn.Width = 130;
@@ -1454,6 +1469,7 @@ namespace VisualCheckingGUI
             // 
             this.maintenanceReqDataGridViewTextBoxColumn.DataPropertyName = "MaintenanceReq";
             this.maintenanceReqDataGridViewTextBoxColumn.HeaderText = "MaintenanceReq";
+            this.maintenanceReqDataGridViewTextBoxColumn.MinimumWidth = 8;
             this.maintenanceReqDataGridViewTextBoxColumn.Name = "maintenanceReqDataGridViewTextBoxColumn";
             this.maintenanceReqDataGridViewTextBoxColumn.ReadOnly = true;
             this.maintenanceReqDataGridViewTextBoxColumn.Width = 125;
@@ -1462,6 +1478,7 @@ namespace VisualCheckingGUI
             // 
             this.nextDateDueDataGridViewTextBoxColumn.DataPropertyName = "NextDateDue";
             this.nextDateDueDataGridViewTextBoxColumn.HeaderText = "NextDateDue";
+            this.nextDateDueDataGridViewTextBoxColumn.MinimumWidth = 8;
             this.nextDateDueDataGridViewTextBoxColumn.Name = "nextDateDueDataGridViewTextBoxColumn";
             this.nextDateDueDataGridViewTextBoxColumn.ReadOnly = true;
             this.nextDateDueDataGridViewTextBoxColumn.Width = 105;
@@ -1470,6 +1487,7 @@ namespace VisualCheckingGUI
             // 
             this.nextThruputQtyDueDataGridViewTextBoxColumn.DataPropertyName = "NextThruputQtyDue";
             this.nextThruputQtyDueDataGridViewTextBoxColumn.HeaderText = "NextThruputQtyDue";
+            this.nextThruputQtyDueDataGridViewTextBoxColumn.MinimumWidth = 8;
             this.nextThruputQtyDueDataGridViewTextBoxColumn.Name = "nextThruputQtyDueDataGridViewTextBoxColumn";
             this.nextThruputQtyDueDataGridViewTextBoxColumn.ReadOnly = true;
             this.nextThruputQtyDueDataGridViewTextBoxColumn.Width = 143;
@@ -1478,6 +1496,7 @@ namespace VisualCheckingGUI
             // 
             this.maintenanceReqRevDataGridViewTextBoxColumn.DataPropertyName = "MaintenanceReqRev";
             this.maintenanceReqRevDataGridViewTextBoxColumn.HeaderText = "MaintenanceReqRev";
+            this.maintenanceReqRevDataGridViewTextBoxColumn.MinimumWidth = 8;
             this.maintenanceReqRevDataGridViewTextBoxColumn.Name = "maintenanceReqRevDataGridViewTextBoxColumn";
             this.maintenanceReqRevDataGridViewTextBoxColumn.ReadOnly = true;
             this.maintenanceReqRevDataGridViewTextBoxColumn.Width = 144;
@@ -1486,6 +1505,7 @@ namespace VisualCheckingGUI
             // 
             this.dueDataGridViewTextBoxColumn.DataPropertyName = "Due";
             this.dueDataGridViewTextBoxColumn.HeaderText = "Due";
+            this.dueDataGridViewTextBoxColumn.MinimumWidth = 8;
             this.dueDataGridViewTextBoxColumn.Name = "dueDataGridViewTextBoxColumn";
             this.dueDataGridViewTextBoxColumn.ReadOnly = true;
             this.dueDataGridViewTextBoxColumn.Width = 57;
@@ -1494,6 +1514,7 @@ namespace VisualCheckingGUI
             // 
             this.pastDueDataGridViewTextBoxColumn.DataPropertyName = "PastDue";
             this.pastDueDataGridViewTextBoxColumn.HeaderText = "PastDue";
+            this.pastDueDataGridViewTextBoxColumn.MinimumWidth = 8;
             this.pastDueDataGridViewTextBoxColumn.Name = "pastDueDataGridViewTextBoxColumn";
             this.pastDueDataGridViewTextBoxColumn.ReadOnly = true;
             this.pastDueDataGridViewTextBoxColumn.Width = 79;
@@ -1502,6 +1523,7 @@ namespace VisualCheckingGUI
             // 
             this.completedDataGridViewTextBoxColumn.DataPropertyName = "Completed";
             this.completedDataGridViewTextBoxColumn.HeaderText = "Completed";
+            this.completedDataGridViewTextBoxColumn.MinimumWidth = 8;
             this.completedDataGridViewTextBoxColumn.Name = "completedDataGridViewTextBoxColumn";
             this.completedDataGridViewTextBoxColumn.ReadOnly = true;
             this.completedDataGridViewTextBoxColumn.Width = 95;
@@ -1510,6 +1532,7 @@ namespace VisualCheckingGUI
             // 
             this.warningDataGridViewTextBoxColumn.DataPropertyName = "Warning";
             this.warningDataGridViewTextBoxColumn.HeaderText = "Warning";
+            this.warningDataGridViewTextBoxColumn.MinimumWidth = 8;
             this.warningDataGridViewTextBoxColumn.Name = "warningDataGridViewTextBoxColumn";
             this.warningDataGridViewTextBoxColumn.ReadOnly = true;
             this.warningDataGridViewTextBoxColumn.Width = 81;
@@ -1518,6 +1541,7 @@ namespace VisualCheckingGUI
             // 
             this.nextThruputQtyLimitDataGridViewTextBoxColumn.DataPropertyName = "NextThruputQtyLimit";
             this.nextThruputQtyLimitDataGridViewTextBoxColumn.HeaderText = "NextThruputQtyLimit";
+            this.nextThruputQtyLimitDataGridViewTextBoxColumn.MinimumWidth = 8;
             this.nextThruputQtyLimitDataGridViewTextBoxColumn.Name = "nextThruputQtyLimitDataGridViewTextBoxColumn";
             this.nextThruputQtyLimitDataGridViewTextBoxColumn.ReadOnly = true;
             this.nextThruputQtyLimitDataGridViewTextBoxColumn.Width = 149;
@@ -1526,6 +1550,7 @@ namespace VisualCheckingGUI
             // 
             this.resourceStatusCodeDataGridViewTextBoxColumn.DataPropertyName = "ResourceStatusCode";
             this.resourceStatusCodeDataGridViewTextBoxColumn.HeaderText = "ResourceStatusCode";
+            this.resourceStatusCodeDataGridViewTextBoxColumn.MinimumWidth = 8;
             this.resourceStatusCodeDataGridViewTextBoxColumn.Name = "resourceStatusCodeDataGridViewTextBoxColumn";
             this.resourceStatusCodeDataGridViewTextBoxColumn.ReadOnly = true;
             this.resourceStatusCodeDataGridViewTextBoxColumn.Width = 144;
@@ -1534,6 +1559,7 @@ namespace VisualCheckingGUI
             // 
             this.thruputQtyDataGridViewTextBoxColumn.DataPropertyName = "ThruputQty";
             this.thruputQtyDataGridViewTextBoxColumn.HeaderText = "ThruputQty";
+            this.thruputQtyDataGridViewTextBoxColumn.MinimumWidth = 8;
             this.thruputQtyDataGridViewTextBoxColumn.Name = "thruputQtyDataGridViewTextBoxColumn";
             this.thruputQtyDataGridViewTextBoxColumn.ReadOnly = true;
             this.thruputQtyDataGridViewTextBoxColumn.Width = 98;
@@ -1542,6 +1568,7 @@ namespace VisualCheckingGUI
             // 
             this.nextThruputQtyWarningDataGridViewTextBoxColumn.DataPropertyName = "NextThruputQtyWarning";
             this.nextThruputQtyWarningDataGridViewTextBoxColumn.HeaderText = "NextThruputQtyWarning";
+            this.nextThruputQtyWarningDataGridViewTextBoxColumn.MinimumWidth = 8;
             this.nextThruputQtyWarningDataGridViewTextBoxColumn.Name = "nextThruputQtyWarningDataGridViewTextBoxColumn";
             this.nextThruputQtyWarningDataGridViewTextBoxColumn.ReadOnly = true;
             this.nextThruputQtyWarningDataGridViewTextBoxColumn.Width = 167;
@@ -1550,6 +1577,7 @@ namespace VisualCheckingGUI
             // 
             this.maintenanceStatusDataGridViewTextBoxColumn.DataPropertyName = "MaintenanceStatus";
             this.maintenanceStatusDataGridViewTextBoxColumn.HeaderText = "MaintenanceStatus";
+            this.maintenanceStatusDataGridViewTextBoxColumn.MinimumWidth = 8;
             this.maintenanceStatusDataGridViewTextBoxColumn.Name = "maintenanceStatusDataGridViewTextBoxColumn";
             this.maintenanceStatusDataGridViewTextBoxColumn.ReadOnly = true;
             this.maintenanceStatusDataGridViewTextBoxColumn.Width = 137;
@@ -1558,6 +1586,7 @@ namespace VisualCheckingGUI
             // 
             this.maintenanceClassDataGridViewTextBoxColumn.DataPropertyName = "MaintenanceClass";
             this.maintenanceClassDataGridViewTextBoxColumn.HeaderText = "MaintenanceClass";
+            this.maintenanceClassDataGridViewTextBoxColumn.MinimumWidth = 8;
             this.maintenanceClassDataGridViewTextBoxColumn.Name = "maintenanceClassDataGridViewTextBoxColumn";
             this.maintenanceClassDataGridViewTextBoxColumn.ReadOnly = true;
             this.maintenanceClassDataGridViewTextBoxColumn.Width = 132;
@@ -1566,6 +1595,7 @@ namespace VisualCheckingGUI
             // 
             this.maintenanceStateDataGridViewTextBoxColumn.DataPropertyName = "MaintenanceState";
             this.maintenanceStateDataGridViewTextBoxColumn.HeaderText = "MaintenanceState";
+            this.maintenanceStateDataGridViewTextBoxColumn.MinimumWidth = 8;
             this.maintenanceStateDataGridViewTextBoxColumn.Name = "maintenanceStateDataGridViewTextBoxColumn";
             this.maintenanceStateDataGridViewTextBoxColumn.ReadOnly = true;
             this.maintenanceStateDataGridViewTextBoxColumn.Visible = false;
@@ -1575,6 +1605,7 @@ namespace VisualCheckingGUI
             // 
             this.availabilityDataGridViewTextBoxColumn.DataPropertyName = "Availability";
             this.availabilityDataGridViewTextBoxColumn.HeaderText = "Availability";
+            this.availabilityDataGridViewTextBoxColumn.MinimumWidth = 8;
             this.availabilityDataGridViewTextBoxColumn.Name = "availabilityDataGridViewTextBoxColumn";
             this.availabilityDataGridViewTextBoxColumn.ReadOnly = true;
             this.availabilityDataGridViewTextBoxColumn.Width = 94;
@@ -1583,6 +1614,7 @@ namespace VisualCheckingGUI
             // 
             this.maintenanceReqDisplayNameDataGridViewTextBoxColumn.DataPropertyName = "MaintenanceReqDisplayName";
             this.maintenanceReqDisplayNameDataGridViewTextBoxColumn.HeaderText = "MaintenanceReqDisplayName";
+            this.maintenanceReqDisplayNameDataGridViewTextBoxColumn.MinimumWidth = 8;
             this.maintenanceReqDisplayNameDataGridViewTextBoxColumn.Name = "maintenanceReqDisplayNameDataGridViewTextBoxColumn";
             this.maintenanceReqDisplayNameDataGridViewTextBoxColumn.ReadOnly = true;
             this.maintenanceReqDisplayNameDataGridViewTextBoxColumn.Width = 195;
@@ -1591,6 +1623,7 @@ namespace VisualCheckingGUI
             // 
             this.uOM2NameDataGridViewTextBoxColumn.DataPropertyName = "UOM2Name";
             this.uOM2NameDataGridViewTextBoxColumn.HeaderText = "UOM2Name";
+            this.uOM2NameDataGridViewTextBoxColumn.MinimumWidth = 8;
             this.uOM2NameDataGridViewTextBoxColumn.Name = "uOM2NameDataGridViewTextBoxColumn";
             this.uOM2NameDataGridViewTextBoxColumn.ReadOnly = true;
             this.uOM2NameDataGridViewTextBoxColumn.Width = 102;
@@ -1599,6 +1632,7 @@ namespace VisualCheckingGUI
             // 
             this.resourceNameDataGridViewTextBoxColumn.DataPropertyName = "ResourceName";
             this.resourceNameDataGridViewTextBoxColumn.HeaderText = "ResourceName";
+            this.resourceNameDataGridViewTextBoxColumn.MinimumWidth = 8;
             this.resourceNameDataGridViewTextBoxColumn.Name = "resourceNameDataGridViewTextBoxColumn";
             this.resourceNameDataGridViewTextBoxColumn.ReadOnly = true;
             this.resourceNameDataGridViewTextBoxColumn.Width = 116;
@@ -1607,6 +1641,7 @@ namespace VisualCheckingGUI
             // 
             this.maintenanceReqNameDataGridViewTextBoxColumn.DataPropertyName = "MaintenanceReqName";
             this.maintenanceReqNameDataGridViewTextBoxColumn.HeaderText = "MaintenanceReqName";
+            this.maintenanceReqNameDataGridViewTextBoxColumn.MinimumWidth = 8;
             this.maintenanceReqNameDataGridViewTextBoxColumn.Name = "maintenanceReqNameDataGridViewTextBoxColumn";
             this.maintenanceReqNameDataGridViewTextBoxColumn.ReadOnly = true;
             this.maintenanceReqNameDataGridViewTextBoxColumn.Width = 157;
@@ -1615,6 +1650,7 @@ namespace VisualCheckingGUI
             // 
             this.uOMNameDataGridViewTextBoxColumn.DataPropertyName = "UOMName";
             this.uOMNameDataGridViewTextBoxColumn.HeaderText = "UOMName";
+            this.uOMNameDataGridViewTextBoxColumn.MinimumWidth = 8;
             this.uOMNameDataGridViewTextBoxColumn.Name = "uOMNameDataGridViewTextBoxColumn";
             this.uOMNameDataGridViewTextBoxColumn.ReadOnly = true;
             this.uOMNameDataGridViewTextBoxColumn.Width = 96;
@@ -1623,6 +1659,7 @@ namespace VisualCheckingGUI
             // 
             this.resourceStatusCodeNameDataGridViewTextBoxColumn.DataPropertyName = "ResourceStatusCodeName";
             this.resourceStatusCodeNameDataGridViewTextBoxColumn.HeaderText = "ResourceStatusCodeName";
+            this.resourceStatusCodeNameDataGridViewTextBoxColumn.MinimumWidth = 8;
             this.resourceStatusCodeNameDataGridViewTextBoxColumn.Name = "resourceStatusCodeNameDataGridViewTextBoxColumn";
             this.resourceStatusCodeNameDataGridViewTextBoxColumn.ReadOnly = true;
             this.resourceStatusCodeNameDataGridViewTextBoxColumn.Width = 176;
@@ -1631,6 +1668,7 @@ namespace VisualCheckingGUI
             // 
             this.maintenanceClassNameDataGridViewTextBoxColumn.DataPropertyName = "MaintenanceClassName";
             this.maintenanceClassNameDataGridViewTextBoxColumn.HeaderText = "MaintenanceClassName";
+            this.maintenanceClassNameDataGridViewTextBoxColumn.MinimumWidth = 8;
             this.maintenanceClassNameDataGridViewTextBoxColumn.Name = "maintenanceClassNameDataGridViewTextBoxColumn";
             this.maintenanceClassNameDataGridViewTextBoxColumn.ReadOnly = true;
             this.maintenanceClassNameDataGridViewTextBoxColumn.Width = 164;
@@ -1639,6 +1677,7 @@ namespace VisualCheckingGUI
             // 
             this.nextDateWarningDataGridViewTextBoxColumn.DataPropertyName = "NextDateWarning";
             this.nextDateWarningDataGridViewTextBoxColumn.HeaderText = "NextDateWarning";
+            this.nextDateWarningDataGridViewTextBoxColumn.MinimumWidth = 8;
             this.nextDateWarningDataGridViewTextBoxColumn.Name = "nextDateWarningDataGridViewTextBoxColumn";
             this.nextDateWarningDataGridViewTextBoxColumn.ReadOnly = true;
             this.nextDateWarningDataGridViewTextBoxColumn.Width = 129;
@@ -1647,6 +1686,7 @@ namespace VisualCheckingGUI
             // 
             this.nextDateLimitDataGridViewTextBoxColumn.DataPropertyName = "NextDateLimit";
             this.nextDateLimitDataGridViewTextBoxColumn.HeaderText = "NextDateLimit";
+            this.nextDateLimitDataGridViewTextBoxColumn.MinimumWidth = 8;
             this.nextDateLimitDataGridViewTextBoxColumn.Name = "nextDateLimitDataGridViewTextBoxColumn";
             this.nextDateLimitDataGridViewTextBoxColumn.ReadOnly = true;
             this.nextDateLimitDataGridViewTextBoxColumn.Width = 111;
@@ -1655,6 +1695,7 @@ namespace VisualCheckingGUI
             // 
             this.nextThruputQty2LimitDataGridViewTextBoxColumn.DataPropertyName = "NextThruputQty2Limit";
             this.nextThruputQty2LimitDataGridViewTextBoxColumn.HeaderText = "NextThruputQty2Limit";
+            this.nextThruputQty2LimitDataGridViewTextBoxColumn.MinimumWidth = 8;
             this.nextThruputQty2LimitDataGridViewTextBoxColumn.Name = "nextThruputQty2LimitDataGridViewTextBoxColumn";
             this.nextThruputQty2LimitDataGridViewTextBoxColumn.ReadOnly = true;
             this.nextThruputQty2LimitDataGridViewTextBoxColumn.Width = 155;
@@ -1663,6 +1704,7 @@ namespace VisualCheckingGUI
             // 
             this.thruputQty2DataGridViewTextBoxColumn.DataPropertyName = "ThruputQty2";
             this.thruputQty2DataGridViewTextBoxColumn.HeaderText = "ThruputQty2";
+            this.thruputQty2DataGridViewTextBoxColumn.MinimumWidth = 8;
             this.thruputQty2DataGridViewTextBoxColumn.Name = "thruputQty2DataGridViewTextBoxColumn";
             this.thruputQty2DataGridViewTextBoxColumn.ReadOnly = true;
             this.thruputQty2DataGridViewTextBoxColumn.Width = 104;
@@ -1671,6 +1713,7 @@ namespace VisualCheckingGUI
             // 
             this.uOM2DataGridViewTextBoxColumn.DataPropertyName = "UOM2";
             this.uOM2DataGridViewTextBoxColumn.HeaderText = "UOM2";
+            this.uOM2DataGridViewTextBoxColumn.MinimumWidth = 8;
             this.uOM2DataGridViewTextBoxColumn.Name = "uOM2DataGridViewTextBoxColumn";
             this.uOM2DataGridViewTextBoxColumn.ReadOnly = true;
             this.uOM2DataGridViewTextBoxColumn.Width = 70;
@@ -1679,6 +1722,7 @@ namespace VisualCheckingGUI
             // 
             this.nextDateLimitGMTDataGridViewTextBoxColumn.DataPropertyName = "NextDateLimitGMT";
             this.nextDateLimitGMTDataGridViewTextBoxColumn.HeaderText = "NextDateLimitGMT";
+            this.nextDateLimitGMTDataGridViewTextBoxColumn.MinimumWidth = 8;
             this.nextDateLimitGMTDataGridViewTextBoxColumn.Name = "nextDateLimitGMTDataGridViewTextBoxColumn";
             this.nextDateLimitGMTDataGridViewTextBoxColumn.ReadOnly = true;
             this.nextDateLimitGMTDataGridViewTextBoxColumn.Width = 137;
@@ -1687,6 +1731,7 @@ namespace VisualCheckingGUI
             // 
             this.nextDateWarningGMTDataGridViewTextBoxColumn.DataPropertyName = "NextDateWarningGMT";
             this.nextDateWarningGMTDataGridViewTextBoxColumn.HeaderText = "NextDateWarningGMT";
+            this.nextDateWarningGMTDataGridViewTextBoxColumn.MinimumWidth = 8;
             this.nextDateWarningGMTDataGridViewTextBoxColumn.Name = "nextDateWarningGMTDataGridViewTextBoxColumn";
             this.nextDateWarningGMTDataGridViewTextBoxColumn.ReadOnly = true;
             this.nextDateWarningGMTDataGridViewTextBoxColumn.Width = 155;
@@ -1695,6 +1740,7 @@ namespace VisualCheckingGUI
             // 
             this.nextThruputQty2DueDataGridViewTextBoxColumn.DataPropertyName = "NextThruputQty2Due";
             this.nextThruputQty2DueDataGridViewTextBoxColumn.HeaderText = "NextThruputQty2Due";
+            this.nextThruputQty2DueDataGridViewTextBoxColumn.MinimumWidth = 8;
             this.nextThruputQty2DueDataGridViewTextBoxColumn.Name = "nextThruputQty2DueDataGridViewTextBoxColumn";
             this.nextThruputQty2DueDataGridViewTextBoxColumn.ReadOnly = true;
             this.nextThruputQty2DueDataGridViewTextBoxColumn.Width = 149;
@@ -1703,6 +1749,7 @@ namespace VisualCheckingGUI
             // 
             this.nextThruputQty2WarningDataGridViewTextBoxColumn.DataPropertyName = "NextThruputQty2Warning";
             this.nextThruputQty2WarningDataGridViewTextBoxColumn.HeaderText = "NextThruputQty2Warning";
+            this.nextThruputQty2WarningDataGridViewTextBoxColumn.MinimumWidth = 8;
             this.nextThruputQty2WarningDataGridViewTextBoxColumn.Name = "nextThruputQty2WarningDataGridViewTextBoxColumn";
             this.nextThruputQty2WarningDataGridViewTextBoxColumn.ReadOnly = true;
             this.nextThruputQty2WarningDataGridViewTextBoxColumn.Width = 173;
@@ -1711,6 +1758,7 @@ namespace VisualCheckingGUI
             // 
             this.uOMDataGridViewTextBoxColumn.DataPropertyName = "UOM";
             this.uOMDataGridViewTextBoxColumn.HeaderText = "UOM";
+            this.uOMDataGridViewTextBoxColumn.MinimumWidth = 8;
             this.uOMDataGridViewTextBoxColumn.Name = "uOMDataGridViewTextBoxColumn";
             this.uOMDataGridViewTextBoxColumn.ReadOnly = true;
             this.uOMDataGridViewTextBoxColumn.Width = 64;
@@ -1719,6 +1767,7 @@ namespace VisualCheckingGUI
             // 
             this.nextDateDueGMTDataGridViewTextBoxColumn.DataPropertyName = "NextDateDueGMT";
             this.nextDateDueGMTDataGridViewTextBoxColumn.HeaderText = "NextDateDueGMT";
+            this.nextDateDueGMTDataGridViewTextBoxColumn.MinimumWidth = 8;
             this.nextDateDueGMTDataGridViewTextBoxColumn.Name = "nextDateDueGMTDataGridViewTextBoxColumn";
             this.nextDateDueGMTDataGridViewTextBoxColumn.ReadOnly = true;
             this.nextDateDueGMTDataGridViewTextBoxColumn.Width = 131;
@@ -1727,6 +1776,7 @@ namespace VisualCheckingGUI
             // 
             this.exportImportKeyDataGridViewTextBoxColumn.DataPropertyName = "ExportImportKey";
             this.exportImportKeyDataGridViewTextBoxColumn.HeaderText = "ExportImportKey";
+            this.exportImportKeyDataGridViewTextBoxColumn.MinimumWidth = 8;
             this.exportImportKeyDataGridViewTextBoxColumn.Name = "exportImportKeyDataGridViewTextBoxColumn";
             this.exportImportKeyDataGridViewTextBoxColumn.ReadOnly = true;
             this.exportImportKeyDataGridViewTextBoxColumn.Width = 124;
@@ -1735,6 +1785,7 @@ namespace VisualCheckingGUI
             // 
             this.displayNameDataGridViewTextBoxColumn.DataPropertyName = "DisplayName";
             this.displayNameDataGridViewTextBoxColumn.HeaderText = "DisplayName";
+            this.displayNameDataGridViewTextBoxColumn.MinimumWidth = 8;
             this.displayNameDataGridViewTextBoxColumn.Name = "displayNameDataGridViewTextBoxColumn";
             this.displayNameDataGridViewTextBoxColumn.ReadOnly = true;
             this.displayNameDataGridViewTextBoxColumn.Width = 106;
@@ -1743,6 +1794,7 @@ namespace VisualCheckingGUI
             // 
             this.selfDataGridViewTextBoxColumn.DataPropertyName = "Self";
             this.selfDataGridViewTextBoxColumn.HeaderText = "Self";
+            this.selfDataGridViewTextBoxColumn.MinimumWidth = 8;
             this.selfDataGridViewTextBoxColumn.Name = "selfDataGridViewTextBoxColumn";
             this.selfDataGridViewTextBoxColumn.ReadOnly = true;
             this.selfDataGridViewTextBoxColumn.Width = 55;
@@ -1751,6 +1803,7 @@ namespace VisualCheckingGUI
             // 
             this.isEmptyDataGridViewCheckBoxColumn.DataPropertyName = "IsEmpty";
             this.isEmptyDataGridViewCheckBoxColumn.HeaderText = "IsEmpty";
+            this.isEmptyDataGridViewCheckBoxColumn.MinimumWidth = 8;
             this.isEmptyDataGridViewCheckBoxColumn.Name = "isEmptyDataGridViewCheckBoxColumn";
             this.isEmptyDataGridViewCheckBoxColumn.ReadOnly = true;
             this.isEmptyDataGridViewCheckBoxColumn.Width = 59;
@@ -1759,6 +1812,7 @@ namespace VisualCheckingGUI
             // 
             this.fieldActionDataGridViewTextBoxColumn.DataPropertyName = "FieldAction";
             this.fieldActionDataGridViewTextBoxColumn.HeaderText = "FieldAction";
+            this.fieldActionDataGridViewTextBoxColumn.MinimumWidth = 8;
             this.fieldActionDataGridViewTextBoxColumn.Name = "fieldActionDataGridViewTextBoxColumn";
             this.fieldActionDataGridViewTextBoxColumn.ReadOnly = true;
             this.fieldActionDataGridViewTextBoxColumn.Width = 96;
@@ -1767,6 +1821,7 @@ namespace VisualCheckingGUI
             // 
             this.ignoreTypeDifferenceDataGridViewTextBoxColumn.DataPropertyName = "IgnoreTypeDifference";
             this.ignoreTypeDifferenceDataGridViewTextBoxColumn.HeaderText = "IgnoreTypeDifference";
+            this.ignoreTypeDifferenceDataGridViewTextBoxColumn.MinimumWidth = 8;
             this.ignoreTypeDifferenceDataGridViewTextBoxColumn.Name = "ignoreTypeDifferenceDataGridViewTextBoxColumn";
             this.ignoreTypeDifferenceDataGridViewTextBoxColumn.ReadOnly = true;
             this.ignoreTypeDifferenceDataGridViewTextBoxColumn.Width = 149;
@@ -1775,6 +1830,7 @@ namespace VisualCheckingGUI
             // 
             this.listItemActionDataGridViewTextBoxColumn.DataPropertyName = "ListItemAction";
             this.listItemActionDataGridViewTextBoxColumn.HeaderText = "ListItemAction";
+            this.listItemActionDataGridViewTextBoxColumn.MinimumWidth = 8;
             this.listItemActionDataGridViewTextBoxColumn.Name = "listItemActionDataGridViewTextBoxColumn";
             this.listItemActionDataGridViewTextBoxColumn.ReadOnly = true;
             this.listItemActionDataGridViewTextBoxColumn.Width = 113;
@@ -1783,6 +1839,7 @@ namespace VisualCheckingGUI
             // 
             this.listItemIndexDataGridViewTextBoxColumn.DataPropertyName = "ListItemIndex";
             this.listItemIndexDataGridViewTextBoxColumn.HeaderText = "ListItemIndex";
+            this.listItemIndexDataGridViewTextBoxColumn.MinimumWidth = 8;
             this.listItemIndexDataGridViewTextBoxColumn.Name = "listItemIndexDataGridViewTextBoxColumn";
             this.listItemIndexDataGridViewTextBoxColumn.ReadOnly = true;
             this.listItemIndexDataGridViewTextBoxColumn.Width = 106;
@@ -1791,6 +1848,7 @@ namespace VisualCheckingGUI
             // 
             this.keyDataGridViewTextBoxColumn.DataPropertyName = "Key";
             this.keyDataGridViewTextBoxColumn.HeaderText = "Key";
+            this.keyDataGridViewTextBoxColumn.MinimumWidth = 8;
             this.keyDataGridViewTextBoxColumn.Name = "keyDataGridViewTextBoxColumn";
             this.keyDataGridViewTextBoxColumn.ReadOnly = true;
             this.keyDataGridViewTextBoxColumn.Width = 55;
@@ -1799,6 +1857,7 @@ namespace VisualCheckingGUI
             // 
             this.cDOTypeNameDataGridViewTextBoxColumn.DataPropertyName = "CDOTypeName";
             this.cDOTypeNameDataGridViewTextBoxColumn.HeaderText = "CDOTypeName";
+            this.cDOTypeNameDataGridViewTextBoxColumn.MinimumWidth = 8;
             this.cDOTypeNameDataGridViewTextBoxColumn.Name = "cDOTypeNameDataGridViewTextBoxColumn";
             this.cDOTypeNameDataGridViewTextBoxColumn.ReadOnly = true;
             this.cDOTypeNameDataGridViewTextBoxColumn.Width = 117;
@@ -1815,9 +1874,9 @@ namespace VisualCheckingGUI
             this.kryptonPanel14.Controls.Add(this.label15);
             this.kryptonPanel14.Controls.Add(this.label22);
             this.kryptonPanel14.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.kryptonPanel14.Location = new System.Drawing.Point(3, 417);
+            this.kryptonPanel14.Location = new System.Drawing.Point(3, 380);
             this.kryptonPanel14.Name = "kryptonPanel14";
-            this.kryptonPanel14.Size = new System.Drawing.Size(1133, 51);
+            this.kryptonPanel14.Size = new System.Drawing.Size(889, 46);
             this.kryptonPanel14.TabIndex = 66;
             // 
             // btnSaveSetting
@@ -1909,7 +1968,7 @@ namespace VisualCheckingGUI
             this.kryptonGroupBox2.Panel.Controls.Add(this.kryptonButton1);
             this.kryptonGroupBox2.Panel.Controls.Add(this.Cb_StatusReason);
             this.kryptonGroupBox2.Panel.Paint += new System.Windows.Forms.PaintEventHandler(this.kryptonGroupBox2_Panel_Paint);
-            this.kryptonGroupBox2.Size = new System.Drawing.Size(1139, 114);
+            this.kryptonGroupBox2.Size = new System.Drawing.Size(895, 114);
             this.kryptonGroupBox2.StateCommon.Back.Color1 = System.Drawing.Color.White;
             this.kryptonGroupBox2.StateCommon.Back.Color2 = System.Drawing.Color.White;
             this.kryptonGroupBox2.StateCommon.Back.GraphicsHint = ComponentFactory.Krypton.Toolkit.PaletteGraphicsHint.AntiAlias;
@@ -2112,7 +2171,7 @@ namespace VisualCheckingGUI
             this.kryptonPage3.LastVisibleSet = true;
             this.kryptonPage3.MinimumSize = new System.Drawing.Size(50, 50);
             this.kryptonPage3.Name = "kryptonPage3";
-            this.kryptonPage3.Size = new System.Drawing.Size(1145, 597);
+            this.kryptonPage3.Size = new System.Drawing.Size(1147, 602);
             this.kryptonPage3.Text = "Quality";
             this.kryptonPage3.ToolTipTitle = "Page ToolTip";
             this.kryptonPage3.UniqueName = "93024F31D9FB40C23D948F5CF665302C";
@@ -2133,7 +2192,7 @@ namespace VisualCheckingGUI
             this.tableLayoutPanel6.RowCount = 2;
             this.tableLayoutPanel6.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 87.83784F));
             this.tableLayoutPanel6.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 12.16216F));
-            this.tableLayoutPanel6.Size = new System.Drawing.Size(1145, 597);
+            this.tableLayoutPanel6.Size = new System.Drawing.Size(1147, 602);
             this.tableLayoutPanel6.TabIndex = 0;
             // 
             // kryptonPanel10
@@ -2142,7 +2201,7 @@ namespace VisualCheckingGUI
             this.kryptonPanel10.Dock = System.Windows.Forms.DockStyle.Fill;
             this.kryptonPanel10.Location = new System.Drawing.Point(3, 3);
             this.kryptonPanel10.Name = "kryptonPanel10";
-            this.kryptonPanel10.Size = new System.Drawing.Size(566, 518);
+            this.kryptonPanel10.Size = new System.Drawing.Size(567, 522);
             this.kryptonPanel10.StateCommon.Color1 = System.Drawing.Color.White;
             this.kryptonPanel10.StateCommon.Color2 = System.Drawing.Color.White;
             this.kryptonPanel10.TabIndex = 0;
@@ -2152,16 +2211,16 @@ namespace VisualCheckingGUI
             this.Ppg_Pcba.Dock = System.Windows.Forms.DockStyle.Fill;
             this.Ppg_Pcba.Location = new System.Drawing.Point(0, 0);
             this.Ppg_Pcba.Name = "Ppg_Pcba";
-            this.Ppg_Pcba.Size = new System.Drawing.Size(566, 518);
+            this.Ppg_Pcba.Size = new System.Drawing.Size(567, 522);
             this.Ppg_Pcba.TabIndex = 0;
             // 
             // kryptonPanel11
             // 
             this.kryptonPanel11.Controls.Add(this.Ppg_Pump);
             this.kryptonPanel11.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.kryptonPanel11.Location = new System.Drawing.Point(575, 3);
+            this.kryptonPanel11.Location = new System.Drawing.Point(576, 3);
             this.kryptonPanel11.Name = "kryptonPanel11";
-            this.kryptonPanel11.Size = new System.Drawing.Size(567, 518);
+            this.kryptonPanel11.Size = new System.Drawing.Size(568, 522);
             this.kryptonPanel11.StateCommon.Color1 = System.Drawing.Color.White;
             this.kryptonPanel11.StateCommon.Color2 = System.Drawing.Color.White;
             this.kryptonPanel11.TabIndex = 0;
@@ -2171,16 +2230,16 @@ namespace VisualCheckingGUI
             this.Ppg_Pump.Dock = System.Windows.Forms.DockStyle.Fill;
             this.Ppg_Pump.Location = new System.Drawing.Point(0, 0);
             this.Ppg_Pump.Name = "Ppg_Pump";
-            this.Ppg_Pump.Size = new System.Drawing.Size(567, 518);
+            this.Ppg_Pump.Size = new System.Drawing.Size(568, 522);
             this.Ppg_Pump.TabIndex = 0;
             // 
             // kryptonPanel12
             // 
             this.kryptonPanel12.Controls.Add(this.Btn_SetPcba);
             this.kryptonPanel12.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.kryptonPanel12.Location = new System.Drawing.Point(3, 527);
+            this.kryptonPanel12.Location = new System.Drawing.Point(3, 531);
             this.kryptonPanel12.Name = "kryptonPanel12";
-            this.kryptonPanel12.Size = new System.Drawing.Size(566, 67);
+            this.kryptonPanel12.Size = new System.Drawing.Size(567, 68);
             this.kryptonPanel12.StateCommon.Color1 = System.Drawing.Color.White;
             this.kryptonPanel12.StateCommon.Color2 = System.Drawing.Color.White;
             this.kryptonPanel12.TabIndex = 0;
@@ -2196,9 +2255,9 @@ namespace VisualCheckingGUI
             // 
             this.kryptonPanel13.Controls.Add(this.Btn_SetPump);
             this.kryptonPanel13.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.kryptonPanel13.Location = new System.Drawing.Point(575, 527);
+            this.kryptonPanel13.Location = new System.Drawing.Point(576, 531);
             this.kryptonPanel13.Name = "kryptonPanel13";
-            this.kryptonPanel13.Size = new System.Drawing.Size(567, 67);
+            this.kryptonPanel13.Size = new System.Drawing.Size(568, 68);
             this.kryptonPanel13.StateCommon.Color1 = System.Drawing.Color.White;
             this.kryptonPanel13.StateCommon.Color2 = System.Drawing.Color.White;
             this.kryptonPanel13.TabIndex = 0;
@@ -2218,7 +2277,7 @@ namespace VisualCheckingGUI
             this.kryptonPage4.LastVisibleSet = true;
             this.kryptonPage4.MinimumSize = new System.Drawing.Size(50, 50);
             this.kryptonPage4.Name = "kryptonPage4";
-            this.kryptonPage4.Size = new System.Drawing.Size(1145, 597);
+            this.kryptonPage4.Size = new System.Drawing.Size(1147, 602);
             this.kryptonPage4.Text = "Finish Good Record";
             this.kryptonPage4.ToolTipTitle = "Page ToolTip";
             this.kryptonPage4.UniqueName = "CAEAF24E4B7B4E1F58A60A81E6387A42";
@@ -2238,7 +2297,7 @@ namespace VisualCheckingGUI
             this.tableLayoutPanel7.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanel7.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 51F));
             this.tableLayoutPanel7.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.tableLayoutPanel7.Size = new System.Drawing.Size(1145, 597);
+            this.tableLayoutPanel7.Size = new System.Drawing.Size(1147, 602);
             this.tableLayoutPanel7.TabIndex = 114;
             // 
             // panel1
@@ -2249,7 +2308,7 @@ namespace VisualCheckingGUI
             this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel1.Location = new System.Drawing.Point(3, 3);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(1139, 65);
+            this.panel1.Size = new System.Drawing.Size(1141, 65);
             this.panel1.TabIndex = 0;
             // 
             // btnSynchronize
@@ -2341,9 +2400,9 @@ namespace VisualCheckingGUI
             this.panel2.Controls.Add(this.Tb_FinishedGoodCounter);
             this.panel2.Controls.Add(this.label28);
             this.panel2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel2.Location = new System.Drawing.Point(3, 549);
+            this.panel2.Location = new System.Drawing.Point(3, 554);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(1139, 45);
+            this.panel2.Size = new System.Drawing.Size(1141, 45);
             this.panel2.TabIndex = 1;
             // 
             // Tb_FinishedGoodCounter
@@ -2385,7 +2444,7 @@ namespace VisualCheckingGUI
             this.panel6.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel6.Location = new System.Drawing.Point(3, 74);
             this.panel6.Name = "panel6";
-            this.panel6.Size = new System.Drawing.Size(1139, 469);
+            this.panel6.Size = new System.Drawing.Size(1141, 474);
             this.panel6.TabIndex = 2;
             // 
             // kryptonDataGridView1
@@ -2393,6 +2452,7 @@ namespace VisualCheckingGUI
             this.kryptonDataGridView1.AllowUserToAddRows = false;
             this.kryptonDataGridView1.AllowUserToDeleteRows = false;
             this.kryptonDataGridView1.AutoGenerateColumns = false;
+            this.kryptonDataGridView1.ColumnHeadersHeight = 34;
             this.kryptonDataGridView1.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.idDataGridViewTextBoxColumn,
             this.serialNumberDataGridViewTextBoxColumn,
@@ -2401,9 +2461,125 @@ namespace VisualCheckingGUI
             this.kryptonDataGridView1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.kryptonDataGridView1.Location = new System.Drawing.Point(0, 0);
             this.kryptonDataGridView1.Name = "kryptonDataGridView1";
-            this.kryptonDataGridView1.Size = new System.Drawing.Size(1139, 469);
+            this.kryptonDataGridView1.RowHeadersWidth = 62;
+            this.kryptonDataGridView1.Size = new System.Drawing.Size(1141, 474);
             this.kryptonDataGridView1.TabIndex = 1;
             this.kryptonDataGridView1.ColumnHeaderMouseClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.kryptonDataGridView1_ColumnHeaderMouseClick);
+            // 
+            // idDataGridViewTextBoxColumn
+            // 
+            this.idDataGridViewTextBoxColumn.DataPropertyName = "Id";
+            this.idDataGridViewTextBoxColumn.HeaderText = "Id";
+            this.idDataGridViewTextBoxColumn.MinimumWidth = 8;
+            this.idDataGridViewTextBoxColumn.Name = "idDataGridViewTextBoxColumn";
+            this.idDataGridViewTextBoxColumn.ReadOnly = true;
+            this.idDataGridViewTextBoxColumn.Width = 150;
+            // 
+            // serialNumberDataGridViewTextBoxColumn
+            // 
+            this.serialNumberDataGridViewTextBoxColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            this.serialNumberDataGridViewTextBoxColumn.DataPropertyName = "SerialNumber";
+            this.serialNumberDataGridViewTextBoxColumn.HeaderText = "Serial Number";
+            this.serialNumberDataGridViewTextBoxColumn.MinimumWidth = 8;
+            this.serialNumberDataGridViewTextBoxColumn.Name = "serialNumberDataGridViewTextBoxColumn";
+            this.serialNumberDataGridViewTextBoxColumn.ReadOnly = true;
+            this.serialNumberDataGridViewTextBoxColumn.Width = 200;
+            // 
+            // controlPointDataGridViewTextBoxColumn
+            // 
+            this.controlPointDataGridViewTextBoxColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            this.controlPointDataGridViewTextBoxColumn.DataPropertyName = "ControlPoint";
+            this.controlPointDataGridViewTextBoxColumn.HeaderText = "Control Point";
+            this.controlPointDataGridViewTextBoxColumn.MinimumWidth = 8;
+            this.controlPointDataGridViewTextBoxColumn.Name = "controlPointDataGridViewTextBoxColumn";
+            this.controlPointDataGridViewTextBoxColumn.ReadOnly = true;
+            this.controlPointDataGridViewTextBoxColumn.Width = 300;
+            // 
+            // finishedGoodBindingSource
+            // 
+            this.finishedGoodBindingSource.DataSource = typeof(MesData.FinishedGood);
+            // 
+            // kryptonPage5
+            // 
+            this.kryptonPage5.AutoHiddenSlideSize = new System.Drawing.Size(200, 200);
+            this.kryptonPage5.Controls.Add(this.menuStrip1);
+            this.kryptonPage5.Flags = 65534;
+            this.kryptonPage5.LastVisibleSet = true;
+            this.kryptonPage5.MinimumSize = new System.Drawing.Size(50, 50);
+            this.kryptonPage5.Name = "kryptonPage5";
+            this.kryptonPage5.Size = new System.Drawing.Size(901, 555);
+            this.kryptonPage5.Text = "Info";
+            this.kryptonPage5.ToolTipTitle = "Page ToolTip";
+            this.kryptonPage5.UniqueName = "CDD471ED12EC464A7DA4AA91CA447BE7";
+            this.kryptonPage5.Click += new System.EventHandler(this.kryptonPage5_Click);
+            // 
+            // menuStrip1
+            // 
+            this.menuStrip1.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.menuStrip1.ImageScalingSize = new System.Drawing.Size(24, 24);
+            this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.fileToolStripMenuItem,
+            this.userToolStripMenuItem,
+            this.toolsToolStripMenuItem});
+            this.menuStrip1.Location = new System.Drawing.Point(0, 0);
+            this.menuStrip1.Name = "menuStrip1";
+            this.menuStrip1.Padding = new System.Windows.Forms.Padding(4, 1, 0, 1);
+            this.menuStrip1.Size = new System.Drawing.Size(901, 24);
+            this.menuStrip1.TabIndex = 4;
+            this.menuStrip1.Text = "menuStrip1";
+            // 
+            // fileToolStripMenuItem
+            // 
+            this.fileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.exitToolStripMenuItem});
+            this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
+            this.fileToolStripMenuItem.Size = new System.Drawing.Size(37, 22);
+            this.fileToolStripMenuItem.Text = "&File";
+            // 
+            // exitToolStripMenuItem
+            // 
+            this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
+            this.exitToolStripMenuItem.Size = new System.Drawing.Size(92, 22);
+            this.exitToolStripMenuItem.Text = "&Exit";
+            this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
+            // 
+            // userToolStripMenuItem
+            // 
+            this.userToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.logInToolStripMenuItem,
+            this.changePasswordToolStripMenuItem});
+            this.userToolStripMenuItem.Name = "userToolStripMenuItem";
+            this.userToolStripMenuItem.Size = new System.Drawing.Size(42, 22);
+            this.userToolStripMenuItem.Text = "&User";
+            // 
+            // logInToolStripMenuItem
+            // 
+            this.logInToolStripMenuItem.Name = "logInToolStripMenuItem";
+            this.logInToolStripMenuItem.Size = new System.Drawing.Size(168, 22);
+            this.logInToolStripMenuItem.Text = "Log In";
+            this.logInToolStripMenuItem.Click += new System.EventHandler(this.logInToolStripMenuItem_Click);
+            // 
+            // changePasswordToolStripMenuItem
+            // 
+            this.changePasswordToolStripMenuItem.Name = "changePasswordToolStripMenuItem";
+            this.changePasswordToolStripMenuItem.Size = new System.Drawing.Size(168, 22);
+            this.changePasswordToolStripMenuItem.Text = "Change Password";
+            this.changePasswordToolStripMenuItem.Click += new System.EventHandler(this.changePasswordToolStripMenuItem_Click);
+            // 
+            // toolsToolStripMenuItem
+            // 
+            this.toolsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.settingToolStripMenuItem1});
+            this.toolsToolStripMenuItem.Name = "toolsToolStripMenuItem";
+            this.toolsToolStripMenuItem.Size = new System.Drawing.Size(47, 22);
+            this.toolsToolStripMenuItem.Text = "&Tools";
+            // 
+            // settingToolStripMenuItem1
+            // 
+            this.settingToolStripMenuItem1.Name = "settingToolStripMenuItem1";
+            this.settingToolStripMenuItem1.Size = new System.Drawing.Size(180, 22);
+            this.settingToolStripMenuItem1.Text = "&Settings";
+            this.settingToolStripMenuItem1.Click += new System.EventHandler(this.settingsToolStripMenuItem_Click);
             // 
             // tableLayoutPanel3
             // 
@@ -2414,13 +2590,13 @@ namespace VisualCheckingGUI
             this.tableLayoutPanel3.Controls.Add(this.kryptonPanel3, 0, 1);
             this.tableLayoutPanel3.Controls.Add(this.kryptonPanel4, 0, 2);
             this.tableLayoutPanel3.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanel3.Location = new System.Drawing.Point(1156, 3);
+            this.tableLayoutPanel3.Location = new System.Drawing.Point(912, 3);
             this.tableLayoutPanel3.Name = "tableLayoutPanel3";
             this.tableLayoutPanel3.RowCount = 3;
             this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 80F));
             this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 117F));
-            this.tableLayoutPanel3.Size = new System.Drawing.Size(220, 632);
+            this.tableLayoutPanel3.Size = new System.Drawing.Size(220, 590);
             this.tableLayoutPanel3.TabIndex = 0;
             // 
             // kryptonPanel2
@@ -2435,7 +2611,7 @@ namespace VisualCheckingGUI
             this.kryptonPanel2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.kryptonPanel2.Location = new System.Drawing.Point(3, 3);
             this.kryptonPanel2.Name = "kryptonPanel2";
-            this.kryptonPanel2.Size = new System.Drawing.Size(214, 429);
+            this.kryptonPanel2.Size = new System.Drawing.Size(214, 387);
             this.kryptonPanel2.StateCommon.Color1 = System.Drawing.Color.FromArgb(((int)(((byte)(250)))), ((int)(((byte)(252)))), ((int)(((byte)(252)))));
             this.kryptonPanel2.StateCommon.Color2 = System.Drawing.Color.FromArgb(((int)(((byte)(250)))), ((int)(((byte)(252)))), ((int)(((byte)(252)))));
             this.kryptonPanel2.TabIndex = 1;
@@ -2530,7 +2706,7 @@ namespace VisualCheckingGUI
             this.kryptonPanel3.Controls.Add(this.Tb_VisualQty);
             this.kryptonPanel3.Controls.Add(this.label18);
             this.kryptonPanel3.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.kryptonPanel3.Location = new System.Drawing.Point(3, 438);
+            this.kryptonPanel3.Location = new System.Drawing.Point(3, 396);
             this.kryptonPanel3.Name = "kryptonPanel3";
             this.kryptonPanel3.Size = new System.Drawing.Size(214, 74);
             this.kryptonPanel3.StateCommon.Color1 = System.Drawing.Color.FromArgb(((int)(((byte)(250)))), ((int)(((byte)(252)))), ((int)(((byte)(252)))));
@@ -2580,7 +2756,7 @@ namespace VisualCheckingGUI
             this.kryptonPanel4.Controls.Add(this.label20);
             this.kryptonPanel4.Controls.Add(this.Tb_StatusCode);
             this.kryptonPanel4.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.kryptonPanel4.Location = new System.Drawing.Point(3, 518);
+            this.kryptonPanel4.Location = new System.Drawing.Point(3, 476);
             this.kryptonPanel4.Name = "kryptonPanel4";
             this.kryptonPanel4.Size = new System.Drawing.Size(214, 111);
             this.kryptonPanel4.StateCommon.Color1 = System.Drawing.Color.FromArgb(((int)(((byte)(250)))), ((int)(((byte)(252)))), ((int)(((byte)(252)))));
@@ -2690,41 +2866,12 @@ namespace VisualCheckingGUI
             this.tmrAutoStandByChecker.Interval = 1000;
             this.tmrAutoStandByChecker.Tick += new System.EventHandler(this.tmrAutoStandByChecker_Tick);
             // 
-            // idDataGridViewTextBoxColumn
-            // 
-            this.idDataGridViewTextBoxColumn.DataPropertyName = "Id";
-            this.idDataGridViewTextBoxColumn.HeaderText = "Id";
-            this.idDataGridViewTextBoxColumn.Name = "idDataGridViewTextBoxColumn";
-            this.idDataGridViewTextBoxColumn.ReadOnly = true;
-            // 
-            // serialNumberDataGridViewTextBoxColumn
-            // 
-            this.serialNumberDataGridViewTextBoxColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            this.serialNumberDataGridViewTextBoxColumn.DataPropertyName = "SerialNumber";
-            this.serialNumberDataGridViewTextBoxColumn.HeaderText = "Serial Number";
-            this.serialNumberDataGridViewTextBoxColumn.Name = "serialNumberDataGridViewTextBoxColumn";
-            this.serialNumberDataGridViewTextBoxColumn.ReadOnly = true;
-            this.serialNumberDataGridViewTextBoxColumn.Width = 200;
-            // 
-            // controlPointDataGridViewTextBoxColumn
-            // 
-            this.controlPointDataGridViewTextBoxColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            this.controlPointDataGridViewTextBoxColumn.DataPropertyName = "ControlPoint";
-            this.controlPointDataGridViewTextBoxColumn.HeaderText = "Control Point";
-            this.controlPointDataGridViewTextBoxColumn.Name = "controlPointDataGridViewTextBoxColumn";
-            this.controlPointDataGridViewTextBoxColumn.ReadOnly = true;
-            this.controlPointDataGridViewTextBoxColumn.Width = 300;
-            // 
-            // finishedGoodBindingSource
-            // 
-            this.finishedGoodBindingSource.DataSource = typeof(MesData.FinishedGood);
-            // 
             // Main
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
-            this.ClientSize = new System.Drawing.Size(1385, 723);
+            this.ClientSize = new System.Drawing.Size(1141, 681);
             this.Controls.Add(this.tableLayoutPanel1);
             this.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.Name = "Main";
@@ -2737,6 +2884,7 @@ namespace VisualCheckingGUI
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Main_FormClosing);
             this.Load += new System.EventHandler(this.Main_Load);
             this.SizeChanged += new System.EventHandler(this.Main_SizeChanged);
+            this.Click += new System.EventHandler(this.mouseFilter_FormClicked);
             this.tableLayoutPanel1.ResumeLayout(false);
             this.tableLayoutPanel8.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.kryptonPanel1)).EndInit();
@@ -2767,8 +2915,6 @@ namespace VisualCheckingGUI
             this.panelPassFail.ResumeLayout(false);
             this.tableLayoutPanel9.ResumeLayout(false);
             this.tableLayoutPanel10.ResumeLayout(false);
-            this.panel5.ResumeLayout(false);
-            this.panel5.PerformLayout();
             this.panel4.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.kryptonPage2)).EndInit();
             this.kryptonPage2.ResumeLayout(false);
@@ -2806,6 +2952,12 @@ namespace VisualCheckingGUI
             this.panel2.PerformLayout();
             this.panel6.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.kryptonDataGridView1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.finishedGoodBindingSource)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.kryptonPage5)).EndInit();
+            this.kryptonPage5.ResumeLayout(false);
+            this.kryptonPage5.PerformLayout();
+            this.menuStrip1.ResumeLayout(false);
+            this.menuStrip1.PerformLayout();
             this.tableLayoutPanel3.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.kryptonPanel2)).EndInit();
             this.kryptonPanel2.ResumeLayout(false);
@@ -2817,7 +2969,6 @@ namespace VisualCheckingGUI
             ((System.ComponentModel.ISupportInitialize)(this.kryptonPanel4)).EndInit();
             this.kryptonPanel4.ResumeLayout(false);
             this.kryptonPanel4.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.finishedGoodBindingSource)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -2839,7 +2990,6 @@ namespace VisualCheckingGUI
         private ComponentFactory.Krypton.Navigator.KryptonNavigator kryptonNavigator1;
         private ComponentFactory.Krypton.Navigator.KryptonPage kryptonPage1;
         private ComponentFactory.Krypton.Navigator.KryptonPage kryptonPage2;
-        private ComponentFactory.Krypton.Navigator.KryptonPage kryptonPage3;
         private ComponentFactory.Krypton.Navigator.KryptonPage kryptonPage4;
         private ComponentFactory.Krypton.Toolkit.KryptonTextBox Tb_VisualQty;
         private System.Windows.Forms.Label label18;
@@ -2879,32 +3029,17 @@ namespace VisualCheckingGUI
         private ComponentFactory.Krypton.Toolkit.KryptonButton btnCallMaintenance;
         private ComponentFactory.Krypton.Toolkit.KryptonButton btnFinishPreparation;
         private ComponentFactory.Krypton.Toolkit.KryptonButton btnStartPreparation;
-        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel6;
-        private ComponentFactory.Krypton.Toolkit.KryptonPanel kryptonPanel10;
-        private System.Windows.Forms.PropertyGrid Ppg_Pcba;
-        private ComponentFactory.Krypton.Toolkit.KryptonPanel kryptonPanel11;
-        private System.Windows.Forms.PropertyGrid Ppg_Pump;
-        private ComponentFactory.Krypton.Toolkit.KryptonPanel kryptonPanel12;
-        private ComponentFactory.Krypton.Toolkit.KryptonPanel kryptonPanel13;
-        private ComponentFactory.Krypton.Toolkit.KryptonButton Btn_SetPcba;
-        private ComponentFactory.Krypton.Toolkit.KryptonButton Btn_SetPump;
         private System.Windows.Forms.BindingSource finishedGoodBindingSource;
         private System.Windows.Forms.Label lblLoading;
         private System.Windows.Forms.Label lblPo;
         private ComponentFactory.Krypton.Toolkit.KryptonTextBox Tb_FinishedGoodCounter;
         private System.Windows.Forms.Label label28;
-        private ComponentFactory.Krypton.Toolkit.KryptonPanel panelPassFail;
-        private ComponentFactory.Krypton.Toolkit.KryptonButton btnSubmit;
-        private ComponentFactory.Krypton.Toolkit.KryptonButton btnPass;
-        private ComponentFactory.Krypton.Toolkit.KryptonButton btnFail;
         private ComponentFactory.Krypton.Toolkit.KryptonBreadCrumbItem kryptonBreadCrumbItem1;
         private ComponentFactory.Krypton.Toolkit.KryptonBreadCrumbItem kryptonBreadCrumbItem2;
         private ComponentFactory.Krypton.Toolkit.KryptonBreadCrumbItem kryptonBreadCrumbItem3;
         private ComponentFactory.Krypton.Toolkit.KryptonBreadCrumbItem kryptonBreadCrumbItem4;
         private ComponentFactory.Krypton.Toolkit.KryptonBreadCrumbItem kryptonBreadCrumbItem5;
         private ComponentFactory.Krypton.Toolkit.KryptonBreadCrumbItem kryptonBreadCrumbItem6;
-        private System.Windows.Forms.Label label5;
-        private System.Windows.Forms.Panel panelReason;
         private System.Windows.Forms.BindingSource getMaintenanceStatusDetailsBindingSource;
         private System.Windows.Forms.Label lblResMaintMesg;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel5;
@@ -2913,10 +3048,6 @@ namespace VisualCheckingGUI
         private System.Windows.Forms.Panel panel2;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel8;
         private System.Windows.Forms.Panel panel3;
-        private System.Windows.Forms.Panel panel4;
-        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel9;
-        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel10;
-        private System.Windows.Forms.Panel panel5;
         private System.Windows.Forms.Label lblLoadingPo;
         private ComponentFactory.Krypton.Toolkit.KryptonButton btnSynchronize;
         private System.Windows.Forms.Panel panel6;
@@ -2981,6 +3112,35 @@ namespace VisualCheckingGUI
         private System.Windows.Forms.Timer tmrAutoStandByChecker;
         private System.Windows.Forms.Label label23;
         private System.Windows.Forms.Label lbPreStandBy;
+        private ComponentFactory.Krypton.Navigator.KryptonPage kryptonPage5;
+        private ComponentFactory.Krypton.Navigator.KryptonPage kryptonPage3;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel6;
+        private ComponentFactory.Krypton.Toolkit.KryptonPanel kryptonPanel10;
+        private System.Windows.Forms.PropertyGrid Ppg_Pcba;
+        private ComponentFactory.Krypton.Toolkit.KryptonPanel kryptonPanel11;
+        private System.Windows.Forms.PropertyGrid Ppg_Pump;
+        private ComponentFactory.Krypton.Toolkit.KryptonPanel kryptonPanel12;
+        private ComponentFactory.Krypton.Toolkit.KryptonButton Btn_SetPcba;
+        private ComponentFactory.Krypton.Toolkit.KryptonPanel kryptonPanel13;
+        private ComponentFactory.Krypton.Toolkit.KryptonButton Btn_SetPump;
+        private System.Windows.Forms.MenuStrip menuStrip1;
+        private System.Windows.Forms.ToolStripMenuItem fileToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem exitToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem userToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem logInToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem changePasswordToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem toolsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem settingToolStripMenuItem1;
+        private ComponentFactory.Krypton.Toolkit.KryptonPanel panelPassFail;
+        private System.Windows.Forms.Panel panelReason;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel9;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel10;
+        private ComponentFactory.Krypton.Toolkit.KryptonButton btnPass;
+        private ComponentFactory.Krypton.Toolkit.KryptonButton btnFail;
+        private System.Windows.Forms.Panel panel4;
+        private ComponentFactory.Krypton.Toolkit.KryptonButton btnSubmit;
+        private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.Button button1;
     }
 }
 

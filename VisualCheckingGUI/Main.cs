@@ -24,8 +24,13 @@ using VisualCheckingGUI.Enumeration;
 using VisualCheckingGUI.Hardware;
 using VisualCheckingGUI.Model;
 using VisualCheckingGUI.Properties;
+using Hmi.UserManagement;
+using System.IO;
 //using VisualChecking;
 using Environment = System.Environment;
+using UserControl = Hmi.UserManagement.UserControl;
+using Path = System.IO.Path;
+using Hmi.Helpers.Enum;
 
 namespace VisualCheckingGUI
 {
@@ -48,9 +53,12 @@ namespace VisualCheckingGUI
         {
             InitializeComponent();
 
-            _timerDelayInspection = new System.Windows.Forms.Timer();
-            _timerDelayInspection.Interval = 15000;
-            _timerDelayInspection.Tick += TimerDelayTick;
+            panelReason.Parent = panelPassFail;
+            panelReason.BringToFront();
+            panelReason.Dock = DockStyle.Fill;
+
+            CreatePanelCountDown();
+
 #if MiniMe
             var  name = "Visual Checking Minime";
 #elif Ariel
@@ -58,7 +66,7 @@ namespace VisualCheckingGUI
 #elif Gaia
             var name = "Visual Checking GAIA";
 #endif
-            Text = name + @" V1.4";
+            Text = name + @" V1.41";
             _mesData = new Mes(name, AppSettings.Resource,name);
             lbTitle.Text =AppSettings.Resource;
 
@@ -100,18 +108,19 @@ namespace VisualCheckingGUI
             }
             //Instantiate Setting
 
-            var setting = new Settings();
-          //  MessageBox.Show(setting.WeighingDatabaseConnection);
-            InitStandByTimer(setting.WeighingDatabaseConnection, this);
+            InitApplicationConfig();
+            InitUserControl();
+            InitCountDownTimers();
+         ////   InitStandByTimer(ApplicationConfig.Instance.WeighingDatabaseConnection, this);
             
             //Init Com
             var serialCom = new SerialPort
             {
-                PortName = setting.PortName,
-                BaudRate = setting.BaudRate,
-                Parity = setting.Parity,
-                DataBits = setting.DataBits,
-                StopBits = setting.StopBits
+                PortName = ApplicationConfig.Instance.PsnScannerComName,
+                BaudRate = ApplicationConfig.Instance.PsnScannerBaudRate,
+                Parity = ApplicationConfig.Instance.PsnScannerParity,
+                DataBits = ApplicationConfig.Instance.PsnScannerDataBits,
+                StopBits = ApplicationConfig.Instance.PsnScannerStopBits
             };
 
             _keyenceRs232Scanner = new Rs232Scanner(serialCom);
@@ -128,16 +137,106 @@ namespace VisualCheckingGUI
             _moveWorker.RunWorkerCompleted += MoveWorkerCompleted;
             _moveWorker.ProgressChanged += MoveWorkerProgress;
             _moveWorker.DoWork += MoveWorkerDoWork;
-            EventLogUtil.LogEvent("Application Start");
+           //// EventLogUtil.LogEvent("Application Start");
         }
+
+        private void InitCountDownTimers()
+        {
+            CleaningTimer.ReloadInstance();
+            InspectionTimer.ReloadInstance();
+
+            CleaningTimer.Instance.CountDownTick += CleaningTimer_CountDownTick;
+            CleaningTimer.Instance.CountDownReached += CleaningTimer_CountDownReached;
+            CleaningTimer.Instance.CountDownStarted += CountDownStarted;
+            CleaningTimer.Instance.CountDownStopped += CountDownStopped;
+            InspectionTimer.Instance.CountDownTick += CleaningTimer_CountDownTick;
+            InspectionTimer.Instance.CountDownReached += CleaningTimer_CountDownReached;
+            InspectionTimer.Instance.CountDownStarted += CountDownStarted;
+            InspectionTimer.Instance.CountDownStopped += CountDownStopped;
+        }
+        public void CreatePanelCountDown()
+        {
+            panelCountDown = new TableLayoutPanel { Dock = DockStyle.Fill };
+            panelCountDown.RowStyles.Add(new RowStyle { SizeType = SizeType.Absolute, Height = 100 });
+            panelCountDown.RowStyles.Add(new RowStyle { SizeType = SizeType.Percent, Height = 100 });
+
+            panelPassFail.Controls.Add(panelCountDown);
+            panelCountDown.Dock = DockStyle.Fill;
+            panelCountDown.BringToFront();
+            lblCountDownNumber = new System.Windows.Forms.Label();
+            lblCountDownTitle = new System.Windows.Forms.Label();
+          
+           
+
+            panelCountDown.Controls.Add(lblCountDownTitle);
+            panelCountDown.Controls.Add(lblCountDownNumber);
+
+            lblCountDownNumber.Dock = DockStyle.Fill;
+            lblCountDownNumber.Text = "0";
+            lblCountDownNumber.AutoSize = false;
+            lblCountDownNumber.TextAlign = ContentAlignment.MiddleCenter;
+            lblCountDownNumber.Font = new Font("Arial", 200, FontStyle.Bold);
+
+            lblCountDownTitle.Dock = DockStyle.Fill; 
+            lblCountDownTitle.Text = "Please Do Something!";
+            lblCountDownTitle.AutoSize = false;
+            lblCountDownTitle.TextAlign = ContentAlignment.MiddleCenter;
+            lblCountDownTitle.Font = new Font("Arial", 40, FontStyle.Bold);
+
+            panelCountDown.Visible = false;
+        }
+        private void CountDownStopped(object sender, string e)
+        {
+            lblCountDownNumber.Visible = false;
+            lblCountDownTitle.Visible = false;
+        }
+
+        private void CountDownStarted(object sender, string e)
+        {
+            var cdt = (CountDownTimer)sender;
+            lblCountDownNumber.ForeColor = cdt.Parameters.MessageColor;
+            lblCountDownTitle.ForeColor = cdt.Parameters.MessageColor;
+            Hmi.Thread.ThreadHelper.ControlUpdate(lblCountDownNumber, cdt.CountDown.ToString());
+            lblCountDownTitle.Text = cdt.Parameters.MessageText;
+            lblCountDownNumber.Visible = true;
+            lblCountDownTitle.Visible = true;
+        }
+
+        private void CleaningTimer_CountDownTick(object sender, int e)
+        {
+            var cdt = (CountDownTimer)sender;
+            Hmi.Thread.ThreadHelper.ControlUpdate(lblCountDownNumber, cdt.CountDown.ToString());
+        }
+
+        private void CleaningTimer_CountDownReached(object sender, string e)
+        {
+            var cdt = (CountDownTimer)sender;
+            cdt.PlaySoundAsync();
+            if (_visualCheckingState == VisualCheckingState.CleanUnit)
+            {
+                if (ApplicationConfig.Instance.InspectionTimer.Enable == YesNo.Yes)
+                {
+                    SetVisualCheckingState(VisualCheckingState.InspectUnit);
+                }
+                else
+                {
+                    SetVisualCheckingState(VisualCheckingState.VisualCheckResult);
+                }
+            }
+            else
+            {
+                if (_visualCheckingState == VisualCheckingState.InspectUnit)
+                {
+                    SetVisualCheckingState(VisualCheckingState.VisualCheckResult);
+                }
+            }
+       
+        }
+      
 
         private void TimerDelayTick(object sender, EventArgs e)
         {
-            _timerDelayInspection.Stop();
-            if (_visualCheckingState == VisualCheckingState.DelayInspection)
-            {
-                SetVisualCheckingState(VisualCheckingState.VisualCheckResult);
-            }
+          
         }
 
         private void MoveWorkerDoWork(object sender, DoWorkEventArgs e)
@@ -267,6 +366,10 @@ namespace VisualCheckingGUI
             _startStandByTimer = true;
             SetVisualCheckingState(states);
         }
+        public void InitApplicationConfig()
+        {
+            ApplicationConfig.ReloadInstance();
+        }
         #region Auto Standby
         public void InitStandByTimer(string connection, Form parentForm)
         {
@@ -346,10 +449,7 @@ namespace VisualCheckingGUI
         private void SetVisualCheckingState(VisualCheckingState visualCheckingState)
         {
             _visualCheckingState = visualCheckingState;
-            if (_visualCheckingState != VisualCheckingState.DelayInspection)
-            {
-                _timerDelayInspection.Stop();
-            }
+         
             switch (_visualCheckingState)
             {
                 case VisualCheckingState.PlaceUnit:
@@ -481,7 +581,17 @@ namespace VisualCheckingGUI
                         _vcAttempt = Mes.GetIntegerAttribute(oContainerStatus.Attributes, "VcAttempt");
 
 
-                        SetVisualCheckingState(VisualCheckingState.DelayInspection);
+                        if (ApplicationConfig.Instance.CleaningTimer.Enable == YesNo.Yes)
+                        {
+                            SetVisualCheckingState(VisualCheckingState.CleanUnit);
+                            break;
+                        }
+                        if (ApplicationConfig.Instance.InspectionTimer.Enable == YesNo.Yes)
+                        {
+                            SetVisualCheckingState(VisualCheckingState.InspectUnit);
+                            break;
+                        }
+                        SetVisualCheckingState(VisualCheckingState.VisualCheckResult);
                         break;
                     }
                     else
@@ -497,14 +607,35 @@ namespace VisualCheckingGUI
 
                     SetVisualCheckingState(VisualCheckingState.UnitNotFound);
                     break;
-                case VisualCheckingState.DelayInspection:
-                    _timerDelayInspection.Start();
-                    lblCommand.Text = @"Perform Visual Checking of the product ... ";
+                case VisualCheckingState.CleanUnit:
+                    panelCountDown.Visible = true;
+                    panelReason.Visible = false;
+                    panelPassFail.Visible = true;
+                    if (ApplicationConfig.Instance.CleaningTimer.Enable == YesNo.No)
+                    {
+                        SetVisualCheckingState(VisualCheckingState.InspectUnit);
+                        break;
+                    }
+                    CleaningTimer.Start();
+                    lblCommand.Text = @"Please Clean the Unit ... ";
+                    break;
+                case VisualCheckingState.InspectUnit:
+                    panelCountDown.Visible = true;
+                    panelReason.Visible = false;
+                    panelPassFail.Visible = true;
+                    if (ApplicationConfig.Instance.InspectionTimer.Enable == YesNo.No)
+                    {
+                        SetVisualCheckingState(VisualCheckingState.VisualCheckResult);
+                        break;
+                    }
+                    InspectionTimer.Start();
+                    lblCommand.Text = @"Please do a Visual Check ... ";
                     break;
                 case VisualCheckingState.VisualCheckResult:
                     ResetNgReason();
                     btnFail.Visible = true;
                     btnPass.Visible = true;
+                    panelCountDown.Visible = false;
                     panelPassFail.Visible = true;
                     panelReason.Visible = false;
                     Tb_Scanner.Enabled = false;
@@ -958,22 +1089,37 @@ namespace VisualCheckingGUI
                 {
                     var index = Convert.ToInt32(cb.AccessibleDescription);
                     var comment = _vcNgReason.NgReasons[index - 1].Comment;
-                    var inputBox = InputForm.Show( "Other Reason", "Type in the Reasons", comment);
-                    _vcNgReason.NgReasons[index - 1].SetComment(inputBox);
+                    using (var inForm = new InputForm("Other Reason", "Type in the Reasons", InputType.Text, comment))
+                    {
+                        var res = inForm.ShowDialog();
+                        if (res == DialogResult.OK)
+                        {
+                            var inputBox = inForm.Value;
+                            _vcNgReason.NgReasons[index - 1].SetComment(inputBox);
+                        }
+                        else
+                        {
+                            var inputBox = comment;
+                            _vcNgReason.NgReasons[index - 1].SetComment(inputBox);
+                        }
+                    }
+                       
                 }
             }
         }
 
         private   void TimerRealtime_Tick(object sender, EventArgs e)
         {
-              GetStatusOfResource();
-              GetStatusMaintenanceDetails();
+              ////GetStatusOfResource();
+             //// GetStatusMaintenanceDetails();
         }
         private   void btnResetState_Click(object sender, EventArgs e)
         {
             if (_visualCheckingState == VisualCheckingState.WaitPreparation) return;
               SetVisualCheckingState(VisualCheckingState.ScanUnitSerialNumber);
-            Tb_Scanner.Focus();
+              Tb_Scanner.Focus();
+              CleaningTimer.Stop();
+              InspectionTimer.Stop();
         }
 
         private bool _readScanner;
@@ -989,7 +1135,12 @@ namespace VisualCheckingGUI
         private string _standByConnection;
         private AutoStandBy _autoStandBy;
         private bool _startStandByTimer;
-        private System.Windows.Forms.Timer _timerDelayInspection;
+       
+        private string _ucPath;
+        private UserControl _userControl;
+        private TableLayoutPanel panelCountDown;
+        private System.Windows.Forms.Label lblCountDownNumber;
+        private System.Windows.Forms.Label lblCountDownTitle;
 
         private   void Tb_Scanner_KeyUp(object sender, KeyEventArgs e)
         {
@@ -1015,11 +1166,11 @@ namespace VisualCheckingGUI
 
         private   void Main_Load(object sender, EventArgs e)
         {
-              GetStatusOfResource();
-              GetStatusMaintenanceDetails();
-              GetResourceStatusCodeList();
-              InitNgReasonList();
-              SetVisualCheckingState(VisualCheckingState.WaitPreparation);
+              ////GetStatusOfResource();
+              ////GetStatusMaintenanceDetails();
+              ////GetResourceStatusCodeList();
+              ////InitNgReasonList();
+              ////SetVisualCheckingState(VisualCheckingState.WaitPreparation);
         }
 
         private void ClearPo()
@@ -1188,6 +1339,9 @@ namespace VisualCheckingGUI
         private   void btnStartPreparation_Click(object sender, EventArgs e)
         {
             ClearPo();
+            CleaningTimer.Stop();
+            InspectionTimer.Stop();
+
             if (_mesData.ResourceStatusDetails==null) return;
             if (_mesData.ResourceStatusDetails?.Reason?.Name=="Maintenance") return;
             if (_mesData.ResourceStatusDetails?.Reason?.Name == "Planned Maintenance") return;
@@ -1221,6 +1375,8 @@ namespace VisualCheckingGUI
         {
             _containerResult = ResultString.True;
             btnSubmit.Visible = true;
+
+          
         }
 
      
@@ -1350,6 +1506,215 @@ namespace VisualCheckingGUI
             lbPreStandBy.Text = (_autoStandBy.AutoStandBySetting.PreStandByTimer - _autoStandBy.PreStandByTimer.ElapsedMilliseconds / 1000f).ToString("0.#");
             if (_startStandByTimer) StartStandByTimer(); else StopStandByTimer();
             tmrAutoStandByChecker.Start();
+        }
+
+        private void kryptonPage5_Click(object sender, EventArgs e)
+        {
+
+        }
+        private void settingsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var frm = ApplicationConfig.Load();
+            var d = frm.ShowForm();
+            if (d != DialogResult.OK) return;
+            frm.Save();
+            ApplicationConfig.ReloadInstance();
+            CleaningTimer.LoadParameter(ApplicationConfig.Instance.CleaningTimer);
+            InspectionTimer.LoadParameter(ApplicationConfig.Instance.InspectionTimer);
+        }
+
+        private void logInToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (logInToolStripMenuItem.Text == @"&Log In")
+            {
+                _userControl.Login(this);
+            }
+            else
+            {
+                _userControl.LogOff();
+            }
+        }
+
+        private void changePasswordToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ChangePassword(_userControl.ActiveUser);
+        }
+
+        private void exitToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Close();
+        }
+        #region User Control
+        private void InitUserControl()
+        {
+            var d = new Dictionary<UserLevels, List<string>>();
+            var level1 = new List<string>(); // engineering
+            var level2 = new List<string>(); // qc
+            var level3 = new List<string>(); // iqc
+            var level4 = new List<string>(); // operator
+
+            level1.Add("changePasswordToolStripMenuItem");
+            level1.Add("settingToolStripMenuItem1");
+            level1.Add("interlockToolStripMenuItem");
+            level1.Add("refToolStripMenuItem");
+            level1.Add("manualControlToolStripMenuItem");
+            d.Add(UserLevels.Engineering, level1);
+
+            level2.Add("settingToolStripMenuItem1");
+            level2.Add("interlockToolStripMenuItem");
+            level2.Add("refToolStripMenuItem");
+            level2.Add("changePasswordToolStripMenuItem");
+            level2.Add("manualControlToolStripMenuItem");
+            level2.Add("qAVerificationUnlockToolStripMenuItem");
+            level2.Add("productToleranceToolStripMenuItem");
+            level2.Add("autoLocksToolStripMenuItem");
+            d.Add(UserLevels.Quality, level2);
+
+            level3.Add("changePasswordToolStripMenuItem");
+            level3.Add("interlockToolStripMenuItem");
+            level3.Add("qAVerificationUnlockToolStripMenuItem");
+            d.Add(UserLevels.IPQC_Leader, level3);
+
+            level4.Add("changePasswordToolStripMenuItem");
+            d.Add(UserLevels.Operator, level4);
+
+            _ucPath = Path.Combine(ApplicationConfig.Instance.DataLocation, UserControl.Location);
+            _userControl = new UserControl(_ucPath, Encryption.Decrypt(ApplicationConfig.Instance.PasswordQc), d);
+            _userControl.LoginChanged += UserLoginChanged;
+            _userControl.PasswordResetRequest += PasswordResetRequest;
+
+            _userControl.LogOff();
+
+            MouseDownFilter mouseFilter = new MouseDownFilter(this);
+            mouseFilter.FormClicked += mouseFilter_FormClicked;
+            Application.AddMessageFilter(mouseFilter);
+
+
+        }
+
+        private void mouseFilter_FormClicked(object sender, EventArgs e)
+        {
+            _userControl?.RestartAutoLogOff();
+        }
+
+        private void PasswordResetRequest(object sender, UserLevels e)
+        {
+            using (var inputForm = new InputForm("Reset Password", "Enter Master Password", InputType.Password))
+            {
+                var dlg = inputForm.ShowDialog();
+                if (dlg != DialogResult.OK || inputForm.Value == "") return;
+                var newPasswordConfirm = DateTime.Now.ToString("HHmmyyMMdd");
+                switch (e)
+                {
+                    case UserLevels.IPQC_Leader:
+                        newPasswordConfirm = DateTime.Now.ToString("MMddHHmmyy");
+                        break;
+                    case UserLevels.Engineering:
+                        newPasswordConfirm = DateTime.Now.ToString("HHMMddmmyy");
+                        break;
+                    case UserLevels.Quality:
+                        break;
+                }
+
+                if (newPasswordConfirm == inputForm.Value)
+                {
+                    var uDetails = UserControl.GetUserDetails(_ucPath, e);
+                    // LogButton(_userControl, $"Password Reset Attempt {uDetails.Level:G}");
+                    ChangePassword(uDetails);
+                }
+            }
+        }
+
+        private void ChangePassword(Hmi.UserManagement.UserDetails uDetails)
+        {
+
+            var newPassword = "";
+            using (var inputForm = new InputForm("Change Password", "Enter New Password", InputType.Password))
+            {
+                var dlg = inputForm.ShowDialog();
+                if (dlg != DialogResult.OK || inputForm.Value == "") return;
+                newPassword = inputForm.Value;
+            }
+
+            var newPasswordConfirm = "";
+            while (newPassword != newPasswordConfirm)
+            {
+                using (var inputForm = new InputForm("Change Password", "Confirm New Password", InputType.Password))
+                {
+                    var dlg = inputForm.ShowDialog();
+                    if (dlg != DialogResult.OK || inputForm.Value == "") return;
+                    newPasswordConfirm = inputForm.Value;
+                }
+
+
+                if (newPassword == newPasswordConfirm)
+                {
+                    var i = 0;
+                    var oldPass = "";
+                    var s = "";
+                    try
+                    {
+                        oldPass = Encryption.Decrypt(uDetails.Password);
+                        uDetails.Password = Encryption.Encrypt(newPassword);
+
+                        if (uDetails.Level == UserLevels.Quality)
+                        {
+
+                            UserControl.SaveUserDetailsToLiteDb(_ucPath, uDetails);
+                            _userControl.RefreshPasswordQc();
+                        }
+
+                        PopUp.ShowInformation(this, "Password Changed!", "Change Password");
+                        // LogButton(_userControl, $"Password Changed {uDetails.Level:G}");
+                        _userControl.LogOff();
+                        break;
+                    }
+                    catch (Exception ex)
+                    {
+                        if (i == 1 || i == 2)
+                        {
+                            uDetails.Password = Encryption.Encrypt(oldPass);
+                            UserControl.SaveUserDetailsToLiteDb(_ucPath, uDetails);
+                            _userControl.RefreshPasswordQc();
+                        }
+
+                        PopUp.ShowError(this, $"Password Change failed!\r\n{s} {ex.GetBaseException().Message}",
+                            "Change Password");
+                        break;
+                    }
+                }
+
+                PopUp.ShowError(this, "Password Confirmation not match", "Change Password");
+            }
+        }
+
+        private void UserLoginChanged(object sender, EventArgs e)
+        {
+            logInToolStripMenuItem.Text = _userControl.ActiveUser == null
+                ? @"&Log In"
+                : $@"&Log Out ({_userControl.ActiveUser.Level:G})";
+            var login = _userControl.ActiveUser == null
+                ? "User Logged Off"
+                : $"User Logged In ({_userControl.ActiveUser.Level:G})";
+
+            //LogButton(_userControl, login);
+            changePasswordToolStripMenuItem.Text = _userControl.ActiveUser == null
+                ? @"&Change Password"
+                : $@"&Change Password ({_userControl.ActiveUser.Level:G})";
+            var ucPath = Path.Combine(ApplicationConfig.Instance.DataLocation, UserControl.Location);
+            UserControl.SetFormAccess(ucPath, menuStrip1, _userControl.ActiveUser);
+        }
+
+        #endregion
+
+        private void button1_Click_1(object sender, EventArgs e)
+        {
+            SetVisualCheckingState(VisualCheckingState.CleanUnit);
+        }
+
+        private void button2_Click_1(object sender, EventArgs e)
+        {
+            InspectionTimer.Start();
         }
     }
 }
