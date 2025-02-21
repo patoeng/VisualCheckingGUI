@@ -17,5 +17,6 @@
         WrongComponent,
         WrongProductionOrder,
         WaitPreparation,
+        DelayInspection
     }
 }

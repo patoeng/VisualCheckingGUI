@@ -160,10 +160,6 @@ namespace VisualCheckingGUI
             this.label28 = new System.Windows.Forms.Label();
             this.panel6 = new System.Windows.Forms.Panel();
             this.kryptonDataGridView1 = new ComponentFactory.Krypton.Toolkit.KryptonDataGridView();
-            this.idDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.serialNumberDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.controlPointDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.finishedGoodBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.tableLayoutPanel3 = new System.Windows.Forms.TableLayoutPanel();
             this.kryptonPanel2 = new ComponentFactory.Krypton.Toolkit.KryptonPanel();
             this.Tb_Product = new System.Windows.Forms.TextBox();
@@ -188,6 +184,10 @@ namespace VisualCheckingGUI
             this.kryptonBreadCrumbItem5 = new ComponentFactory.Krypton.Toolkit.KryptonBreadCrumbItem();
             this.kryptonBreadCrumbItem6 = new ComponentFactory.Krypton.Toolkit.KryptonBreadCrumbItem();
             this.tmrAutoStandByChecker = new System.Windows.Forms.Timer(this.components);
+            this.idDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.serialNumberDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.controlPointDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.finishedGoodBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.tableLayoutPanel1.SuspendLayout();
             this.tableLayoutPanel8.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonPanel1)).BeginInit();
@@ -248,7 +248,6 @@ namespace VisualCheckingGUI
             this.panel2.SuspendLayout();
             this.panel6.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonDataGridView1)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.finishedGoodBindingSource)).BeginInit();
             this.tableLayoutPanel3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonPanel2)).BeginInit();
             this.kryptonPanel2.SuspendLayout();
@@ -257,6 +256,7 @@ namespace VisualCheckingGUI
             this.kryptonPanel3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonPanel4)).BeginInit();
             this.kryptonPanel4.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.finishedGoodBindingSource)).BeginInit();
             this.SuspendLayout();
             // 
             // PPAPalette
@@ -1448,7 +1448,7 @@ namespace VisualCheckingGUI
             this.maintenanceTypeDataGridViewTextBoxColumn.HeaderText = "MaintenanceType";
             this.maintenanceTypeDataGridViewTextBoxColumn.Name = "maintenanceTypeDataGridViewTextBoxColumn";
             this.maintenanceTypeDataGridViewTextBoxColumn.ReadOnly = true;
-            this.maintenanceTypeDataGridViewTextBoxColumn.Width = 129;
+            this.maintenanceTypeDataGridViewTextBoxColumn.Width = 130;
             // 
             // maintenanceReqDataGridViewTextBoxColumn
             // 
@@ -1464,7 +1464,7 @@ namespace VisualCheckingGUI
             this.nextDateDueDataGridViewTextBoxColumn.HeaderText = "NextDateDue";
             this.nextDateDueDataGridViewTextBoxColumn.Name = "nextDateDueDataGridViewTextBoxColumn";
             this.nextDateDueDataGridViewTextBoxColumn.ReadOnly = true;
-            this.nextDateDueDataGridViewTextBoxColumn.Width = 106;
+            this.nextDateDueDataGridViewTextBoxColumn.Width = 105;
             // 
             // nextThruputQtyDueDataGridViewTextBoxColumn
             // 
@@ -1536,7 +1536,7 @@ namespace VisualCheckingGUI
             this.thruputQtyDataGridViewTextBoxColumn.HeaderText = "ThruputQty";
             this.thruputQtyDataGridViewTextBoxColumn.Name = "thruputQtyDataGridViewTextBoxColumn";
             this.thruputQtyDataGridViewTextBoxColumn.ReadOnly = true;
-            this.thruputQtyDataGridViewTextBoxColumn.Width = 97;
+            this.thruputQtyDataGridViewTextBoxColumn.Width = 98;
             // 
             // nextThruputQtyWarningDataGridViewTextBoxColumn
             // 
@@ -1641,7 +1641,7 @@ namespace VisualCheckingGUI
             this.nextDateWarningDataGridViewTextBoxColumn.HeaderText = "NextDateWarning";
             this.nextDateWarningDataGridViewTextBoxColumn.Name = "nextDateWarningDataGridViewTextBoxColumn";
             this.nextDateWarningDataGridViewTextBoxColumn.ReadOnly = true;
-            this.nextDateWarningDataGridViewTextBoxColumn.Width = 130;
+            this.nextDateWarningDataGridViewTextBoxColumn.Width = 129;
             // 
             // nextDateLimitDataGridViewTextBoxColumn
             // 
@@ -1649,7 +1649,7 @@ namespace VisualCheckingGUI
             this.nextDateLimitDataGridViewTextBoxColumn.HeaderText = "NextDateLimit";
             this.nextDateLimitDataGridViewTextBoxColumn.Name = "nextDateLimitDataGridViewTextBoxColumn";
             this.nextDateLimitDataGridViewTextBoxColumn.ReadOnly = true;
-            this.nextDateLimitDataGridViewTextBoxColumn.Width = 112;
+            this.nextDateLimitDataGridViewTextBoxColumn.Width = 111;
             // 
             // nextThruputQty2LimitDataGridViewTextBoxColumn
             // 
@@ -1665,7 +1665,7 @@ namespace VisualCheckingGUI
             this.thruputQty2DataGridViewTextBoxColumn.HeaderText = "ThruputQty2";
             this.thruputQty2DataGridViewTextBoxColumn.Name = "thruputQty2DataGridViewTextBoxColumn";
             this.thruputQty2DataGridViewTextBoxColumn.ReadOnly = true;
-            this.thruputQty2DataGridViewTextBoxColumn.Width = 103;
+            this.thruputQty2DataGridViewTextBoxColumn.Width = 104;
             // 
             // uOM2DataGridViewTextBoxColumn
             // 
@@ -1729,7 +1729,7 @@ namespace VisualCheckingGUI
             this.exportImportKeyDataGridViewTextBoxColumn.HeaderText = "ExportImportKey";
             this.exportImportKeyDataGridViewTextBoxColumn.Name = "exportImportKeyDataGridViewTextBoxColumn";
             this.exportImportKeyDataGridViewTextBoxColumn.ReadOnly = true;
-            this.exportImportKeyDataGridViewTextBoxColumn.Width = 125;
+            this.exportImportKeyDataGridViewTextBoxColumn.Width = 124;
             // 
             // displayNameDataGridViewTextBoxColumn
             // 
@@ -1769,7 +1769,7 @@ namespace VisualCheckingGUI
             this.ignoreTypeDifferenceDataGridViewTextBoxColumn.HeaderText = "IgnoreTypeDifference";
             this.ignoreTypeDifferenceDataGridViewTextBoxColumn.Name = "ignoreTypeDifferenceDataGridViewTextBoxColumn";
             this.ignoreTypeDifferenceDataGridViewTextBoxColumn.ReadOnly = true;
-            this.ignoreTypeDifferenceDataGridViewTextBoxColumn.Width = 148;
+            this.ignoreTypeDifferenceDataGridViewTextBoxColumn.Width = 149;
             // 
             // listItemActionDataGridViewTextBoxColumn
             // 
@@ -1785,7 +1785,7 @@ namespace VisualCheckingGUI
             this.listItemIndexDataGridViewTextBoxColumn.HeaderText = "ListItemIndex";
             this.listItemIndexDataGridViewTextBoxColumn.Name = "listItemIndexDataGridViewTextBoxColumn";
             this.listItemIndexDataGridViewTextBoxColumn.ReadOnly = true;
-            this.listItemIndexDataGridViewTextBoxColumn.Width = 107;
+            this.listItemIndexDataGridViewTextBoxColumn.Width = 106;
             // 
             // keyDataGridViewTextBoxColumn
             // 
@@ -1801,7 +1801,7 @@ namespace VisualCheckingGUI
             this.cDOTypeNameDataGridViewTextBoxColumn.HeaderText = "CDOTypeName";
             this.cDOTypeNameDataGridViewTextBoxColumn.Name = "cDOTypeNameDataGridViewTextBoxColumn";
             this.cDOTypeNameDataGridViewTextBoxColumn.ReadOnly = true;
-            this.cDOTypeNameDataGridViewTextBoxColumn.Width = 116;
+            this.cDOTypeNameDataGridViewTextBoxColumn.Width = 117;
             // 
             // getMaintenanceStatusDetailsBindingSource
             // 
@@ -2112,7 +2112,7 @@ namespace VisualCheckingGUI
             this.kryptonPage3.LastVisibleSet = true;
             this.kryptonPage3.MinimumSize = new System.Drawing.Size(50, 50);
             this.kryptonPage3.Name = "kryptonPage3";
-            this.kryptonPage3.Size = new System.Drawing.Size(1145, 575);
+            this.kryptonPage3.Size = new System.Drawing.Size(1145, 597);
             this.kryptonPage3.Text = "Quality";
             this.kryptonPage3.ToolTipTitle = "Page ToolTip";
             this.kryptonPage3.UniqueName = "93024F31D9FB40C23D948F5CF665302C";
@@ -2133,7 +2133,7 @@ namespace VisualCheckingGUI
             this.tableLayoutPanel6.RowCount = 2;
             this.tableLayoutPanel6.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 87.83784F));
             this.tableLayoutPanel6.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 12.16216F));
-            this.tableLayoutPanel6.Size = new System.Drawing.Size(1145, 575);
+            this.tableLayoutPanel6.Size = new System.Drawing.Size(1145, 597);
             this.tableLayoutPanel6.TabIndex = 0;
             // 
             // kryptonPanel10
@@ -2142,7 +2142,7 @@ namespace VisualCheckingGUI
             this.kryptonPanel10.Dock = System.Windows.Forms.DockStyle.Fill;
             this.kryptonPanel10.Location = new System.Drawing.Point(3, 3);
             this.kryptonPanel10.Name = "kryptonPanel10";
-            this.kryptonPanel10.Size = new System.Drawing.Size(566, 499);
+            this.kryptonPanel10.Size = new System.Drawing.Size(566, 518);
             this.kryptonPanel10.StateCommon.Color1 = System.Drawing.Color.White;
             this.kryptonPanel10.StateCommon.Color2 = System.Drawing.Color.White;
             this.kryptonPanel10.TabIndex = 0;
@@ -2152,7 +2152,7 @@ namespace VisualCheckingGUI
             this.Ppg_Pcba.Dock = System.Windows.Forms.DockStyle.Fill;
             this.Ppg_Pcba.Location = new System.Drawing.Point(0, 0);
             this.Ppg_Pcba.Name = "Ppg_Pcba";
-            this.Ppg_Pcba.Size = new System.Drawing.Size(566, 499);
+            this.Ppg_Pcba.Size = new System.Drawing.Size(566, 518);
             this.Ppg_Pcba.TabIndex = 0;
             // 
             // kryptonPanel11
@@ -2161,7 +2161,7 @@ namespace VisualCheckingGUI
             this.kryptonPanel11.Dock = System.Windows.Forms.DockStyle.Fill;
             this.kryptonPanel11.Location = new System.Drawing.Point(575, 3);
             this.kryptonPanel11.Name = "kryptonPanel11";
-            this.kryptonPanel11.Size = new System.Drawing.Size(567, 499);
+            this.kryptonPanel11.Size = new System.Drawing.Size(567, 518);
             this.kryptonPanel11.StateCommon.Color1 = System.Drawing.Color.White;
             this.kryptonPanel11.StateCommon.Color2 = System.Drawing.Color.White;
             this.kryptonPanel11.TabIndex = 0;
@@ -2171,16 +2171,16 @@ namespace VisualCheckingGUI
             this.Ppg_Pump.Dock = System.Windows.Forms.DockStyle.Fill;
             this.Ppg_Pump.Location = new System.Drawing.Point(0, 0);
             this.Ppg_Pump.Name = "Ppg_Pump";
-            this.Ppg_Pump.Size = new System.Drawing.Size(567, 499);
+            this.Ppg_Pump.Size = new System.Drawing.Size(567, 518);
             this.Ppg_Pump.TabIndex = 0;
             // 
             // kryptonPanel12
             // 
             this.kryptonPanel12.Controls.Add(this.Btn_SetPcba);
             this.kryptonPanel12.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.kryptonPanel12.Location = new System.Drawing.Point(3, 508);
+            this.kryptonPanel12.Location = new System.Drawing.Point(3, 527);
             this.kryptonPanel12.Name = "kryptonPanel12";
-            this.kryptonPanel12.Size = new System.Drawing.Size(566, 64);
+            this.kryptonPanel12.Size = new System.Drawing.Size(566, 67);
             this.kryptonPanel12.StateCommon.Color1 = System.Drawing.Color.White;
             this.kryptonPanel12.StateCommon.Color2 = System.Drawing.Color.White;
             this.kryptonPanel12.TabIndex = 0;
@@ -2196,9 +2196,9 @@ namespace VisualCheckingGUI
             // 
             this.kryptonPanel13.Controls.Add(this.Btn_SetPump);
             this.kryptonPanel13.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.kryptonPanel13.Location = new System.Drawing.Point(575, 508);
+            this.kryptonPanel13.Location = new System.Drawing.Point(575, 527);
             this.kryptonPanel13.Name = "kryptonPanel13";
-            this.kryptonPanel13.Size = new System.Drawing.Size(567, 64);
+            this.kryptonPanel13.Size = new System.Drawing.Size(567, 67);
             this.kryptonPanel13.StateCommon.Color1 = System.Drawing.Color.White;
             this.kryptonPanel13.StateCommon.Color2 = System.Drawing.Color.White;
             this.kryptonPanel13.TabIndex = 0;
@@ -2404,35 +2404,6 @@ namespace VisualCheckingGUI
             this.kryptonDataGridView1.Size = new System.Drawing.Size(1139, 469);
             this.kryptonDataGridView1.TabIndex = 1;
             this.kryptonDataGridView1.ColumnHeaderMouseClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.kryptonDataGridView1_ColumnHeaderMouseClick);
-            // 
-            // idDataGridViewTextBoxColumn
-            // 
-            this.idDataGridViewTextBoxColumn.DataPropertyName = "Id";
-            this.idDataGridViewTextBoxColumn.HeaderText = "Id";
-            this.idDataGridViewTextBoxColumn.Name = "idDataGridViewTextBoxColumn";
-            this.idDataGridViewTextBoxColumn.ReadOnly = true;
-            // 
-            // serialNumberDataGridViewTextBoxColumn
-            // 
-            this.serialNumberDataGridViewTextBoxColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            this.serialNumberDataGridViewTextBoxColumn.DataPropertyName = "SerialNumber";
-            this.serialNumberDataGridViewTextBoxColumn.HeaderText = "Serial Number";
-            this.serialNumberDataGridViewTextBoxColumn.Name = "serialNumberDataGridViewTextBoxColumn";
-            this.serialNumberDataGridViewTextBoxColumn.ReadOnly = true;
-            this.serialNumberDataGridViewTextBoxColumn.Width = 200;
-            // 
-            // controlPointDataGridViewTextBoxColumn
-            // 
-            this.controlPointDataGridViewTextBoxColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            this.controlPointDataGridViewTextBoxColumn.DataPropertyName = "ControlPoint";
-            this.controlPointDataGridViewTextBoxColumn.HeaderText = "Control Point";
-            this.controlPointDataGridViewTextBoxColumn.Name = "controlPointDataGridViewTextBoxColumn";
-            this.controlPointDataGridViewTextBoxColumn.ReadOnly = true;
-            this.controlPointDataGridViewTextBoxColumn.Width = 300;
-            // 
-            // finishedGoodBindingSource
-            // 
-            this.finishedGoodBindingSource.DataSource = typeof(MesData.FinishedGood);
             // 
             // tableLayoutPanel3
             // 
@@ -2719,6 +2690,35 @@ namespace VisualCheckingGUI
             this.tmrAutoStandByChecker.Interval = 1000;
             this.tmrAutoStandByChecker.Tick += new System.EventHandler(this.tmrAutoStandByChecker_Tick);
             // 
+            // idDataGridViewTextBoxColumn
+            // 
+            this.idDataGridViewTextBoxColumn.DataPropertyName = "Id";
+            this.idDataGridViewTextBoxColumn.HeaderText = "Id";
+            this.idDataGridViewTextBoxColumn.Name = "idDataGridViewTextBoxColumn";
+            this.idDataGridViewTextBoxColumn.ReadOnly = true;
+            // 
+            // serialNumberDataGridViewTextBoxColumn
+            // 
+            this.serialNumberDataGridViewTextBoxColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            this.serialNumberDataGridViewTextBoxColumn.DataPropertyName = "SerialNumber";
+            this.serialNumberDataGridViewTextBoxColumn.HeaderText = "Serial Number";
+            this.serialNumberDataGridViewTextBoxColumn.Name = "serialNumberDataGridViewTextBoxColumn";
+            this.serialNumberDataGridViewTextBoxColumn.ReadOnly = true;
+            this.serialNumberDataGridViewTextBoxColumn.Width = 200;
+            // 
+            // controlPointDataGridViewTextBoxColumn
+            // 
+            this.controlPointDataGridViewTextBoxColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            this.controlPointDataGridViewTextBoxColumn.DataPropertyName = "ControlPoint";
+            this.controlPointDataGridViewTextBoxColumn.HeaderText = "Control Point";
+            this.controlPointDataGridViewTextBoxColumn.Name = "controlPointDataGridViewTextBoxColumn";
+            this.controlPointDataGridViewTextBoxColumn.ReadOnly = true;
+            this.controlPointDataGridViewTextBoxColumn.Width = 300;
+            // 
+            // finishedGoodBindingSource
+            // 
+            this.finishedGoodBindingSource.DataSource = typeof(MesData.FinishedGood);
+            // 
             // Main
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -2806,7 +2806,6 @@ namespace VisualCheckingGUI
             this.panel2.PerformLayout();
             this.panel6.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.kryptonDataGridView1)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.finishedGoodBindingSource)).EndInit();
             this.tableLayoutPanel3.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.kryptonPanel2)).EndInit();
             this.kryptonPanel2.ResumeLayout(false);
@@ -2818,6 +2817,7 @@ namespace VisualCheckingGUI
             ((System.ComponentModel.ISupportInitialize)(this.kryptonPanel4)).EndInit();
             this.kryptonPanel4.ResumeLayout(false);
             this.kryptonPanel4.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.finishedGoodBindingSource)).EndInit();
             this.ResumeLayout(false);
 
         }

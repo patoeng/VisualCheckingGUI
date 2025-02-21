@@ -7,6 +7,7 @@ using System.Linq;
 using System.Linq.Dynamic;
 using System.Reflection;
 using System.Threading.Tasks;
+using System.Timers;
 using System.Windows.Forms;
 using Camstar.WCF.ObjectStack;
 using ComponentFactory.Krypton.Navigator;
@@ -46,6 +47,10 @@ namespace VisualCheckingGUI
         public Main()
         {
             InitializeComponent();
+
+            _timerDelayInspection = new System.Windows.Forms.Timer();
+            _timerDelayInspection.Interval = 15000;
+            _timerDelayInspection.Tick += TimerDelayTick;
 #if MiniMe
             var  name = "Visual Checking Minime";
 #elif Ariel
@@ -53,7 +58,7 @@ namespace VisualCheckingGUI
 #elif Gaia
             var name = "Visual Checking GAIA";
 #endif
-            Text = name + @" V1.3";
+            Text = name + @" V1.4";
             _mesData = new Mes(name, AppSettings.Resource,name);
             lbTitle.Text =AppSettings.Resource;
 
@@ -124,6 +129,15 @@ namespace VisualCheckingGUI
             _moveWorker.ProgressChanged += MoveWorkerProgress;
             _moveWorker.DoWork += MoveWorkerDoWork;
             EventLogUtil.LogEvent("Application Start");
+        }
+
+        private void TimerDelayTick(object sender, EventArgs e)
+        {
+            _timerDelayInspection.Stop();
+            if (_visualCheckingState == VisualCheckingState.DelayInspection)
+            {
+                SetVisualCheckingState(VisualCheckingState.VisualCheckResult);
+            }
         }
 
         private void MoveWorkerDoWork(object sender, DoWorkEventArgs e)
@@ -332,6 +346,10 @@ namespace VisualCheckingGUI
         private void SetVisualCheckingState(VisualCheckingState visualCheckingState)
         {
             _visualCheckingState = visualCheckingState;
+            if (_visualCheckingState != VisualCheckingState.DelayInspection)
+            {
+                _timerDelayInspection.Stop();
+            }
             switch (_visualCheckingState)
             {
                 case VisualCheckingState.PlaceUnit:
@@ -375,7 +393,7 @@ namespace VisualCheckingGUI
                 case VisualCheckingState.CheckUnitStatus:
                     RestoreStatusPreStandBy();
                     btnResetState.Enabled = false;
-                    lblCommand.Text = @"Checking Unit Status";
+                    lblCommand.Text = @"Checking Unit Status...";
                     _keyenceRs232Scanner?.StopRead();
                     if (_mesData.ResourceStatusDetails == null || _mesData.ResourceStatusDetails?.Availability != "Up")
                     {
@@ -463,7 +481,7 @@ namespace VisualCheckingGUI
                         _vcAttempt = Mes.GetIntegerAttribute(oContainerStatus.Attributes, "VcAttempt");
 
 
-                        SetVisualCheckingState(VisualCheckingState.VisualCheckResult);
+                        SetVisualCheckingState(VisualCheckingState.DelayInspection);
                         break;
                     }
                     else
@@ -478,6 +496,10 @@ namespace VisualCheckingGUI
                     }
 
                     SetVisualCheckingState(VisualCheckingState.UnitNotFound);
+                    break;
+                case VisualCheckingState.DelayInspection:
+                    _timerDelayInspection.Start();
+                    lblCommand.Text = @"Perform Visual Checking of the product ... ";
                     break;
                 case VisualCheckingState.VisualCheckResult:
                     ResetNgReason();
@@ -967,7 +989,7 @@ namespace VisualCheckingGUI
         private string _standByConnection;
         private AutoStandBy _autoStandBy;
         private bool _startStandByTimer;
-
+        private System.Windows.Forms.Timer _timerDelayInspection;
 
         private   void Tb_Scanner_KeyUp(object sender, KeyEventArgs e)
         {
