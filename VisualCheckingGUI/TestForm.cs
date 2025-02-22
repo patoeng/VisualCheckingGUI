@@ -53,15 +53,27 @@ namespace VisualCheckingGUI
         private void CleaningTimer_CountDownReached(object sender, string e)
         {
             var cdt = (CountDownTimer)sender;
-            cdt.PlaySoundAsync();
+            if (cdt.Parameters.SoundRepeat == 1)
+            {
+                cdt.PlaySoundAsync();
+            }
+            else
+            {
+                cdt.PlaySound(cdt.Parameters.SoundRepeat);
+            }
+           
         }
         private void button1_Click(object sender, EventArgs e)
         {
+            lblCountDownNumber.Font = ApplicationConfig.Instance.CleaningTimer.NumberFontStyle;
+            lblCountDownTitle.Font = ApplicationConfig.Instance.CleaningTimer.MessageFontStyle;
             CleaningTimer.Start();
         }
 
         private void button2_Click(object sender, EventArgs e)
         {
+            lblCountDownNumber.Font = ApplicationConfig.Instance.InspectionTimer.NumberFontStyle;
+            lblCountDownTitle.Font = ApplicationConfig.Instance.InspectionTimer.MessageFontStyle;
             InspectionTimer.Start();
         }
 

@@ -34,7 +34,7 @@ namespace VisualCheckingGUI
                     AppSettings.AssemblyName = System.Reflection.Assembly.GetExecutingAssembly().GetName().Name;
                     Application.EnableVisualStyles();
                     Application.SetCompatibleTextRenderingDefault(false);
-                    Application.Run(new Main());
+                    Application.Run(new TestForm());
                 }
             }
         }

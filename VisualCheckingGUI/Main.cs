@@ -111,7 +111,7 @@ namespace VisualCheckingGUI
             InitApplicationConfig();
             InitUserControl();
             InitCountDownTimers();
-         ////   InitStandByTimer(ApplicationConfig.Instance.WeighingDatabaseConnection, this);
+            InitStandByTimer(ApplicationConfig.Instance.WeighingDatabaseConnection, this);
             
             //Init Com
             var serialCom = new SerialPort
@@ -137,9 +137,9 @@ namespace VisualCheckingGUI
             _moveWorker.RunWorkerCompleted += MoveWorkerCompleted;
             _moveWorker.ProgressChanged += MoveWorkerProgress;
             _moveWorker.DoWork += MoveWorkerDoWork;
-           //// EventLogUtil.LogEvent("Application Start");
+            EventLogUtil.LogEvent("Application Start");
         }
-
+        #region Count Down Timers
         private void InitCountDownTimers()
         {
             CleaningTimer.ReloadInstance();
@@ -196,6 +196,8 @@ namespace VisualCheckingGUI
             var cdt = (CountDownTimer)sender;
             lblCountDownNumber.ForeColor = cdt.Parameters.MessageColor;
             lblCountDownTitle.ForeColor = cdt.Parameters.MessageColor;
+            lblCountDownNumber.Font = cdt.Parameters.NumberFontStyle;
+            lblCountDownTitle.Font = cdt.Parameters.MessageFontStyle;
             Hmi.Thread.ThreadHelper.ControlUpdate(lblCountDownNumber, cdt.CountDown.ToString());
             lblCountDownTitle.Text = cdt.Parameters.MessageText;
             lblCountDownNumber.Visible = true;
@@ -211,7 +213,17 @@ namespace VisualCheckingGUI
         private void CleaningTimer_CountDownReached(object sender, string e)
         {
             var cdt = (CountDownTimer)sender;
-            cdt.PlaySoundAsync();
+            if (cdt.Parameters.EnableSound == YesNo.Yes)
+            {
+                if (cdt.Parameters.SoundRepeat == 1)
+                {
+                    cdt.PlaySoundAsync();
+                }
+                else
+                {
+                    cdt.PlaySound(cdt.Parameters.SoundRepeat);
+                }
+            }
             if (_visualCheckingState == VisualCheckingState.CleanUnit)
             {
                 if (ApplicationConfig.Instance.InspectionTimer.Enable == YesNo.Yes)
@@ -232,8 +244,8 @@ namespace VisualCheckingGUI
             }
        
         }
-      
 
+        #endregion
         private void TimerDelayTick(object sender, EventArgs e)
         {
           
@@ -1110,8 +1122,8 @@ namespace VisualCheckingGUI
 
         private   void TimerRealtime_Tick(object sender, EventArgs e)
         {
-              ////GetStatusOfResource();
-             //// GetStatusMaintenanceDetails();
+              GetStatusOfResource();
+             GetStatusMaintenanceDetails();
         }
         private   void btnResetState_Click(object sender, EventArgs e)
         {
@@ -1166,11 +1178,11 @@ namespace VisualCheckingGUI
 
         private   void Main_Load(object sender, EventArgs e)
         {
-              ////GetStatusOfResource();
-              ////GetStatusMaintenanceDetails();
-              ////GetResourceStatusCodeList();
-              ////InitNgReasonList();
-              ////SetVisualCheckingState(VisualCheckingState.WaitPreparation);
+              GetStatusOfResource();
+              GetStatusMaintenanceDetails();
+              GetResourceStatusCodeList();
+              InitNgReasonList();
+              SetVisualCheckingState(VisualCheckingState.WaitPreparation);
         }
 
         private void ClearPo()

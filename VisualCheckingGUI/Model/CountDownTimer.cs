@@ -67,12 +67,18 @@ namespace VisualCheckingGUI.Model
         private CountDownTimerParameters _param;
         public CountDownTimerParameters Parameters => _param;
 
-        public void PlaySound()
+        public void PlaySound(int repeat=1)
         {
             if (File.Exists(_param.SoundLocation))
             {
                 SoundPlayer my_wave_file = new SoundPlayer(_param.SoundLocation);
-                my_wave_file.PlaySync(); 
+                int i = 0;
+                while (i < repeat)
+                {
+                    i++;
+                    my_wave_file.PlaySync();
+                }
+               
             }
         }
         public void PlaySoundAsync()

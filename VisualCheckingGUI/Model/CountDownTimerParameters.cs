@@ -44,6 +44,12 @@ namespace VisualCheckingGUI.Model
         [Category("Count Down Timer Parameters"), Browsable(true), ReadOnly(false), DefaultValue(""), DesignOnly(false),
         Description("Sound Repeat"), DisplayName("Sound Repeat")]
         public int SoundRepeat { get; set; } = 1;
+        [Category("Count Down Timer Parameters"), Browsable(true), ReadOnly(false), DefaultValue(""), DesignOnly(false),
+        Description("Message Font Style"), DisplayName("Message Font Style")]
+        public Font MessageFontStyle { get; set; } = new Font("Arial",50, System.Drawing.FontStyle.Bold);
+        [Category("Count Down Timer Parameters"), Browsable(true), ReadOnly(false), DefaultValue(""), DesignOnly(false),
+       Description("Number Font Style"), DisplayName("Number Font Style")]
+        public Font NumberFontStyle { get; set; } = new Font("Arial", 150, System.Drawing.FontStyle.Bold);
     }
     public class CountDownTimerParametersTypeConverter : TypeConverter
     {
